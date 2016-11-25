@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'Museo Cyrl';
+    src: local('Museo Cyrl 500'), local('MuseoCyrl-500'), url('../font/museocycl/Museocyrl500.woff2') format('woff2'), url('../font/museocycl/Museocyrl500.woff') format('woff'), url('../font/museocycl/Museocyrl500.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'Sofia';
+    src: local('Sofia'), local('Sofia-Regular'), url('../font/sofia/sofia.woff2') format('woff2'), url('../font/sofia/sofia.woff') format('woff'), url('../font/sofia/sofia.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}

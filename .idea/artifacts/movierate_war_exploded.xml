@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="movierate:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/movierate_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="movierate/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="movierate" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
