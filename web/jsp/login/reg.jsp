@@ -7,9 +7,20 @@
 
 <div class = "container">
     <div class="wrapper">
-        <form onsubmit="return validateForm()" action="" method="post" name="login_form" class="form-signin">
+        <form onsubmit="return validateForm()" action="/controller" method="post" name="login_form" class="form-signin">
             <h3 class="form-signin-heading"><fmt:message key="login.please.register"/></h3>
             <hr class="colorgraph"><br>
+
+            <c:if test="${registrFailed}">
+                <%--wrong field format (${usernameWrong}, ${passwordWrong}, ${emailWrong})--%>
+                <p align="center" style="color: red" ><fmt:message key="reg.wronginput"/> </p>
+                <p align="center" style="color: red" ><fmt:message key="reg.tryagain"/> </p>
+            </c:if>
+            <c:if test="${passwordsNoMatch}">
+                <p align="center" style="color: red" ><fmt:message key="reg.passwords.nomatch"/> </p>
+            </c:if>
+
+            <input type="hidden" name="command" value="registration">
 
             <input type="text" class="form-control" name="username" autofocus="" placeholder=<fmt:message key="login.username"/> title=<fmt:message key="login.pattern"/>/>
             <span style="color: red" id="error_login"></span>
@@ -22,7 +33,7 @@
             <span style="color: red" id="error_password2"></span>
 
 
-            <input type="text" class="form-control" name="email" placeholder=<fmt:message key="login.email"/> />
+            <input type="text" class="form-control" name="email" placeholder=<fmt:message key="login.email"/> title=<fmt:message key="reg.wrong.email"/>  />
             <span style="color: red" id="error_email"></span>
 
             <%--<input type="file" name="photo" class="form-control" />--%>

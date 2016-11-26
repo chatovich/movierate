@@ -15,7 +15,7 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <title>Movie rating</title>
     <link href="${pageContext.request.contextPath}/css/fonts.css" rel="stylesheet" />
-    <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>
+    <%--<script src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>--%>
     <script src="${pageContext.request.contextPath}/js/loadphoto.js"></script>
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet" />
