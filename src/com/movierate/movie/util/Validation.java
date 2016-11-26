@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.http.Part;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +64,18 @@ public class Validation {
             }
         }
         return password1.equals(password2);
+    }
+
+
+    public static String getFileName(final Part part) {
+        final String partHeader = part.getHeader("content-disposition");
+
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
     }
 
 

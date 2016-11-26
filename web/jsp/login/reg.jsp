@@ -1,5 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html;charset=utf-8"  pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page = "${pageContext.request.contextPath}/jsp/header/header.jsp"/>
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}"/>
@@ -7,7 +8,7 @@
 
 <div class = "container">
     <div class="wrapper">
-        <form onsubmit="return validateForm()" action="/controller" method="post" name="login_form" class="form-signin">
+        <form onsubmit="return validateForm()" action="/controller" method="post" enctype="multipart/form-data" name="register_form" class="form-signin">
             <h3 class="form-signin-heading"><fmt:message key="login.please.register"/></h3>
             <hr class="colorgraph"><br>
 
@@ -42,7 +43,7 @@
                     <input style="float: left" class="fileInputText" type="text" disabled>
                     <button class="send-file"><fmt:message key="login.photoload"/> </button>
                 </div>
-                <input id="my_file" class="custom-file-input" type="file" name="my_file">
+                <input id="photo" class="custom-file-input" type="file" name="photo">
             </div>
 
 
