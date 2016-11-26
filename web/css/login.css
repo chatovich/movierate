@@ -51,26 +51,23 @@ input {
 }
 
 .mask-wrapper {
-    height: 50px;
+    height: 70px;
     /*margin-left: 5px;*/
     /*margin-top: 5px;*/
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+
 }
 .mask-wrapper .send-file {
     padding: 3px 20px;
     margin-left: 3px;
     color: #fcfdff;
     background-color: #aeaeae;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+
 }
 .mask-wrapper .fileInputText {
     position: relative;
-    width: 160px;
+    width: 183px;
     top: 3px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+
 }
 .custom-file-input {
     width: 252px;
@@ -86,6 +83,6 @@ input {
 .reg {
     margin-right: auto;
     margin-left: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
