@@ -12,13 +12,13 @@
             <hr class="colorgraph"><br>
 
             <input type="text" class="form-control" name="Username" placeholder=<fmt:message key="login.username"/> required="" autofocus="" />
-            <input type="password" class="form-control" name="Password" placeholder=<fmt:message key="login.password"/> required=""/>
+            <input type="password" class="form-control" name="Password" style="margin-bottom: 10px" placeholder=<fmt:message key="login.password"/> required=""/>
 
             <div class="col-xs-6 col-sm-6 col-md-6">
                 <input type="submit" class="btn btn-lg btn-success btn-block" value=<fmt:message key="nav.login"/>>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6">
-                <a href="" class="btn btn-lg btn-primary btn-block"><fmt:message key="login.register"/> </a>
+                <a href="${pageContext.request.contextPath}/jsp/login/reg.jsp" class="btn btn-lg btn-primary btn-block"><fmt:message key="login.register"/> </a>
             </div>
 
             <%--<button class="btn btn-lg btn-primary btn-block"  name="Submit" value="Login" type="Submit">Login</button>--%>

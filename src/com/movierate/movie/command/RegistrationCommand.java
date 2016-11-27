@@ -2,6 +2,7 @@ package com.movierate.movie.command;
 
 import com.movierate.movie.dao.UserDAO;
 import com.movierate.movie.entity.User;
+import com.movierate.movie.service.UserService;
 import com.movierate.movie.util.Validation;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -50,10 +51,10 @@ public class RegistrationCommand implements ICommand {
         String path = "img/photo";
         Part filePart;
         String fileName;
-        String filePath;
+        String filePath = null;
         try {
             filePart = request.getPart("photo");
-            if (filePart!=null){
+            if (filePart.getSize()>0){
                 fileName = Validation.getFileName(filePart);
                 filePath = request.getServletContext().getRealPath("/") + File.separator + path + File.separator + fileName;
                 filePart.write(filePath);
@@ -63,8 +64,15 @@ public class RegistrationCommand implements ICommand {
         } catch (ServletException e) {
             LOGGER.log(Level.ERROR, "Servlet problem "+e.getMessage());
         }
-        request.setAttribute("registrFailed", false);
-        return "jsp/main/main.jsp";
+
+        UserService userService = new UserService();
+        boolean isCreated = userDAO.create(userService.createUser(parameters, filePath));
+//        request.setAttribute("registrFailed", false);
+//        return "jsp/main/main.jsp";
+        if (isCreated){
+            request.setAttribute("registrFailed", false);
+            return "jsp/main/main.jsp";
+        } else return "jsp/main/error.jsp";
 
     }
 }

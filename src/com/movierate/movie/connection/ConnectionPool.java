@@ -33,7 +33,6 @@ public class ConnectionPool {
         try {
             ResourceBundle bundle = ResourceBundle.getBundle(DataBaseInfo.DB_PROPERTY);
             Properties properties = new Properties();
-            Driver driver = new FabricMySQLDriver();
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             String url = bundle.getString("db.url");
             properties.setProperty("url", bundle.getString("db.url"));
@@ -56,6 +55,7 @@ public class ConnectionPool {
             }
         } catch (MissingResourceException|SQLException|InterruptedException e){
             LOGGER.log(Level.ERROR, "Impossible to connect with database: "+e.getMessage());
+            throw new RuntimeException();
         }
 
     }

@@ -29,7 +29,7 @@
 <body class="body">
 <nav class="fixed-nav-bar">
     <ul id="navbar">
-        <li><a href="#"><fmt:message key="nav.home"/></a></li>
+        <li><a href="${pageContext.request.contextPath}/jsp/main/main.jsp"><fmt:message key="nav.home"/></a></li>
         <li><a href="#"><fmt:message key="nav.genres"/></a>
             <ul>
                 <li><a href="#"><fmt:message key="nav.thriller"/></a></li>
@@ -43,18 +43,21 @@
         </li>
         <li><a href="#"><fmt:message key="nav.new"/></a>
         <li><a href="#"><fmt:message key="nav.cinema"/></a></li>
-        <li  style="float: right;"><a href="#">L</a>
+        <li  style="float: right;"><a href="#"><fmt:message key="nav.language"/> </a>
             <ul>
                 <li><a href="/controller?command=change_language&language=en_EN"><fmt:message key="nav.language.en"/></a></li>
                 <li><a href="/controller?command=change_language&language=ru_RU"><fmt:message key="nav.language.ru"/></a></li>
             </ul>
         </li>
-        <li  style="float: right;"><a href="#"><fmt:message key="nav.login"/></a>
-            <ul>
-                <li><a href="#"><fmt:message key="nav.profile"/></a></li>
-                <li><a href="#"><fmt:message key="nav.signout"/></a></li>
-            </ul>
+        <li style="float: right;">
+            <a href="${pageContext.request.contextPath}/jsp/login/login.jsp"><fmt:message key="nav.login"/></a>
         </li>
+        <%--<li  style="float: right;"><a href="#"><fmt:message key="nav.login"/></a>--%>
+            <%--<ul>--%>
+                <%--<li><a href="#"><fmt:message key="nav.profile"/></a></li>--%>
+                <%--<li><a href="#"><fmt:message key="nav.signout"/></a></li>--%>
+            <%--</ul>--%>
+        <%--</li>--%>
     </ul>
 </nav>
 </body>
