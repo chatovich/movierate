@@ -8,22 +8,22 @@ import java.util.concurrent.Executor;
 /**
  * Created by Yultos_ on 23.11.2016
  */
-public class ConnectionWrapper implements Connection{
+public class ProxyConnection implements Connection{
 
     private Connection connection;
 
-    public ConnectionWrapper(Connection connection) {
+    public ProxyConnection(Connection connection) {
         this.connection = connection;
     }
 
     @Override
     public Statement createStatement() throws SQLException {
-        return null;
+        return connection.createStatement();
     }
 
     @Override
     public PreparedStatement prepareStatement(String sql) throws SQLException {
-        return null;
+        return connection.prepareStatement(sql);
     }
 
     @Override

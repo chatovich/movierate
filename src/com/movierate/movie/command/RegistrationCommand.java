@@ -1,5 +1,7 @@
 package com.movierate.movie.command;
 
+import com.movierate.movie.dao.UserDAO;
+import com.movierate.movie.entity.User;
 import com.movierate.movie.util.Validation;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -34,6 +36,13 @@ public class RegistrationCommand implements ICommand {
         }
         if (!Validation.checkPasswordConfirm(parameters)){
             request.setAttribute("passwordsNoMatch", true);
+            return "jsp/login/reg.jsp";
+        }
+
+        UserDAO userDAO = new UserDAO();
+        List <User> usersList = userDAO.findEntityByName(request.getParameter("username"));
+        if (!usersList.isEmpty()){
+            request.setAttribute("loginExists", true);
             return "jsp/login/reg.jsp";
         }
 

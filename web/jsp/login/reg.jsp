@@ -20,6 +20,9 @@
             <c:if test="${passwordsNoMatch}">
                 <p align="center" style="color: red" ><fmt:message key="reg.passwords.nomatch"/> </p>
             </c:if>
+            <c:if test="${loginExists}">
+                <p align="center" style="color: red" ><fmt:message key="reg.loginExists"/> </p>
+            </c:if>
 
             <input type="hidden" name="command" value="registration">
 

@@ -24,27 +24,26 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ConnectionPool {
 
     private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
-    private BlockingQueue<ConnectionWrapper> connections;
-    private ConnectionPool instance;
-    private AtomicBoolean poolExists;
-    private ReentrantLock lock;
+    private BlockingQueue<ProxyConnection> connections;
+    private static ConnectionPool instance;
+    private static AtomicBoolean poolExists = new AtomicBoolean(false);
+    private static ReentrantLock lock = new ReentrantLock();
 
     public ConnectionPool (){
         try {
-            poolExists = new AtomicBoolean(false);
-            lock = new ReentrantLock();
             ResourceBundle bundle = ResourceBundle.getBundle(DataBaseInfo.DB_PROPERTY);
             Properties properties = new Properties();
+            Driver driver = new FabricMySQLDriver();
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             String url = bundle.getString("db.url");
             properties.setProperty("url", bundle.getString("db.url"));
             properties.setProperty("user", bundle.getString("db.user"));
             properties.setProperty("password", bundle.getString("db.password"));
             properties.setProperty("poolsize", bundle.getString("db.poolsize"));
             properties.setProperty("url", bundle.getString("db.poolsize"));
-//            Driver driver = new FabricMySQLDriver();
-//            DriverManager.registerDriver(driver);
+
             int poolsize = Integer.parseInt(bundle.getString("db.poolsize"));
-            connections = new ArrayBlockingQueue<ConnectionWrapper>(poolsize);
+            connections = new ArrayBlockingQueue<ProxyConnection>(poolsize);
 
             for (int i = 0; i < poolsize; i++) {
                 Connection connection = DriverManager.getConnection(url, properties);
@@ -52,8 +51,8 @@ public class ConnectionPool {
                 if (!connection.isClosed()){
                     LOGGER.log(Level.DEBUG, i+" connected");
                 }
-                ConnectionWrapper connectionWrapper = new ConnectionWrapper(connection);
-                connections.put(connectionWrapper);
+                ProxyConnection proxyConnection = new ProxyConnection(connection);
+                connections.put(proxyConnection);
             }
         } catch (MissingResourceException|SQLException|InterruptedException e){
             LOGGER.log(Level.ERROR, "Impossible to connect with database: "+e.getMessage());
@@ -61,7 +60,7 @@ public class ConnectionPool {
 
     }
 
-    public ConnectionPool getInstance(){
+    public static ConnectionPool getInstance(){
         if (!poolExists.get()){
             lock.lock();
             try{
@@ -76,20 +75,20 @@ public class ConnectionPool {
         return instance;
     }
 
-    public ConnectionWrapper takeConnection(){
-        ConnectionWrapper connectionWrapper = null;
+    public ProxyConnection takeConnection(){
+        ProxyConnection proxyConnection = null;
         try {
-            connectionWrapper = connections.take();
+            proxyConnection = connections.take();
         } catch (InterruptedException e) {
             LOGGER.log(Level.ERROR, "Impossible to take a connection: "+e.getMessage());
         }
-        return connectionWrapper;
+        return proxyConnection;
     }
 
-    public void releaseConnection(ConnectionWrapper connectionWrapper){
-        if (connectionWrapper!=null){
+    public void releaseConnection(ProxyConnection proxyConnection){
+        if (proxyConnection !=null){
             try {
-                connections.put(connectionWrapper);
+                connections.put(proxyConnection);
             } catch (InterruptedException e) {
                 LOGGER.log(Level.ERROR, "Impossible to release the connection: "+e.getMessage());
             }
@@ -98,11 +97,11 @@ public class ConnectionPool {
 
     public void closePool(){
         while (!connections.isEmpty()){
-            ConnectionWrapper connectionWrapper = null;
+            ProxyConnection proxyConnection = null;
             try {
-                connectionWrapper = connections.take();
-                connectionWrapper.close();
-                if (connectionWrapper.isClosed()){
+                proxyConnection = connections.take();
+                proxyConnection.close();
+                if (proxyConnection.isClosed()){
                     LOGGER.log(Level.DEBUG, " disconnected");
                 }
             } catch (InterruptedException|SQLException e) {
