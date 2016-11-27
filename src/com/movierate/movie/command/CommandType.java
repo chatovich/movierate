@@ -6,7 +6,8 @@ package com.movierate.movie.command;
 public enum CommandType {
 
     CHANGE_LANGUAGE (new ChangeLanguageCommand()),
-    REGISTRATION (new RegistrationCommand());
+    REGISTRATION (new RegistrationCommand()),
+    GET_MOVIES_BY_GENRE (new GetMoviesByGenre());
 
     private ICommand command;
 

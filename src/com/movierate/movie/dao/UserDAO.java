@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Yultos_ on 27.11.2016
+ * Class that connects to database and operate with table "users"
  */
 public class UserDAO extends AbstractDAO <User> {
 
@@ -57,6 +57,11 @@ public class UserDAO extends AbstractDAO <User> {
             LOGGER.log(Level.ERROR, "Request failed "+e.getMessage());
         }
         return entityList;
+    }
+
+    @Override
+    public List<User> findEntityById(String id) {
+        return null;
     }
 
     @Override

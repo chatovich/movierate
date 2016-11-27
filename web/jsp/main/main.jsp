@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html;charset=utf-8"  pageEncoding="UTF-8" %>
 <jsp:include page = "${pageContext.request.contextPath}/jsp/header/header.jsp"/>
 
@@ -68,5 +69,9 @@
     </div>
 </div>
 <div style="width:100%; height:15px; clear:both;">.</div>
+
+<c:forEach var="movie" items="${movies}">
+    ${movie.title}
+</c:forEach>
 </body>
 </html>

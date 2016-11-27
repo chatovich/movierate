@@ -26,19 +26,21 @@ public class Controller extends HttpServlet{
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
+        processRequest(request, response);
     }
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        processRequest(request,response);
+    }
+
+    protected void processRequest (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String commandName = request.getParameter(COMMAND);
         CommandType commandType = CommandType.valueOf(commandName.toUpperCase());
         ICommand command  = commandType.getCommand();
         String pageName = command.execute(request);
         request.getRequestDispatcher(pageName).forward(request, response);
-        //request.getRequestDispatcher("/index.jsp").forward(request, response);
-
     }
 
 }

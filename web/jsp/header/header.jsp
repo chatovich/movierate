@@ -33,7 +33,7 @@
         <li><a href="#"><fmt:message key="nav.genres"/></a>
             <ul>
                 <li><a href="#"><fmt:message key="nav.thriller"/></a></li>
-                <li><a href="#"><fmt:message key="nav.comedy"/></a></li>
+                <li><a href="/controller?command=get_movies_by_genre&genre=comedy"><fmt:message key="nav.comedy"/></a></li>
                 <li><a href="#"><fmt:message key="nav.drama"/></a></li>
                 <li><a href="#"><fmt:message key="nav.action"/></a></li>
                 <li><a href="#"><fmt:message key="nav.documental"/></a></li>
