@@ -48,7 +48,7 @@ public class RegistrationCommand implements ICommand {
         }
 
         //get uploaded photo if there was one
-        String path = "img/photo";
+        String path = "/img/photo";
         Part filePart;
         String fileName;
         String filePath = null;
@@ -56,8 +56,10 @@ public class RegistrationCommand implements ICommand {
             filePart = request.getPart("photo");
             if (filePart.getSize()>0){
                 fileName = Validation.getFileName(filePart);
-                filePath = request.getServletContext().getRealPath("/") + File.separator + path + File.separator + fileName;
+                //writes to out folder!!!! works!
+                filePath = request.getServletContext().getRealPath("") + File.separator + path + File.separator + fileName;
                 filePart.write(filePath);
+                path= path+"/"+fileName;
             }
         } catch (IOException e) {
             LOGGER.log(Level.ERROR, "I/O problem with loading file "+e.getMessage());
@@ -66,7 +68,7 @@ public class RegistrationCommand implements ICommand {
         }
 
         UserService userService = new UserService();
-        boolean isCreated = userDAO.create(userService.createUser(parameters, filePath));
+        boolean isCreated = userDAO.create(userService.createUser(parameters, path));
 //        request.setAttribute("registrFailed", false);
 //        return "jsp/main/main.jsp";
         if (isCreated){

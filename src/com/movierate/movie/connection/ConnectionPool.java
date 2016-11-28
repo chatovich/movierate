@@ -39,7 +39,8 @@ public class ConnectionPool {
             properties.setProperty("user", bundle.getString("db.user"));
             properties.setProperty("password", bundle.getString("db.password"));
             properties.setProperty("poolsize", bundle.getString("db.poolsize"));
-            properties.setProperty("url", bundle.getString("db.poolsize"));
+//            properties.setProperty("url", bundle.getString("db.poolsize"));
+            properties.setProperty("useClientPrepStmts", bundle.getString("db.useClientPrepStmts"));
 
             int poolsize = Integer.parseInt(bundle.getString("db.poolsize"));
             connections = new ArrayBlockingQueue<ProxyConnection>(poolsize);

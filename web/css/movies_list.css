@@ -1,0 +1,18 @@
+.block_left {
+    float: left;
+    background-color: #fff1ce;
+    width: 60%;
+    min-height: 500px;
+    margin-top: 60px;
+    margin-left: 60px;
+    margin-right: 40px;
+}
+
+.block_right {
+    background-color: #fff1ce;
+    width: 20%;
+    min-height: 500px;
+    margin-top: 60px;
+    margin-right: 60px;
+    float: right;
+}

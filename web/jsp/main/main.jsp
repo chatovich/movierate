@@ -70,8 +70,6 @@
 </div>
 <div style="width:100%; height:15px; clear:both;">.</div>
 
-<c:forEach var="movie" items="${movies}">
-    ${movie.title}
-</c:forEach>
+
 </body>
 </html>
