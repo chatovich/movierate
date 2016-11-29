@@ -2,8 +2,8 @@ package com.movierate.movie.dao;
 
 import com.movierate.movie.connection.ConnectionPool;
 import com.movierate.movie.connection.ProxyConnection;
+import com.movierate.movie.entity.Country;
 import com.movierate.movie.entity.Entity;
-import com.movierate.movie.entity.Genre;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class that connects with database and operates with table "genres"
+ * Class that connects with database and operates with table "countries"
  */
-public class GenreDAO extends AbstractDAO {
+public class CountryDAO extends AbstractDAO{
 
-    public static final Logger LOGGER = LogManager.getLogger(GenreDAO.class);
-    public static final String SQL_FIND_GENRES_OF_MOVIE = "SELECT * FROM genres WHERE id_genre IN " +
-            "(SELECT id_genre FROM movies_genres WHERE id_movie=?)";
+    public static final Logger LOGGER = LogManager.getLogger(CountryDAO.class);
+    public static final String SQL_FIND_COUNTRIES_OF_MOVIE = "SELECT * FROM countries WHERE id_country IN " +
+            "(SELECT id_country FROM movies_countries WHERE id_movie=?)";
 
     @Override
     public List findAll() {
@@ -30,45 +30,31 @@ public class GenreDAO extends AbstractDAO {
 
     @Override
     public List findEntityByName(String name) {
-        List<Entity> genresList = new ArrayList<>();
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
-        try (ProxyConnection connection = connectionPool.takeConnection();
-             PreparedStatement st = connection.prepareStatement(SQL_FIND_GENRES_OF_MOVIE)){
-            st.setString(1,name);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-
-
-            }
-
-        } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Problem connecting with db "+ e.getMessage());
-        }
-        return genresList;
+        return null;
     }
 
     /**
-     * finds all genres of the movie by movie id
+     * finds all countries of the movie by movie id
      * @param id id of the movie
-     * @return list containing genres of the movie
+     * @return list containing countries of the movie
      */
     @Override
-    public List<Genre> findEntityById(int id) {
-        List<Genre> genresList = new ArrayList<>();
+    public List<Country> findEntityById(int id) {
+        List<Country> countriesList = new ArrayList<>();
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         ProxyConnection connection = null;
         PreparedStatement st = null;
 
         try  {
             connection = connectionPool.takeConnection();
-            st = connection.prepareStatement(SQL_FIND_GENRES_OF_MOVIE);
+            st = connection.prepareStatement(SQL_FIND_COUNTRIES_OF_MOVIE);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Genre genre = new Genre();
-                genre.setId(rs.getInt("id_genre"));
-                genre.setGenreName(rs.getString("genre"));
-                genresList.add(genre);
+                Country country = new Country();
+                country.setId(rs.getInt("id_country"));
+                country.setCountryName(rs.getString("country"));
+                countriesList.add(country);
             }
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
@@ -82,10 +68,10 @@ public class GenreDAO extends AbstractDAO {
             }
             connectionPool.releaseConnection(connection);
         }
-        return genresList;
+        return countriesList;
     }
 
-        @Override
+    @Override
     public boolean create(Entity entity) {
         return false;
     }

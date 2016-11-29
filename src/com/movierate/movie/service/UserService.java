@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Map;
 
 /**
- * Class that encapsulates logic and represents intermediate layer between database and client
+ * Class that encapsulates logic connected with entity "user" and represents intermediate layer between database and client
  */
 public class UserService {
 

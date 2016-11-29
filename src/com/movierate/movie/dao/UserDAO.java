@@ -2,6 +2,7 @@ package com.movierate.movie.dao;
 
 import com.movierate.movie.connection.ConnectionPool;
 import com.movierate.movie.connection.ProxyConnection;
+import com.movierate.movie.entity.Entity;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.exception.NotValidOperationException;
 import com.movierate.movie.type.Role;
@@ -60,7 +61,7 @@ public class UserDAO extends AbstractDAO <User> {
     }
 
     @Override
-    public List<User> findEntityById(String id) {
+    public List<User> findEntityById(int id) {
         return null;
     }
 

@@ -24,6 +24,7 @@ public class MovieDAO extends AbstractDAO {
     public static final String SQL_FOUND_ROWS = "SELECT FOUND_ROWS()";
     public static final String SQL_FIND_GENRES_OF_MOVIE = "SELECT genre FROM genres WHERE id_genre IN " +
             "(SELECT id_genre FROM movies_genres WHERE id_movie=?)";
+    public static final String SQL_FIND_MOVIE_BY_ID = "SELECT * FROM movies WHERE id_movie=?";
 
     private int movieQuantity;
 
@@ -38,8 +39,43 @@ public class MovieDAO extends AbstractDAO {
     }
 
     @Override
-    public List <Entity> findEntityById(String id) {
-        return  null;
+    public List<Movie> findEntityById(int id) {
+        List<Movie> moviesList = new ArrayList<>();
+        Movie movie = new Movie();
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement st = null;
+        try{
+            connection = connectionPool.takeConnection();
+            st = connection.prepareStatement(SQL_FIND_MOVIE_BY_ID);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()){
+                movie.setId(rs.getInt("id_movie"));
+                movie.setTitle(rs.getString("title"));
+                movie.setRating(rs.getDouble("rating"));
+                movie.setYear(rs.getInt("year"));
+                movie.setPlot(rs.getString("plot"));
+                movie.setPoster(rs.getString("poster"));
+                movie.setTrailer(rs.getString("trailer"));
+                movie.setDuration(rs.getInt("duration"));
+                movie.setPoints(rs.getInt("points"));
+                moviesList.add(movie);
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
+        } finally {
+            if (st!=null) {
+                try {
+                    st.close();
+                } catch (SQLException e) {
+                    LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
+                }
+            }
+            connectionPool.releaseConnection(connection);
+        }
+        return moviesList;
+
     }
 
     @Override
