@@ -16,3 +16,34 @@
     margin-right: 60px;
     float: right;
 }
+
+.radius {
+
+    width: 60%;
+    max-width: 900px;
+    min-height: 500px;
+    margin-top: 80px;
+    /*margin-left: 80px;*/
+    /*margin-right: 80px;*/
+    padding: 1em;
+    border-radius: 10px;
+    background: #281c14
+    radial-gradient(circle at 50% 0, rgba(255,255,255,.65), rgba(255,255,255,.35));
+    box-shadow:
+            inset rgba(0,0,0,.6) 0 -3px 8px,
+            inset rgba(252,255,255,.7) 0 3px 8px,
+            rgba(0,0,0,.8) 0 3px 8px -3px;
+
+
+
+    margin-bottom: -20px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.paginator {
+    clear: both;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -8,32 +8,13 @@
 <fmt:setBundle basename="resource.locale" />
 
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta http-equiv="Cache-Control" content="no-cache">
-    <title>Movie rating</title>
-    <link href="${pageContext.request.contextPath}/css/fonts.css" rel="stylesheet" />
-    <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>
-    <script src="${pageContext.request.contextPath}/js/loadphoto.js"></script>
-    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet" />
-    <link href="${pageContext.request.contextPath}/css/maincarousel.css" rel="stylesheet" />
-    <link href="${pageContext.request.contextPath}/css/login.css" rel="stylesheet" />
-    <link href="${pageContext.request.contextPath}/css/movies_list.css" rel="stylesheet" />
-    <link href="${pageContext.request.contextPath}/css/searchblock.css" rel="stylesheet" />
-    <%--<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>--%>
-
-
-</head>
-<body class="body">
 <nav class="fixed-nav-bar">
     <ul id="navbar">
         <li><a href="${pageContext.request.contextPath}/jsp/main/main.jsp"><fmt:message key="nav.home"/></a></li>
         <li><a href="#"><fmt:message key="nav.genres"/></a>
             <ul>
-                <li><a href="/controller?command=get_movies_by_genre&genre=thriller"><fmt:message key="nav.thriller"/></a></li>
+                <%--pagecontext works at both tomcat configuration options (/ and /movierate), without - only with/--%>
+                <li><a href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=thriller"><fmt:message key="nav.thriller"/></a></li>
                 <li><a href="/controller?command=get_movies_by_genre&genre=comedy"><fmt:message key="nav.comedy"/></a></li>
                 <li><a href="/controller?command=get_movies_by_genre&genre=drama"><fmt:message key="nav.drama"/></a></li>
                 <li><a href="/controller?command=get_movies_by_genre&genre=action"><fmt:message key="nav.action"/></a></li>
@@ -54,15 +35,14 @@
             </ul>
         </li>
         <li style="float: right;">
-            <a href="${pageContext.request.contextPath}/jsp/login/login.jsp"><fmt:message key="nav.login"/></a>
-        </li>
+        <a href="${pageContext.request.contextPath}/jsp/login/login.jsp"><fmt:message key="nav.login"/></a>
+    </li>
+
         <%--<li  style="float: right;"><a href="#"><fmt:message key="nav.login"/></a>--%>
-            <%--<ul>--%>
-                <%--<li><a href="#"><fmt:message key="nav.profile"/></a></li>--%>
-                <%--<li><a href="#"><fmt:message key="nav.signout"/></a></li>--%>
-            <%--</ul>--%>
+        <%--<ul>--%>
+        <%--<li><a href="#"><fmt:message key="nav.profile"/></a></li>--%>
+        <%--<li><a href="#"><fmt:message key="nav.signout"/></a></li>--%>
+        <%--</ul>--%>
         <%--</li>--%>
     </ul>
 </nav>
-</body>
-</html>
