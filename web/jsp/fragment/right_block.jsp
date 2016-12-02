@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<div id="radius" style="float:right;width: 20%;margin-right: 100px; margin-left: 20px" >
+<div id="radius" class="col-lg-2 col-sm-2" style="float:right;margin-right: 90px" >
 
     <%--<div class="radius">--%>
     <%--<h2>Movie Search</h2>--%>

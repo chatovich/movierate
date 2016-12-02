@@ -15,12 +15,14 @@
     <link href="${pageContext.request.contextPath}/css/fonts.css" rel="stylesheet" />
     <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>
     <script src="${pageContext.request.contextPath}/js/loadphoto.js"></script>
+    <script src="${pageContext.request.contextPath}/js/admin.js"></script>
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/maincarousel.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/login.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/movies_list.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/searchblock.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/admin.css" rel="stylesheet" />
     <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 
 

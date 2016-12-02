@@ -16,7 +16,7 @@
 
 <c:import url="../fragment/top_menu.jsp"/>
 
-<div id="radius" style="float: left;margin-left: 100px">
+<div id="radius" class="col-lg-8 col-sm-8" style="float: left;margin-left: 90px">
     <div style="margin: 10px">
     <img id="poster" src="${pageContext.request.contextPath}${movie.poster}" alt="img" border="0" >
     <p id="title" style="color: #ff8900"><strong>${movie.title}</strong></p>
