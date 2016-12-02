@@ -2,6 +2,7 @@ package com.movierate.movie.service;
 
 import com.movierate.movie.entity.User;
 import com.movierate.movie.type.Role;
+import com.movierate.movie.util.PasswordHash;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class UserService {
             switch (entry.getKey()){
                 case "username": user.setLogin(entry.getValue()[0]);
                     break;
-                case "password": user.setPassword(entry.getValue()[0]);
+                case "password": user.setPassword(PasswordHash.getHashPassword(entry.getValue()[0]));
                     break;
                 case "email": user.setEmail(entry.getValue()[0]);
                     break;

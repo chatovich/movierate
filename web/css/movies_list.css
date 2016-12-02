@@ -17,8 +17,8 @@
     float: right;
 }
 
-.radius {
-
+#radius {
+    color: white;
     width: 60%;
     max-width: 900px;
     min-height: 500px;
@@ -27,17 +27,14 @@
     /*margin-right: 80px;*/
     padding: 1em;
     border-radius: 10px;
-    background: #281c14
-    radial-gradient(circle at 50% 0, rgba(255,255,255,.65), rgba(255,255,255,.35));
+    background: #545454;
+    /*radial-gradient(circle at 50% 0, rgb(0, 0, 0), rgb(0, 0, 0));*/
     box-shadow:
-            inset rgba(0,0,0,.6) 0 -3px 8px,
+            inset rgb(255, 228, 205) 0 -3px 8px,
             inset rgba(252,255,255,.7) 0 3px 8px,
-            rgba(0,0,0,.8) 0 3px 8px -3px;
-
-
-
+            rgb(255, 246, 242) 0 3px 8px -3px;
     margin-bottom: -20px;
-    padding-left: 50px;
+    /*padding-left: 50px;*/
     padding-right: 50px;
 }
 
@@ -47,3 +44,56 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+#poster {
+    float: left;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+
+#radius p {
+    color: white;
+}
+
+#radius a {
+    color: white;
+    text-decoration: underline;
+}
+
+#radius p a:hover {
+    color: #ff8900;
+}
+
+#title {
+    color: #ff8900;
+    font-size: 26px;
+}
+
+#user-icon {
+    float: left;
+    margin: 10px;
+
+}
+
+#radius textarea {
+    width: 100%;
+    color: black;
+    background-color: #edebe6;
+}
+
+#radius label {
+    color: rgba(247, 246, 255, 0.47);
+    font-size: 12px;
+}
+
+
+
+/*.movie-page {*/
+    /*color: white;*/
+    /*text-decoration: dashed;*/
+/*}*/
+
+/*.movie-page:hover{*/
+    /*color: #ff8900;*/
+/*}*/
+

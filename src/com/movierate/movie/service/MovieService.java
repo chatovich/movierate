@@ -14,7 +14,7 @@ public class MovieService {
      * @param id id of the movie to create
      * @return created movie object
      */
-    public Movie getMovieById (int id){
+    public Movie findMovieById(int id){
         Movie movie = new Movie();
         MovieDAO movieDAO = new MovieDAO();
         if (!movieDAO.findEntityById(id).isEmpty()){

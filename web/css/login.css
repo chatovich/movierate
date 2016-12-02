@@ -65,12 +65,12 @@ input {
 }
 .mask-wrapper .fileInputText {
     position: relative;
-    width: 183px;
+    width: 100px;
     top: 3px;
 
 }
 .custom-file-input {
-    width: 252px;
+    width: 350px;
     opacity: 0;
     filter: alpha(opacity=0);
     position: relative;

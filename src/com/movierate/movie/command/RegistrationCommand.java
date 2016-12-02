@@ -1,5 +1,6 @@
 package com.movierate.movie.command;
 
+import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.dao.UserDAO;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.service.UserService;
@@ -12,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +21,13 @@ import java.util.Map;
  */
 public class RegistrationCommand implements ICommand {
 
-    final static Logger LOGGER = LogManager.getLogger(RegistrationCommand.class);
+    private static final Logger LOGGER = LogManager.getLogger(RegistrationCommand.class);
+    private static final String ATTR_REGISTR_FAILED = "registrFailed";
+    private static final String ATTR_PASSWORDS_NO_MATCH = "passwordsNoMatch";
+    private static final String PARAM_USERNAME = "username";
+    private static final String PARAM_PHOTO = "photo";
+    private static final String ATTR_LOGIN_EXISTS = "loginExists";
+    private static final String FILE_PATH = "/img/photo";
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -29,37 +35,39 @@ public class RegistrationCommand implements ICommand {
         List<String> wrongParameters = Validation.checkRegistFormByPattern(parameters);
 
         if (!wrongParameters.isEmpty()){
-            request.setAttribute("registrFailed", true);
+            request.setAttribute(ATTR_REGISTR_FAILED, true);
             for (int i = 0; i < wrongParameters.size(); i++) {
                 request.setAttribute(wrongParameters.get(i)+"Wrong", wrongParameters.get(i));
             }
-            return "jsp/login/reg.jsp";
+            return PagePath.REGISTR_PAGE;
         }
         if (!Validation.checkPasswordConfirm(parameters)){
-            request.setAttribute("passwordsNoMatch", true);
-            return "jsp/login/reg.jsp";
+            request.setAttribute(ATTR_PASSWORDS_NO_MATCH, true);
+            return PagePath.REGISTR_PAGE;
         }
 
         UserDAO userDAO = new UserDAO();
-        List <User> usersList = userDAO.findEntityByName(request.getParameter("username"));
+        List <User> usersList = userDAO.findEntityByName(request.getParameter(PARAM_USERNAME));
         if (!usersList.isEmpty()){
-            request.setAttribute("loginExists", true);
-            return "jsp/login/reg.jsp";
+            request.setAttribute(ATTR_LOGIN_EXISTS, true);
+            return PagePath.REGISTR_PAGE;
         }
 
         //get uploaded photo if there was one
-        String path = "/img/photo";
+        String path = FILE_PATH;
         Part filePart;
         String fileName;
         String filePath = null;
         try {
-            filePart = request.getPart("photo");
+            filePart = request.getPart(PARAM_PHOTO);
             if (filePart.getSize()>0){
                 fileName = Validation.getFileName(filePart);
                 //writes to out folder!!!! works!
                 filePath = request.getServletContext().getRealPath("") + File.separator + path + File.separator + fileName;
                 filePart.write(filePath);
                 path= path+"/"+fileName;
+            } else {
+                path = null;
             }
         } catch (IOException e) {
             LOGGER.log(Level.ERROR, "I/O problem with loading file "+e.getMessage());
@@ -72,9 +80,9 @@ public class RegistrationCommand implements ICommand {
 //        request.setAttribute("registrFailed", false);
 //        return "jsp/main/main.jsp";
         if (isCreated){
-            request.setAttribute("registrFailed", false);
-            return "jsp/main/main.jsp";
-        } else return "jsp/main/error.jsp";
+            request.setAttribute(ATTR_REGISTR_FAILED, false);
+            return PagePath.MAIN_PAGE;
+        } else return PagePath.ERROR_PAGE;
 
     }
 }

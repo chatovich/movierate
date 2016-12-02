@@ -56,12 +56,12 @@
                     <input style="float: left" class="fileInputText" type="text" disabled>
                     <button class="send-file"><fmt:message key="login.photoload"/> </button>
                 </div>
-                <input id="photo" class="custom-file-input" type="file" name="photo">
+                <input id="photo" class="custom-file-input" type="file" name="photo" style="width: 350px;opacity: 0;filter: alpha(opacity=0);">
             </div>
 
 
             <div class="reg">
-                <input type="submit" class="btn btn-lg btn-success btn-block" value=<fmt:message key="login.register"/>/>
+                <input type="submit" class="btn btn-lg btn-success btn-block" value=<fmt:message key="login.register"/>>
             </div>
 
             <%--<button class="btn btn-lg btn-primary btn-block"  name="Submit" value="Login" type="Submit">Login</button>--%>

@@ -16,32 +16,66 @@
 
 <c:import url="../fragment/top_menu.jsp"/>
 
-<div class="radius"  style="float: left;margin-left: 100px;" >
-    <img src="${pageContext.request.contextPath}${movie.poster}" alt="img" border="0">
-    ${movie.title}
-    ${movie.duration}
-    <c:forEach var="genre" items="${movie.movieGenres}">
-        ${genre.genreName}
-    </c:forEach>
-    <br>
+<div id="radius" style="float: left;margin-left: 100px">
+    <div style="margin: 10px">
+    <img id="poster" src="${pageContext.request.contextPath}${movie.poster}" alt="img" border="0" >
+    <p id="title" style="color: #ff8900"><strong>${movie.title}</strong></p>
+    <p><b><fmt:message key="movie.page.year"/>: </b>
+        <a href="/controller?command=get_movie_page&id=${movie.year}">${movie.year}</a></p>
+    <p><b><fmt:message key="movie.page.duration"/>:</b> ${movie.duration} <fmt:message key="movie.page.minutes"/> </p>
+    <p><b><fmt:message key="movie.page.genre"/>:</b>
+        <c:forEach var="genre" items="${movie.movieGenres}">
+        <a href="/controller?command=get_movie_page&id=${genre.genreName}">${genre.genreName}</a>
+        </c:forEach>
+    </p>
+    <p><b><fmt:message key="movie.page.country"/>:</b>
         <c:forEach var="country" items="${movie.movieCountries}">
-            ${country.countryName}
+        <a href="/controller?command=get_movie_page&id=${genre.countryName}">${country.countryName}</a>
         </c:forEach>
-        <br>
+    </p>
+        <p><b><fmt:message key="movie.page.director"/>:</b>
+            <c:forEach var="participant" items="${movie.movieParticipants}">
+            <c:if test="${participant.profession eq 'DIRECTOR'}">
+            <a href="/controller?command=get_movie_page&id=${participant.name}">${participant.name}</a>
+            </c:if>
+        </c:forEach>
+        </p>
+    <p><b><fmt:message key="movie.page.actors"/>:</b>
         <c:forEach var="participant" items="${movie.movieParticipants}">
-            ${participant.name} - ${participant.profession}
+        <c:if test="${participant.profession eq 'ACTOR'}">
+        <a href="/controller?command=get_movie_page&id=${participant.name}">${participant.name}</a>
+        </c:if>
         </c:forEach>
-        <br>
-    <c:forEach var="mark" items="${movie.movieMarks}">
-        ${mark.mark} - ${mark.user.id}
-    </c:forEach>
-    <br>
+    </p>
+        <p><b><fmt:message key="movie.page.rating"/>:</b> ${movie.rating}</p>
+
+
+    <%--<c:forEach var="mark" items="${movie.movieMarks}">--%>
+        <%--${mark.mark} - ${mark.user.id}--%>
+    <%--</c:forEach>--%>
+    <%--<br>--%>
+    <div style="clear:both;">
+
+        <form action="/controller" method="post" name="add_feedback">
+            <p><textarea name="feedback" rows="5" cols="50" placeholder=<fmt:message key="movie.write.comment"/>></textarea></p>
+            <p><input type="submit" value=<fmt:message key="movie.send.comment"/> style="color:black">
+                <label><fmt:message key="movie.comment.onlyusers"/> </label>
+
+            </p>
+        </form>
         <c:forEach var="feedback" items="${movie.movieFeedbacks}">
-            ${feedback.text}
-            ${feedback.creatingDate}
+            <hr>
+            <img id="user-icon" src="${pageContext.request.contextPath}${feedback.user.photo}" alt="img" border="0" height="90px" width="90px">
+            <span style="color: #ff8900"><b>${feedback.user.login}</b></span>
+            <br>
+            <span>${feedback.creatingDate}</span>
+            <br>
+            <p style="clear: both">${feedback.text}</p>
         </c:forEach>
+    </div>
 
     </div>
+</div>
 
 
 <c:import url="../fragment/right_block.jsp"/>

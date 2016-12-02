@@ -7,7 +7,7 @@ public enum CommandType {
 
     CHANGE_LANGUAGE (new ChangeLanguageCommand()),
     REGISTRATION (new RegistrationCommand()),
-    GET_MOVIES_BY_GENRE (new GetMoviesByGenre()),
+    GET_MOVIES_BY_GENRE (new FindMoviesByGenre()),
     GET_MOVIE_PAGE (new GetMoviePage());
 
     private ICommand command;

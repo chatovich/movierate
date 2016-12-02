@@ -29,5 +29,14 @@
 </nav>
 <img src="${pageContext.request.contextPath}/img/error.png" style="margin-top: 50px">
 <h2 align="center" ><fmt:message key="error.message"/></h2>
+Request from ${pageContext.errorData.requestURI} is failed
+<br/>
+Servlet name: ${pageContext.errorData.servletName}
+<br/>
+Status code: ${pageContext.errorData.statusCode}
+<br/>
+Exception: ${pageContext.exception}
+<br/>
+Message from exception: ${pageContext.exception.message}
 </body>
 </html>

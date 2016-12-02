@@ -40,7 +40,7 @@ public class ConnectionPool {
             properties.setProperty("password", bundle.getString("db.password"));
             properties.setProperty("poolsize", bundle.getString("db.poolsize"));
 //            properties.setProperty("url", bundle.getString("db.poolsize"));
-            properties.setProperty("useClientPrepStmts", bundle.getString("db.useClientPrepStmts"));
+ //           properties.setProperty("useClientPrepStmts", bundle.getString("db.useClientPrepStmts"));
 
             int poolsize = Integer.parseInt(bundle.getString("db.poolsize"));
             connections = new ArrayBlockingQueue<ProxyConnection>(poolsize);
@@ -67,7 +67,7 @@ public class ConnectionPool {
             try{
                 if (instance==null){
                     instance = new ConnectionPool();
-
+                    poolExists.set(true);
                 }
             } finally {
                 lock.unlock();
@@ -97,7 +97,7 @@ public class ConnectionPool {
     }
 
     public void closePool(){
-        while (!connections.isEmpty()){
+        for (int i = 0; i < connections.size(); i++) {
             ProxyConnection proxyConnection = null;
             try {
                 proxyConnection = connections.take();
@@ -110,6 +110,5 @@ public class ConnectionPool {
             }
 
         }
-
     }
 }
