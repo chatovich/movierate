@@ -33,4 +33,9 @@ public class Participant extends Entity {
     public void setProfession(Profession profession) {
         this.profession = profession;
     }
+
+    @Override
+    public String toString(){
+        return name+" - "+profession;
+    }
 }

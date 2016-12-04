@@ -1,5 +1,6 @@
 package com.movierate.movie.entity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ public class Movie extends Entity{
     private String poster;
     private int duration;
     private int points;
+    private LocalDate adding_date;
     private List<Genre> movieGenres;
     private List<Country> movieCountries;
     private List <Participant> movieParticipants;
@@ -23,7 +25,7 @@ public class Movie extends Entity{
 
     public Movie(long id, String title, double rating, int year, String plot, String trailer, String poster,
                  int duration, int points, List<Genre> movieGenres, List<Country> movieCountries,
-                 List<Participant> movieParticipants, List<Mark> movieMarks, List<Feedback> movieFeedbacks) {
+                 List<Participant> movieParticipants, List<Mark> movieMarks, List<Feedback> movieFeedbacks, LocalDate adding_date) {
         super(id);
         this.title = title;
         this.rating = rating;
@@ -38,6 +40,7 @@ public class Movie extends Entity{
         this.movieParticipants = movieParticipants;
         this.movieMarks = movieMarks;
         this.movieFeedbacks = movieFeedbacks;
+        this.adding_date = adding_date;
     }
 
     public Movie (){}
@@ -106,6 +109,14 @@ public class Movie extends Entity{
         this.points = points;
     }
 
+    public LocalDate getAdding_date() {
+        return adding_date;
+    }
+
+    public void setAdding_date(LocalDate adding_date) {
+        this.adding_date = adding_date;
+    }
+
     public List<Genre> getMovieGenres() {
         return movieGenres;
     }
@@ -144,5 +155,10 @@ public class Movie extends Entity{
 
     public void setMovieFeedbacks(List<Feedback> movieFeedbacks) {
         this.movieFeedbacks = movieFeedbacks;
+    }
+
+    @Override
+    public String toString(){
+        return title+" "+year+"year ("+plot+") "+adding_date+" duration - "+duration+" "+movieGenres.toString()+" "+movieCountries.toString()+" "+movieParticipants.toString();
     }
 }

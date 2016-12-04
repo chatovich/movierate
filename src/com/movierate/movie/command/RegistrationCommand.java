@@ -32,7 +32,7 @@ public class RegistrationCommand implements ICommand {
     @Override
     public String execute(HttpServletRequest request) {
         Map<String, String[]> parameters = request.getParameterMap();
-        List<String> wrongParameters = Validation.checkRegistFormByPattern(parameters);
+        List<String> wrongParameters = Validation.checkRegistrFormByPattern(parameters);
 
         if (!wrongParameters.isEmpty()){
             request.setAttribute(ATTR_REGISTR_FAILED, true);
@@ -76,7 +76,7 @@ public class RegistrationCommand implements ICommand {
         }
 
         UserService userService = new UserService();
-        boolean isCreated = userDAOImpl.save(userService.createUser(parameters, path));
+        boolean isCreated = userService.createUser(parameters,path);
 //        request.setAttribute("registrFailed", false);
 //        return "jsp/main/main.jsp";
         if (isCreated){

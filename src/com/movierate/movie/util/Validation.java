@@ -20,7 +20,7 @@ public class Validation {
 
     final static Logger LOGGER = LogManager.getLogger(Validation.class);
 
-    public static List<String> checkRegistFormByPattern (Map<String, String[]> parameters){
+    public static List<String> checkRegistrFormByPattern(Map<String, String[]> parameters){
 
         List<String> wrongParameters = new ArrayList<>();
         boolean isMatch;

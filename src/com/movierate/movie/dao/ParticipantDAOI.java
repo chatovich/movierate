@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface ParticipantDAOI {
 
+    Participant findEntityByName (String name);
+
 }

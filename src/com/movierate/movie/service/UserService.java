@@ -1,5 +1,6 @@
 package com.movierate.movie.service;
 
+import com.movierate.movie.dao.impl.UserDAOImpl;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.type.Role;
 import com.movierate.movie.util.PasswordHash;
@@ -17,7 +18,7 @@ public class UserService {
      * @param parameters map with all the parameters of the input form, where key is a name of the parameter, value - data that was inserted by user
      * @param filePath absolute path to the photo uploaded by user
      */
-    public User createUser (Map<String, String[]> parameters, String filePath){
+    public boolean createUser (Map<String, String[]> parameters, String filePath){
         User user = new User();
         user.setPhoto(filePath);
         user.setRole(Role.USER);
@@ -32,6 +33,7 @@ public class UserService {
                     break;
             }
         }
-        return user;
+        UserDAOImpl userDAO = new UserDAOImpl();
+        return userDAO.save(user);
     }
 }

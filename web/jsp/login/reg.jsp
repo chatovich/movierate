@@ -56,7 +56,7 @@
                     <input style="float: left" class="fileInputText" type="text" disabled>
                     <button class="send-file"><fmt:message key="login.photoload"/> </button>
                 </div>
-                <input id="photo" class="custom-file-input" type="file" name="photo" style="width: 350px;opacity: 0;filter: alpha(opacity=0);">
+                <input id="photo" class="custom-file-input" type="file" name="photo" style="width: 350px">
             </div>
 
 

@@ -9,6 +9,7 @@ public enum CommandType {
     REGISTRATION (new RegistrationCommand()),
     GET_MOVIES_BY_GENRE (new FindMoviesByGenreCommand()),
     GET_MOVIE_PAGE (new GetMoviePageCommand()),
+    ADD_MOVIE (new AddMovieCommand()),
     ADD_FEEDBACK (new AddFeedbackCommand());
 
     private ICommand command;

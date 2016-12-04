@@ -89,9 +89,14 @@ public class ConnectionPool {
     public void releaseConnection(ProxyConnection proxyConnection){
         if (proxyConnection !=null){
             try {
+                if (!proxyConnection.getAutoCommit()){
+                    proxyConnection.setAutoCommit(true);
+                }
                 connections.put(proxyConnection);
             } catch (InterruptedException e) {
                 LOGGER.log(Level.ERROR, "Impossible to release the connection: "+e.getMessage());
+            } catch (SQLException e) {
+                LOGGER.log(Level.ERROR, "Problem with connection: "+e.getMessage());
             }
         }
     }

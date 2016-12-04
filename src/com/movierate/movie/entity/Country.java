@@ -21,4 +21,9 @@ public class Country extends Entity{
     public void setCountryName(String countryName) {
         this.countryName = countryName;
     }
+
+    @Override
+    public String toString(){
+        return countryName;
+    }
 }

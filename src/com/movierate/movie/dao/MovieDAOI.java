@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface MovieDAOI {
 
-    boolean save(Movie movie);
+    void save(Movie movie);
     List<Movie> findMovieByGenre (String genre, int start, int pageQuantity);
+    int getIdByTitle (String title);
 }

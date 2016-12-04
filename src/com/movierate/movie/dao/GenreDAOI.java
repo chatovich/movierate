@@ -9,5 +9,6 @@ import java.util.List;
  */
 public interface GenreDAOI {
 
-    List<Genre> findEntityByName(String name);
+    List<Genre> findGenresByMovieName(String name);
+    Genre findEntityByName (String name);
 }

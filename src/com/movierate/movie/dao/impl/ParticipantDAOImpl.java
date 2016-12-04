@@ -25,10 +25,15 @@ public class ParticipantDAOImpl implements ParticipantDAOI, DAOI {
     public static final Logger LOGGER = LogManager.getLogger(ParticipantDAOImpl.class);
     public static final String SQL_FIND_PARTICIPANTS_OF_MOVIE = "SELECT * FROM participants WHERE id_participant IN " +
             "(SELECT id_participant FROM movies_participants WHERE id_movie=?)";
+    public static final String SQL_FIND_PARTICIPANT_BY_NAME = "SELECT id_participant, name, profession FROM participants WHERE name=?";
 
 
-    @Override
-    public List<Participant> findEntityById(int id) {
+    /**
+     *
+     * @param id id of the movie which participants we need to find
+     * @return list of all participants of the movie
+     */
+    public List<Participant> findParticipantsByMovieId(int id) {
 
         List<Participant> participantsList = new ArrayList<>();
         ConnectionPool connectionPool = ConnectionPool.getInstance();
@@ -50,15 +55,44 @@ public class ParticipantDAOImpl implements ParticipantDAOI, DAOI {
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
         } finally {
-            if (st!=null) {
-                try {
-                    st.close();
-                } catch (SQLException e) {
-                    LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
-                }
-            }
+            close(st);
             connectionPool.releaseConnection(connection);
         }
         return participantsList;
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public List findEntityById(int id) {
+        return null;
+    }
+
+    @Override
+    public Participant findEntityByName(String name) {
+        Participant participant = new Participant();
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement st = null;
+        try{
+            connection = connectionPool.takeConnection();
+            st = connection.prepareStatement(SQL_FIND_PARTICIPANT_BY_NAME);
+            st.setString(1, name);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()){
+                participant.setId(rs.getLong("id_participant"));
+                participant.setName(rs.getString("name"));
+                participant.setProfession(Profession.valueOf(rs.getString("profession").toUpperCase()));
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
+        } finally {
+            close(st);
+            connectionPool.releaseConnection(connection);
+        }
+        return participant;
     }
 }
