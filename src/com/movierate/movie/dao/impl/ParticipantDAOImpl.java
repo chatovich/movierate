@@ -1,9 +1,10 @@
-package com.movierate.movie.dao;
+package com.movierate.movie.dao.impl;
 
 import com.movierate.movie.connection.ConnectionPool;
 import com.movierate.movie.connection.ProxyConnection;
+import com.movierate.movie.dao.DAOI;
+import com.movierate.movie.dao.ParticipantDAOI;
 import com.movierate.movie.entity.Entity;
-import com.movierate.movie.entity.Genre;
 import com.movierate.movie.entity.Participant;
 import com.movierate.movie.type.Profession;
 import org.apache.logging.log4j.Level;
@@ -19,21 +20,12 @@ import java.util.List;
 /**
  * Class that connects with database and operates with table "movies"
  */
-public class ParticipantDAO extends AbstractDAO{
+public class ParticipantDAOImpl implements ParticipantDAOI, DAOI {
 
-    public static final Logger LOGGER = LogManager.getLogger(ParticipantDAO.class);
+    public static final Logger LOGGER = LogManager.getLogger(ParticipantDAOImpl.class);
     public static final String SQL_FIND_PARTICIPANTS_OF_MOVIE = "SELECT * FROM participants WHERE id_participant IN " +
             "(SELECT id_participant FROM movies_participants WHERE id_movie=?)";
 
-    @Override
-    public List findAll() {
-        return null;
-    }
-
-    @Override
-    public List findEntityByName(String name) {
-        return null;
-    }
 
     @Override
     public List<Participant> findEntityById(int id) {
@@ -68,15 +60,5 @@ public class ParticipantDAO extends AbstractDAO{
             connectionPool.releaseConnection(connection);
         }
         return participantsList;
-    }
-
-    @Override
-    public boolean create(Entity entity) {
-        return false;
-    }
-
-    @Override
-    public boolean delete(Entity entity) {
-        return false;
     }
 }

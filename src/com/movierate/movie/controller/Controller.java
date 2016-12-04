@@ -36,6 +36,8 @@ public class Controller extends HttpServlet{
     }
 
     protected void processRequest (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        request.setCharacterEncoding("UTF-8");
         String commandName = request.getParameter(COMMAND);
         CommandType commandType = CommandType.valueOf(commandName.toUpperCase());
         ICommand command  = commandType.getCommand();

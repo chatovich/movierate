@@ -17,7 +17,7 @@
 <c:import url="../fragment/top_menu.jsp"/>
 
 
-<div id="radius"  style="float: left;margin-left: 100px;" >
+<div id="radius" class="col-lg-8 col-sm-8" style="float: left;margin-left: 100px;" >
 
     <div>
     <c:forEach var="movie" items="${movies}">
@@ -34,7 +34,7 @@
         </c:if>
         ${currentPage}
         <c:if test="${currentPage lt pageQuantity}">
-            <a href="/controller?page=${currentPage+1}&command=get_movies_by_genre&genre=${genre}"><fmt:message key="movie.previous"/></a>
+            <a href="/controller?page=${currentPage+1}&command=get_movies_by_genre&genre=${genre}"><fmt:message key="movie.next"/></a>
         </c:if>
     </div>
     

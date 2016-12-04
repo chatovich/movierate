@@ -49,33 +49,18 @@
 
     <div class="well" align="center">
         <div class="tab-content">
-            <div class="tab-pane fade in active" id="add_movie"  >
-                <form action="/controller" method="post" enctype="multipart/form-data" class="form-horizontal" style="margin: 0 auto; display: inline-block">
+            <div class="tab-pane fade in active" id="add_movie">
+                <h3><fmt:message key="admin.add.movie.heading"/></h3><br>
+                <form action="/controller" method="post" enctype="multipart/form-data" style="margin: 0 auto; display: inline-block">
 
-                    <div class="form-group">
+                    <input name="title" type="text" class="form-control input-md" placeholder=<fmt:message key="admin.movie.title"/> >
+                    <input name="year" type="number" min="1920" class="form-control input-md" placeholder=<fmt:message key="admin.movie.year"/>>
 
-                            <input id="texinput" name="textinput" type="text" placeholder="placeholder" class="form-control input-md">
-                            <span class="help-block">help</span>
-
-                    </div>
-
-                    <!-- Text input-->
-                    <div class="form-group">
-
-                            <input id="textinut" name="textinput" type="text" placeholder="placeholder" class="form-control input-md">
-                            <span class="help-block">help</span>
-
-                    </div>
-
-                    <!-- Select Multiple -->
-                    <div class="form-group">
-
-                            <select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple">
+                    <select name="genres" multiple="multiple">
                                 <option value="1">Option one</option>
                                 <option value="2">Option two</option>
-                            </select>
+                    </select>
 
-                    </div>
 
                     <!-- Select Multiple -->
                     <div class="form-group">

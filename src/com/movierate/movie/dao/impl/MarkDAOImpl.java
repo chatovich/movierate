@@ -1,9 +1,9 @@
-package com.movierate.movie.dao;
+package com.movierate.movie.dao.impl;
 
 import com.movierate.movie.connection.ConnectionPool;
 import com.movierate.movie.connection.ProxyConnection;
-import com.movierate.movie.entity.Entity;
-import com.movierate.movie.entity.Genre;
+import com.movierate.movie.dao.DAOI;
+import com.movierate.movie.dao.MarkDAOI;
 import com.movierate.movie.entity.Mark;
 import com.movierate.movie.entity.User;
 import org.apache.logging.log4j.Level;
@@ -19,21 +19,12 @@ import java.util.List;
 /**
  * Class that connects with database and operates with table "genres"
  */
-public class MarkDAO extends  AbstractDAO {
+public class MarkDAOImpl implements MarkDAOI, DAOI {
 
-    public static final Logger LOGGER = LogManager.getLogger(MarkDAO.class);
+    public static final Logger LOGGER = LogManager.getLogger(MarkDAOImpl.class);
     public static final String SQL_FIND_MARKS_OF_MOVIE = "SELECT id_mark, to_movie, mark, from_user, users.login, users.photo " +
             "FROM marks JOIN users ON from_user=id_user WHERE to_movie=?;";
 
-    @Override
-    public List findAll() {
-        return null;
-    }
-
-    @Override
-    public List findEntityByName(String name) {
-        return null;
-    }
 
     /**
      * finds all marks of the movie by movie id
@@ -74,13 +65,4 @@ public class MarkDAO extends  AbstractDAO {
         return marksList;
     }
 
-    @Override
-    public boolean create(Entity entity) {
-        return false;
-    }
-
-    @Override
-    public boolean delete(Entity entity) {
-        return false;
-    }
 }

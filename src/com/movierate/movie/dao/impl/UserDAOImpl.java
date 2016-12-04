@@ -1,16 +1,15 @@
-package com.movierate.movie.dao;
+package com.movierate.movie.dao.impl;
 
 import com.movierate.movie.connection.ConnectionPool;
 import com.movierate.movie.connection.ProxyConnection;
-import com.movierate.movie.entity.Entity;
+import com.movierate.movie.dao.DAOI;
+import com.movierate.movie.dao.UserDAOI;
 import com.movierate.movie.entity.User;
-import com.movierate.movie.exception.NotValidOperationException;
 import com.movierate.movie.type.Role;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +17,13 @@ import java.util.List;
 /**
  * Class that connects to database and operate with table "users"
  */
-public class UserDAO extends AbstractDAO <User> {
+public class UserDAOImpl implements UserDAOI, DAOI {
 
-    public static final Logger LOGGER = LogManager.getLogger(UserDAO.class);
+    public static final Logger LOGGER = LogManager.getLogger(UserDAOImpl.class);
     public static final String SQL_FIND_USER_BY_LOGIN = "SELECT * FROM users WHERE login=?";
     public static final String SQL_SAVE_USER = "INSERT into users (login, password, e_mail, registr_date, role, photo) " +
             "VALUES (?,?,?,?,?,?)";
 
-    @Override
-    public List<User> findAll() {
-        return null;
-//        throw new NotValidOperationException("Operation is not supported");
-    }
 
     @Override
     public List<User> findEntityByName (String login){
@@ -61,13 +55,9 @@ public class UserDAO extends AbstractDAO <User> {
         return entityList;
     }
 
-    @Override
-    public List<User> findEntityById(int id) {
-        return null;
-    }
 
     @Override
-    public boolean create(User user) {
+    public boolean save(User user) {
         boolean isCreated = false;
         ConnectionPool pool = ConnectionPool.getInstance();
         try (ProxyConnection connection = pool.takeConnection();
@@ -89,7 +79,7 @@ public class UserDAO extends AbstractDAO <User> {
     }
 
     @Override
-    public boolean delete(User entity) {
-        return false;
+    public List findEntityById(int id) {
+        return null;
     }
 }

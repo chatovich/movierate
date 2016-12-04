@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Command that picks data needed for build a movie page
  */
-public class GetMoviePage implements ICommand {
+public class GetMoviePageCommand implements ICommand {
 
     private static final String PARAM_ID = "id";
     private static final String ATTR_MOVIE = "movie";

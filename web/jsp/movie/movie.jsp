@@ -57,6 +57,8 @@
     <div style="clear:both;">
 
         <form action="/controller" method="post" name="add_feedback">
+            <input type="hidden" name="command" value="add_feedback">
+            <input type="hidden" name="id_movie" value=${movie.id}>
             <p><textarea name="feedback" rows="5" cols="50" placeholder=<fmt:message key="movie.write.comment"/>></textarea></p>
             <p><input type="submit" value=<fmt:message key="movie.send.comment"/> style="color:black">
                 <label><fmt:message key="movie.comment.onlyusers"/> </label>
@@ -64,6 +66,7 @@
             </p>
         </form>
         <c:forEach var="feedback" items="${movie.movieFeedbacks}">
+            <c:if test="${feedback.status eq 'PUBLISHED'}">
             <hr>
             <img id="user-icon" src="${pageContext.request.contextPath}${feedback.user.photo}" alt="img" border="0" height="90px" width="90px">
             <span style="color: #ff8900"><b>${feedback.user.login}</b></span>
@@ -71,6 +74,7 @@
             <span>${feedback.creatingDate}</span>
             <br>
             <p style="clear: both">${feedback.text}</p>
+            </c:if>
         </c:forEach>
     </div>
 

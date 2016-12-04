@@ -1,9 +1,10 @@
-package com.movierate.movie.dao;
+package com.movierate.movie.dao.impl;
 
 import com.movierate.movie.connection.ConnectionPool;
 import com.movierate.movie.connection.ProxyConnection;
+import com.movierate.movie.dao.CountryDAOI;
+import com.movierate.movie.dao.DAOI;
 import com.movierate.movie.entity.Country;
-import com.movierate.movie.entity.Entity;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,21 +18,13 @@ import java.util.List;
 /**
  * Class that connects with database and operates with table "countries"
  */
-public class CountryDAO extends AbstractDAO{
+public class CountryDAOImpl implements CountryDAOI, DAOI {
 
-    public static final Logger LOGGER = LogManager.getLogger(CountryDAO.class);
+    public static final Logger LOGGER = LogManager.getLogger(CountryDAOImpl.class);
     public static final String SQL_FIND_COUNTRIES_OF_MOVIE = "SELECT * FROM countries WHERE id_country IN " +
             "(SELECT id_country FROM movies_countries WHERE id_movie=?)";
 
-    @Override
-    public List findAll() {
-        return null;
-    }
 
-    @Override
-    public List findEntityByName(String name) {
-        return null;
-    }
 
     /**
      * finds all countries of the movie by movie id
@@ -71,13 +64,5 @@ public class CountryDAO extends AbstractDAO{
         return countriesList;
     }
 
-    @Override
-    public boolean create(Entity entity) {
-        return false;
-    }
 
-    @Override
-    public boolean delete(Entity entity) {
-        return false;
-    }
 }

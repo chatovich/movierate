@@ -1,7 +1,9 @@
-package com.movierate.movie.dao;
+package com.movierate.movie.dao.impl;
 
 import com.movierate.movie.connection.ConnectionPool;
 import com.movierate.movie.connection.ProxyConnection;
+import com.movierate.movie.dao.DAOI;
+import com.movierate.movie.dao.GenreDAOI;
 import com.movierate.movie.entity.Entity;
 import com.movierate.movie.entity.Genre;
 import org.apache.logging.log4j.Level;
@@ -17,16 +19,12 @@ import java.util.List;
 /**
  * Class that connects with database and operates with table "genres"
  */
-public class GenreDAO extends AbstractDAO {
+public class GenreDAOImpl implements GenreDAOI, DAOI {
 
-    public static final Logger LOGGER = LogManager.getLogger(GenreDAO.class);
+    public static final Logger LOGGER = LogManager.getLogger(GenreDAOImpl.class);
     public static final String SQL_FIND_GENRES_OF_MOVIE = "SELECT * FROM genres WHERE id_genre IN " +
             "(SELECT id_genre FROM movies_genres WHERE id_movie=?)";
 
-    @Override
-    public List findAll() {
-        return null;
-    }
 
     @Override
     public List findEntityByName(String name) {
@@ -85,13 +83,5 @@ public class GenreDAO extends AbstractDAO {
         return genresList;
     }
 
-        @Override
-    public boolean create(Entity entity) {
-        return false;
-    }
 
-    @Override
-    public boolean delete(Entity entity) {
-        return false;
-    }
 }

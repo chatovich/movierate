@@ -1,7 +1,7 @@
 package com.movierate.movie.command;
 
 import com.movierate.movie.constant.PagePath;
-import com.movierate.movie.dao.UserDAO;
+import com.movierate.movie.dao.impl.UserDAOImpl;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.service.UserService;
 import com.movierate.movie.util.Validation;
@@ -46,8 +46,8 @@ public class RegistrationCommand implements ICommand {
             return PagePath.REGISTR_PAGE;
         }
 
-        UserDAO userDAO = new UserDAO();
-        List <User> usersList = userDAO.findEntityByName(request.getParameter(PARAM_USERNAME));
+        UserDAOImpl userDAOImpl = new UserDAOImpl();
+        List <User> usersList = userDAOImpl.findEntityByName(request.getParameter(PARAM_USERNAME));
         if (!usersList.isEmpty()){
             request.setAttribute(ATTR_LOGIN_EXISTS, true);
             return PagePath.REGISTR_PAGE;
@@ -76,13 +76,15 @@ public class RegistrationCommand implements ICommand {
         }
 
         UserService userService = new UserService();
-        boolean isCreated = userDAO.create(userService.createUser(parameters, path));
+        boolean isCreated = userDAOImpl.save(userService.createUser(parameters, path));
 //        request.setAttribute("registrFailed", false);
 //        return "jsp/main/main.jsp";
         if (isCreated){
             request.setAttribute(ATTR_REGISTR_FAILED, false);
             return PagePath.MAIN_PAGE;
-        } else return PagePath.ERROR_PAGE;
+        } else {
+            return PagePath.ERROR_PAGE;
+        }
 
     }
 }
