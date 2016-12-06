@@ -2,8 +2,8 @@ package com.movierate.movie.dao.impl;
 
 import com.movierate.movie.connection.ConnectionPool;
 import com.movierate.movie.connection.ProxyConnection;
-import com.movierate.movie.dao.DAOI;
-import com.movierate.movie.dao.UserDAOI;
+import com.movierate.movie.dao.DAO;
+import com.movierate.movie.dao.UserDAO;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.type.Role;
 import org.apache.logging.log4j.Level;
@@ -17,12 +17,13 @@ import java.util.List;
 /**
  * Class that connects to database and operate with table "users"
  */
-public class UserDAOImpl implements UserDAOI, DAOI {
+public class UserDAOImpl implements UserDAO, DAO {
 
     public static final Logger LOGGER = LogManager.getLogger(UserDAOImpl.class);
     public static final String SQL_FIND_USER_BY_LOGIN = "SELECT id_user,login,password,e_mail,points,photo,rating,isBanned,role FROM users WHERE login=?";
     public static final String SQL_SAVE_USER = "INSERT into users (login, password, e_mail, registr_date, role, photo) " +
             "VALUES (?,?,?,?,?,?)";
+    public static final String SQL_FIND_LOGIN = "SELECT login FROM users WHERE login=?";
 
 
     @Override
@@ -36,21 +37,22 @@ public class UserDAOImpl implements UserDAOI, DAOI {
             st = connection.prepareStatement(SQL_FIND_USER_BY_LOGIN);
             st.setString(1,login);
             ResultSet rs = st.executeQuery();
-            User user = new User();
             //change to long1!!
-            user.setId(rs.getInt("id_user"));
-            user.setLogin(rs.getString("login"));
-            user.setPassword(rs.getString("password"));
-            user.setEmail(rs.getString("e_mail"));
-            user.setPoints(rs.getInt("points"));
-            user.setPhoto(rs.getString("photo"));
-            //change to double!!!
-            user.setRating(rs.getInt("rating"));
-            user.setBanned(rs.getInt("isBanned")!=0);
-            //when in db string instead of enum!!
-            user.setRole(Role.valueOf(rs.getString("role").toUpperCase()));
-            entityList.add(user);
-
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id_user"));
+                user.setLogin(rs.getString("login"));
+                user.setPassword(rs.getString("password"));
+                user.setEmail(rs.getString("e_mail"));
+                user.setPoints(rs.getInt("points"));
+                user.setPhoto(rs.getString("photo"));
+                //change to double!!!
+                user.setRating(rs.getInt("rating"));
+                user.setBanned(rs.getInt("isBanned") != 0);
+                //when in db string instead of enum!!
+                user.setRole(Role.valueOf(rs.getString("role").toUpperCase()));
+                entityList.add(user);
+            }
 
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, "Request failed "+e.getMessage());
@@ -61,6 +63,36 @@ public class UserDAOImpl implements UserDAOI, DAOI {
         return entityList;
     }
 
+    /**
+     *
+     * @param login user login that was entered during registration
+     * @return true if there is no such login in database and false if user with such login already exists
+     */
+    @Override
+    public boolean checkLoginAvailable(String login) {
+
+        boolean loginAvailable = true;
+        ConnectionPool pool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement st = null;
+        try {
+            connection = pool.takeConnection();
+            st = connection.prepareStatement(SQL_FIND_LOGIN);
+            st.setString(1,login);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                loginAvailable = false;
+            }
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR, "Request failed "+e.getMessage());
+        } finally {
+            close(st);
+            pool.releaseConnection(connection);
+        }
+
+        return loginAvailable;
+    }
 
     @Override
     public boolean save(User user) {
@@ -81,7 +113,7 @@ public class UserDAOImpl implements UserDAOI, DAOI {
                 isCreated = true;
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Request failed "+e.getMessage());
+            LOGGER.log(Level.ERROR, "Request saving user failed "+e.getMessage());
         } finally {
             close(st);
             pool.releaseConnection(connection);

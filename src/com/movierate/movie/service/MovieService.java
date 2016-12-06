@@ -91,7 +91,10 @@ public class MovieService {
         System.out.println(movie);
         MovieDAOImpl movieDAO = new MovieDAOImpl();
         movieDAO.save(movie);
+    }
 
-
+    public boolean movieExists (String title){
+        MovieDAOImpl movieDAO = new MovieDAOImpl();
+        return movieDAO.checkMovieExists(title);
     }
 }

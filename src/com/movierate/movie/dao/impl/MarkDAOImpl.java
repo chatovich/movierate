@@ -2,8 +2,8 @@ package com.movierate.movie.dao.impl;
 
 import com.movierate.movie.connection.ConnectionPool;
 import com.movierate.movie.connection.ProxyConnection;
-import com.movierate.movie.dao.DAOI;
-import com.movierate.movie.dao.MarkDAOI;
+import com.movierate.movie.dao.DAO;
+import com.movierate.movie.dao.MarkDAO;
 import com.movierate.movie.entity.Mark;
 import com.movierate.movie.entity.User;
 import org.apache.logging.log4j.Level;
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Class that connects with database and operates with table "genres"
  */
-public class MarkDAOImpl implements MarkDAOI, DAOI {
+public class MarkDAOImpl implements MarkDAO, DAO {
 
     public static final Logger LOGGER = LogManager.getLogger(MarkDAOImpl.class);
     public static final String SQL_FIND_MARKS_OF_MOVIE = "SELECT id_mark, to_movie, mark, from_user, users.login, users.photo " +

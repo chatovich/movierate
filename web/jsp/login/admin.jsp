@@ -25,7 +25,7 @@
         <div class="useravatar">
             <img alt="" src="http://lorempixel.com/100/100/people/9/">
         </div>
-        <div class="card-info"> <span class="card-title">Pamela Anderson</span>
+        <div class="card-info"> <span class="card-title">admin</span>
 
         </div>
     </div>
@@ -49,7 +49,7 @@
 
     <div class="well" align="center" >
         <div class="tab-content">
-            <div class="tab-pane fade in active" id="add_movie" style="width: 600px">
+            <div class="tab-pane fade in active" id="add_movie" style="width: 600px" align="center">
                 <h3><fmt:message key="admin.add.movie.heading"/></h3><br>
                 <form action="/controller" method="post" enctype="multipart/form-data" name="addmovie_form" style="margin: 0 auto">
 
@@ -63,6 +63,7 @@
                     <div id="genres">
                         <div >
                     <select name="genre" class="form-control">
+                        <option value="" disabled selected><fmt:message key="admin.add.movie.choosegenre"/> </option>
                         <option>thriller</option>
                         <option>comedy</option>
                         <option>drams</option>
@@ -80,6 +81,7 @@
                     <div id="countries">
                         <div >
                             <select name="country" class="form-control">
+                                <option value="" disabled selected><fmt:message key="admin.add.movie.choosecountry"/> </option>
                                 <option>france</option>
                                 <option>usa</option>
                                 <option>russia</option>
@@ -92,6 +94,7 @@
                     <div id="actors">
                         <div >
                             <select name="actor" class="form-control">
+                                <option value="" disabled selected><fmt:message key="admin.add.movie.chooseactor"/> </option>
                                 <option>Brad Pitt</option>
                                 <option>2</option>
                                 <option>3</option>
@@ -104,6 +107,7 @@
                     <div id="directors">
                         <div >
                             <select name="director" class="form-control">
+                                <option value="" disabled selected><fmt:message key="admin.add.movie.choosedirector"/> </option>
                                 <option>David Fincher</option>
                                 <option>2</option>
                                 <option>3</option>
@@ -114,8 +118,7 @@
                     </div>
 
                     <div class="form-group">
-
-                            <textarea class="form-control" id="plot" name="plot" required placeholder=<fmt:message key="admin.add.movie.plot"/> ></textarea>
+                        <textarea class="form-control" id="plot" name="plot" required placeholder=<fmt:message key="admin.add.movie.plot"/> ></textarea>
 
                     </div>
 
@@ -123,12 +126,13 @@
                     <input id="duration" name="duration" type="text" class="form-control" required placeholder=<fmt:message key="admin.add.movie.duration"/> >
                     </div>
 
-                    <div>
-                    <input id="poster" type="file" name="poster" required>
+                    <div align="center" style="margin-left: 100px">
+                    <input id="poster" class="form-control" type="file" name="poster" required>
                     </div>
 
+
                     <div>
-                    <button id="singlebutton" name="singlebutton" class="btn btn-primary">Button</button>
+                    <button id="singlebutton" name="singlebutton" class="btn btn-primary" style="width: 300px"><fmt:message key="admin.add.movie.submit"/> </button>
                     </div>
 
                 </form>
@@ -148,42 +152,42 @@
 
 <c:import url="../fragment/right_block.jsp"/>
 <%--<jsp:include page = "${pageContext.request.contextPath}/jsp/header/right_block.jsp"/>--%>
-<script language="javascript">
-    // Теперь эта функция будет принимать указатель на объект, после которого нужно осуществить вставку
-    function add_input(obj)
-    {
-        var new_input=document.createElement('div');
-        new_input.innerHTML='<select name="genre" class="form-control"><option>thriller</option><option>comedy</option><option>drama</option></select>';
-// Дописываем рядом с input-ом кнопку, она будет добовлять элемент именно под input, рядом с которым она находится
-//        new_input.innerHTML=new_input.innerHTML+'<input type="button" value="+" onclick="add_input(this.parentNode)">';
-// И еще одна кнопочка для его удаления.
-        new_input.innerHTML=new_input.innerHTML+' <button type="button" onclick="del_input(this.parentNode)"><img src="../../img/icon/delete.png"></button>';
-//Ищем присутствует ли следующий узел в структуре DOM-а
-        if (obj.nextSibling)
-        // если да - то создаем после него
-            document.getElementById('genres').insertBefore(new_input,obj.nextSibling)
-//если такого не нашлось то просто добавляем в конец
-        else document.getElementById('genres').appendChild(new_input);
-    }
-    function del_input(obj)
-    {
-        document.getElementById('genres').removeChild(obj)
-    }
+<%--<script language="javascript">--%>
+    <%--// Теперь эта функция будет принимать указатель на объект, после которого нужно осуществить вставку--%>
+    <%--function add_input(obj)--%>
+    <%--{--%>
+        <%--var new_input=document.createElement('div');--%>
+        <%--new_input.innerHTML='<select name="genre" class="form-control"><option>thriller</option><option>comedy</option><option>drama</option></select>';--%>
+<%--// Дописываем рядом с input-ом кнопку, она будет добовлять элемент именно под input, рядом с которым она находится--%>
+<%--//        new_input.innerHTML=new_input.innerHTML+'<input type="button" value="+" onclick="add_input(this.parentNode)">';--%>
+<%--// И еще одна кнопочка для его удаления.--%>
+        <%--new_input.innerHTML=new_input.innerHTML+' <button type="button" onclick="del_input(this.parentNode)"><img src="../../img/icon/delete.png"></button>';--%>
+<%--//Ищем присутствует ли следующий узел в структуре DOM-а--%>
+        <%--if (obj.nextSibling)--%>
+        <%--// если да - то создаем после него--%>
+            <%--document.getElementById('genres').insertBefore(new_input,obj.nextSibling)--%>
+<%--//если такого не нашлось то просто добавляем в конец--%>
+        <%--else document.getElementById('genres').appendChild(new_input);--%>
+    <%--}--%>
+    <%--function del_input(obj)--%>
+    <%--{--%>
+        <%--document.getElementById('genres').removeChild(obj)--%>
+    <%--}--%>
 
 
-    function add_country(obj)
-    {
-        var new_input=document.createElement('div');
-        new_input.innerHTML='<select name="country" class="form-control"><option>france</option><option>usa</option><option>russia</option></select>';
-        new_input.innerHTML=new_input.innerHTML+' <button type="button" onclick="del_country(this.parentNode)"><img src="../../img/icon/delete.png"></button>';
-        if (obj.nextSibling)
-            document.getElementById('countries').insertBefore(new_input,obj.nextSibling)
-        else document.getElementById('countries').appendChild(new_input);
-    }
-    function del_country(obj)
-    {
-        document.getElementById('countries').removeChild(obj)
-    }
-    </script>
+    <%--function add_country(obj)--%>
+    <%--{--%>
+        <%--var new_input=document.createElement('div');--%>
+        <%--new_input.innerHTML='<select name="country" class="form-control"><option>france</option><option>usa</option><option>russia</option></select>';--%>
+        <%--new_input.innerHTML=new_input.innerHTML+' <button type="button" onclick="del_country(this.parentNode)"><img src="../../img/icon/delete.png"></button>';--%>
+        <%--if (obj.nextSibling)--%>
+            <%--document.getElementById('countries').insertBefore(new_input,obj.nextSibling)--%>
+        <%--else document.getElementById('countries').appendChild(new_input);--%>
+    <%--}--%>
+    <%--function del_country(obj)--%>
+    <%--{--%>
+        <%--document.getElementById('countries').removeChild(obj)--%>
+    <%--}--%>
+    <%--</script>--%>
 </body>
 </html>

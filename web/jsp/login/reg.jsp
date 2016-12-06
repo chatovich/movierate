@@ -71,10 +71,10 @@
 
 <script>
     function validateForm() {
-        var FILL_FIELD = <fmt:message key="reg.fill.field"/>
-                PASSWORDS_NOMATCH = <fmt:message key="reg.passwords.nomatch"/>
-                        PATTERN_LOGIN = <fmt:message key="login.pattern"/>
-                                PATTERN_EMAIL = <fmt:message key="reg.wrong.email"/>
+        var FILL_FIELD = <fmt:message key="reg.fill.field"/>;
+        PASSWORDS_NOMATCH = <fmt:message key="reg.passwords.nomatch"/>;
+        PATTERN_LOGIN = <fmt:message key="login.pattern"/>;
+        PATTERN_EMAIL = <fmt:message key="reg.wrong.email"/>;
         var result = true;
         //get variables from the form
         login = document.forms[0]["username"].value;

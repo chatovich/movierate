@@ -9,7 +9,7 @@
     <form action="#" name="search" method="post">
         <%--<div class="selects">--%>
         <label>
-            <select>
+            <select class="select-right">
                 <option>All genres</option>
                 <option>thriller</option>
                 <option>comedy</option>
@@ -22,7 +22,7 @@
 
         </label>
         <label>
-            <select>
+            <select class="select-right">
                 <option>All countries</option>
                 <option>USA</option>
                 <option>Russia</option>
@@ -33,7 +33,7 @@
             </select>
         </label>
         <label>
-            <select>
+            <select class="select-right">
                 <option>All years</option>
                 <option>1960s</option>
                 <option>1970s</option>

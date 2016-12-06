@@ -2,8 +2,8 @@ package com.movierate.movie.dao.impl;
 
 import com.movierate.movie.connection.ConnectionPool;
 import com.movierate.movie.connection.ProxyConnection;
-import com.movierate.movie.dao.DAOI;
-import com.movierate.movie.dao.MovieDAOI;
+import com.movierate.movie.dao.DAO;
+import com.movierate.movie.dao.MovieDAO;
 import com.movierate.movie.entity.*;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -16,10 +16,11 @@ import java.util.List;
 /**
  * Class that connects with database and operates with table "movies"
  */
-public class MovieDAOImpl implements MovieDAOI, DAOI {
+public class MovieDAOImpl implements MovieDAO, DAO {
 
     public static final Logger LOGGER = LogManager.getLogger(MovieDAOImpl.class);
-    public static final String SQL_INSERT_MOVIES_GENRES = "INSERT INTO movies_has_genres (movies_id_movie, genres_id_genre) VALUES (?,?)";
+    public static final String SQL_FIND_TITLE = "SELECT title FROM movies WHERE title=?";
+    public static final String SQL_INSERT_MOVIES_GENRES = "INSERT INTO movies_genres (id_movie, id_genre) VALUES (?,?)";
     public static final String SQL_INSERT_MOVIES_COUNTRIES = "INSERT INTO movies_countries (id_movie, id_country) VALUES (?,?)";
     public static final String SQL_INSERT_MOVIES_PARTICIPANTS = "INSERT INTO movies_participants (id_movie, id_participant) VALUES (?,?)";
     public static final String SQL_FIND_MOVIES_BY_GENRE = "SELECT SQL_CALC_FOUND_ROWS * FROM movies WHERE id_movie IN (SELECT id_movie FROM movies_genres JOIN genres ON movies_genres.id_genre=genres.id_genre WHERE genre=?) LIMIT ?,?;";
@@ -73,51 +74,106 @@ public class MovieDAOImpl implements MovieDAOI, DAOI {
      */
     @Override
     public void save(Movie movie) {
-        boolean isCreated = false;
         ConnectionPool connectionPool = ConnectionPool.getInstance();
-        ProxyConnection connection = null;
+        ProxyConnection connection = connectionPool.takeConnection();
         PreparedStatement stMovie = null;
         PreparedStatement stGenre = null;
         PreparedStatement stCountry = null;
         PreparedStatement stParticipant = null;
+
         try {
-            connection = connectionPool.takeConnection();
-            connection.setAutoCommit(false);
-            stMovie = connection.prepareStatement(SQL_SAVE_MOVIE,  Statement.RETURN_GENERATED_KEYS);
-            stMovie.setString(1, movie.getTitle());
-            stMovie.setInt(2, movie.getYear());
-            stMovie.setString(3, movie.getPlot());
-            stMovie.setString(4, movie.getPoster());
-            stMovie.setInt(5, movie.getDuration());
-            stMovie.setDate(6, Date.valueOf(movie.getAdding_date()));
-            stMovie.executeUpdate();
-            ResultSet rs = stMovie.getGeneratedKeys();
-            if (rs.next()){
-                movie.setId(rs.getLong(1));
+            try {
+                connection.setAutoCommit(false);
+                stMovie = connection.prepareStatement(SQL_SAVE_MOVIE, Statement.RETURN_GENERATED_KEYS);
+                stMovie.setString(1, movie.getTitle());
+                stMovie.setInt(2, movie.getYear());
+                stMovie.setString(3, movie.getPlot());
+                stMovie.setString(4, movie.getPoster());
+                stMovie.setInt(5, movie.getDuration());
+                stMovie.setDate(6, Date.valueOf(movie.getAdding_date()));
+                stMovie.executeUpdate();
+                ResultSet rs = stMovie.getGeneratedKeys();
+                if (rs.next()) {
+                    movie.setId(rs.getLong(1));
+                }
+//            } catch (SQLException e) {
+//                throw e;
+//                try {
+//                    connection.rollback();
+//                } catch (SQLException e1) {
+//                    LOGGER.log(Level.ERROR, "Problem rolling back: " + e.getMessage());
+//                }
+//                LOGGER.log(Level.ERROR, "Problem connecting with db " + e.getMessage());
+
+            } finally {
+                close(stMovie);
+                connectionPool.releaseConnection(connection);
             }
 
-//            long id_movie = getIdByTitle(movie.getTitle());
-//            long id_movie = 11;
-            stGenre = connection.prepareStatement(SQL_INSERT_MOVIES_GENRES);
-            for (Genre genre : movie.getMovieGenres()) {
-                stGenre.setLong(1, movie.getId());
-                stGenre.setLong(2, genre.getId());
-                stGenre.executeUpdate();
+            try {
+                // redundant?
+                connection.setAutoCommit(false);
+                stGenre = connection.prepareStatement(SQL_INSERT_MOVIES_GENRES);
+                for (Genre genre : movie.getMovieGenres()) {
+                    stGenre.setLong(1, movie.getId());
+                    stGenre.setLong(2, genre.getId());
+                    stGenre.executeUpdate();
+                }
+//            } catch (SQLException e) {
+//                try {
+//                    connection.rollback();
+//                } catch (SQLException e1) {
+//                    LOGGER.log(Level.ERROR, "Problem rolling back: " + e.getMessage());
+//                }
+//                LOGGER.log(Level.ERROR, "Problem connecting with db " + e.getMessage());
+
+            } finally {
+                close(stGenre);
+                connectionPool.releaseConnection(connection);
             }
-            stCountry = connection.prepareStatement(SQL_INSERT_MOVIES_COUNTRIES);
-            for (Country country : movie.getMovieCountries()) {
-                stCountry.setLong(1, movie.getId());
-                stCountry.setLong(2, country.getId());
-                stCountry.executeUpdate();
+
+            try {
+                connection.setAutoCommit(false);
+                stCountry = connection.prepareStatement(SQL_INSERT_MOVIES_COUNTRIES);
+                for (Country country : movie.getMovieCountries()) {
+                    stCountry.setLong(1, movie.getId());
+                    stCountry.setLong(2, country.getId());
+                    stCountry.executeUpdate();
+                }
+//            } catch (SQLException e) {
+//                try {
+//                    connection.rollback();
+//                } catch (SQLException e1) {
+//                    LOGGER.log(Level.ERROR, "Problem rolling back: " + e.getMessage());
+//                }
+//                LOGGER.log(Level.ERROR, "Problem connecting with db " + e.getMessage());
+
+            } finally {
+                close(stCountry);
+                connectionPool.releaseConnection(connection);
             }
-            stParticipant = connection.prepareStatement(SQL_INSERT_MOVIES_PARTICIPANTS);
-            for (Participant participant: movie.getMovieParticipants()) {
-                stParticipant.setLong(1,movie.getId());
-                stParticipant.setLong(2,participant.getId());
-                stParticipant.executeUpdate();
+
+            try {
+                connection.setAutoCommit(false);
+                stParticipant = connection.prepareStatement(SQL_INSERT_MOVIES_PARTICIPANTS);
+                for (Participant participant: movie.getMovieParticipants()) {
+                    stParticipant.setLong(1,movie.getId());
+                    stParticipant.setLong(2,participant.getId());
+                    stParticipant.executeUpdate();
+                }
+//            } catch (SQLException e) {
+//                try {
+//                    connection.rollback();
+//                } catch (SQLException e1) {
+//                    LOGGER.log(Level.ERROR, "Problem rolling back: " + e.getMessage());
+//                }
+//                LOGGER.log(Level.ERROR, "Problem connecting with db " + e.getMessage());
+
+            } finally {
+                close(stParticipant);
+                connectionPool.releaseConnection(connection);
             }
             connection.commit();
-
         } catch (SQLException e) {
             try {
                 connection.rollback();
@@ -125,13 +181,6 @@ public class MovieDAOImpl implements MovieDAOI, DAOI {
                 LOGGER.log(Level.ERROR, "Problem rolling back: " + e.getMessage());
             }
             LOGGER.log(Level.ERROR, "Problem connecting with db " + e.getMessage());
-
-        } finally {
-            close(stMovie);
-            close(stGenre);
-            close(stParticipant);
-            close(stCountry);
-            connectionPool.releaseConnection(connection);
         }
     }
 
@@ -210,5 +259,29 @@ public class MovieDAOImpl implements MovieDAOI, DAOI {
             LOGGER.log(Level.ERROR, "Problem connecting with db " + e.getMessage());
         }
         return id_movie;
+    }
+
+    @Override
+    public boolean checkMovieExists(String title) {
+
+        boolean movieExists = false;
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement st = null;
+        try {
+            connection = connectionPool.takeConnection();
+            st = connection.prepareStatement(SQL_FIND_TITLE);
+            st.setString(1, title);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                movieExists = true;
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR, "Problem connecting with db " + e.getMessage());
+        } finally {
+            close(st);
+            connectionPool.releaseConnection(connection);
+        }
+        return movieExists;
     }
 }

@@ -18,7 +18,7 @@
 
 <div id="radius" class="col-lg-8 col-sm-8" style="float: left;margin-left: 90px">
     <div style="margin: 10px">
-    <img id="poster" src="${pageContext.request.contextPath}${movie.poster}" alt="img" border="0" >
+    <img id="poster" src="${pageContext.request.contextPath}${movie.poster}" alt="No poster available" border="0" >
     <p id="title" style="color: #ff8900"><strong>${movie.title}</strong></p>
     <p><b><fmt:message key="movie.page.year"/>: </b>
         <a href="/controller?command=get_movie_page&id=${movie.year}">${movie.year}</a></p>
@@ -59,7 +59,7 @@
         <form action="/controller" method="post" name="add_feedback">
             <input type="hidden" name="command" value="add_feedback">
             <input type="hidden" name="id_movie" value=${movie.id}>
-            <p><textarea name="feedback" rows="5" cols="50" placeholder=<fmt:message key="movie.write.comment"/>></textarea></p>
+            <p><textarea id="feedback-textarea" name="feedback" rows="5" cols="50" placeholder=<fmt:message key="movie.write.comment"/>></textarea></p>
             <p><input type="submit" value=<fmt:message key="movie.send.comment"/> style="color:black">
                 <label><fmt:message key="movie.comment.onlyusers"/> </label>
 

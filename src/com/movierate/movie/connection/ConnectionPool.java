@@ -24,6 +24,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ConnectionPool {
 
     private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
+    private static final String DEFAULT_POOLSIZE = "32";
     private BlockingQueue<ProxyConnection> connections;
     private static ConnectionPool instance;
     private static AtomicBoolean poolExists = new AtomicBoolean(false);
@@ -38,23 +39,34 @@ public class ConnectionPool {
             properties.setProperty("url", bundle.getString("db.url"));
             properties.setProperty("user", bundle.getString("db.user"));
             properties.setProperty("password", bundle.getString("db.password"));
-            properties.setProperty("poolsize", bundle.getString("db.poolsize"));
-//            properties.setProperty("url", bundle.getString("db.poolsize"));
- //           properties.setProperty("useClientPrepStmts", bundle.getString("db.useClientPrepStmts"));
+
+            //insert default poolsize!!!
+            if (!bundle.getString("db.poolsize").isEmpty()) {
+                properties.setProperty("poolsize", bundle.getString("db.poolsize"));
+            } else {properties.setProperty("poolsize", DEFAULT_POOLSIZE);
+
+            }
 
             int poolsize = Integer.parseInt(bundle.getString("db.poolsize"));
             connections = new ArrayBlockingQueue<ProxyConnection>(poolsize);
 
-            for (int i = 0; i < poolsize; i++) {
-                Connection connection = DriverManager.getConnection(url, properties);
-                //test
-                if (!connection.isClosed()){
-                    LOGGER.log(Level.DEBUG, i+" connected");
+//            for (int i = 0; i < poolsize; i++) {
+//                Connection connection = DriverManager.getConnection(url, properties);
+//
+//                ProxyConnection proxyConnection = new ProxyConnection(connection);
+//                connections.put(proxyConnection);
+//            }
+            while (connections.size()<poolsize){
+                try {
+                    Connection connection = DriverManager.getConnection(url, properties);
+                    ProxyConnection proxyConnection = new ProxyConnection(connection);
+                    connections.put(proxyConnection);
+                } catch (InterruptedException e) {
+                    LOGGER.log(Level.ERROR, "Impossible to connect with database: "+e.getMessage());
                 }
-                ProxyConnection proxyConnection = new ProxyConnection(connection);
-                connections.put(proxyConnection);
             }
-        } catch (MissingResourceException|SQLException|InterruptedException e){
+
+        } catch (MissingResourceException|SQLException e){
             LOGGER.log(Level.ERROR, "Impossible to connect with database: "+e.getMessage());
             throw new RuntimeException();
         }

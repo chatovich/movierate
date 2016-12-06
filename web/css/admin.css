@@ -85,10 +85,16 @@
 #add_movie input, #add_movie select, #add_movie textarea {
     width: 400px;
     margin-bottom: 10px;
+    display: inline;
 }
 
-.well select {
-    display: inline;
-    margin-left: 50px;
+#star {
+    margin-left: 40px;
     margin-right: 5px;
 }
+
+#add_movie span, #add_movie p {
+    color: red;
+    font-size: 12px;
+}
+

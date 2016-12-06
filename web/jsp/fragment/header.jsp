@@ -16,6 +16,8 @@
     <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>
     <script src="${pageContext.request.contextPath}/js/loadphoto.js"></script>
     <script src="${pageContext.request.contextPath}/js/admin.js"></script>
+    <%--<script src="${pageContext.request.contextPath}/js/add_input.js"></script>--%>
+    <script src="${pageContext.request.contextPath}/js/validation.js"></script>
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/maincarousel.css" rel="stylesheet" />

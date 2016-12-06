@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Created by Yultos_ on 26.11.2016
  */
-public class RegistrationCommand implements ICommand {
+public class RegistrationCommand extends UploadPhoto implements ICommand {
 
     private static final Logger LOGGER = LogManager.getLogger(RegistrationCommand.class);
     private static final String ATTR_REGISTR_FAILED = "registrFailed";
@@ -46,36 +46,14 @@ public class RegistrationCommand implements ICommand {
             return PagePath.REGISTR_PAGE;
         }
 
-        UserDAOImpl userDAOImpl = new UserDAOImpl();
-        List <User> usersList = userDAOImpl.findEntityByName(request.getParameter(PARAM_USERNAME));
-        if (!usersList.isEmpty()){
+        UserService userService = new UserService();
+        if (!userService.loginAvailable(PARAM_USERNAME)){
             request.setAttribute(ATTR_LOGIN_EXISTS, true);
             return PagePath.REGISTR_PAGE;
         }
 
         //get uploaded photo if there was one
-        String path = FILE_PATH;
-        Part filePart;
-        String fileName;
-        String filePath = null;
-        try {
-            filePart = request.getPart(PARAM_PHOTO);
-            if (filePart.getSize()>0){
-                fileName = Validation.getFileName(filePart);
-                //writes to out folder!!!! works!
-                filePath = request.getServletContext().getRealPath("") + File.separator + path + File.separator + fileName;
-                filePart.write(filePath);
-                path= path+"/"+fileName;
-            } else {
-                path = null;
-            }
-        } catch (IOException e) {
-            LOGGER.log(Level.ERROR, "I/O problem with loading file "+e.getMessage());
-        } catch (ServletException e) {
-            LOGGER.log(Level.ERROR, "Servlet problem "+e.getMessage());
-        }
-
-        UserService userService = new UserService();
+        String path = uploadFile(request, FILE_PATH, PARAM_PHOTO);
         boolean isCreated = userService.createUser(parameters,path);
 //        request.setAttribute("registrFailed", false);
 //        return "jsp/main/main.jsp";

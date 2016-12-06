@@ -20,6 +20,16 @@ public class Validation {
 
     final static Logger LOGGER = LogManager.getLogger(Validation.class);
 
+    public static List<String> checkAddMovieForm (Map<String, String[]> parameters){
+        List<String> wrongParameters = new ArrayList<>();
+        for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+            if (entry.getValue()[0].isEmpty()){
+                wrongParameters.add(entry.getKey());
+            }
+        }
+        return wrongParameters;
+    }
+
     public static List<String> checkRegistrFormByPattern(Map<String, String[]> parameters){
 
         List<String> wrongParameters = new ArrayList<>();
@@ -65,19 +75,6 @@ public class Validation {
         }
         return password1.equals(password2);
     }
-
-
-    public static String getFileName(final Part part) {
-        final String partHeader = part.getHeader("content-disposition");
-
-        for (String content : part.getHeader("content-disposition").split(";")) {
-            if (content.trim().startsWith("filename")) {
-                return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
-            }
-        }
-        return null;
-    }
-
 
     private static boolean matchPattern (String pattern, String value){
         Pattern pat = Pattern.compile(pattern);

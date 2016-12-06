@@ -18,39 +18,30 @@ import java.util.Map;
 /**
  * command that picks the data entered by admin to add a new movie on the website
  */
-public class AddMovieCommand implements ICommand {
+public class AddMovieCommand extends UploadPhoto implements ICommand {
 
     private static final Logger LOGGER = LogManager.getLogger(AddMovieCommand.class);
     private static final String FILE_PATH = "/img/poster";
     private static final String PARAM_POSTER = "poster";
+    private static final String PARAM_TITLE = "title";
 
     @Override
     public String execute(HttpServletRequest request) {
 
-        Map<String, String[]> parameters = request.getParameterMap();
-        //get uploaded photo if there was one
-        String path = FILE_PATH;
-        Part filePart;
-        String fileName;
-        String filePath = null;
-        try {
-            filePart = request.getPart(PARAM_POSTER);
-            if (filePart.getSize()>0){
-                fileName = Validation.getFileName(filePart);
-                //writes to out folder!!!! works!
-                filePath = request.getServletContext().getRealPath("") + File.separator + path + File.separator + fileName;
-                filePart.write(filePath);
-                path= path+"/"+fileName;
-            } else {
-                path = null;
-            }
-        } catch (IOException e) {
-            LOGGER.log(Level.ERROR, "I/O problem with loading file "+e.getMessage());
-        } catch (ServletException e) {
-            LOGGER.log(Level.ERROR, "Servlet problem "+e.getMessage());
-        }
-
         MovieService movieService = new MovieService();
+        if (movieService.movieExists(request.getParameter(PARAM_TITLE))){
+            request.setAttribute("movieExists", true);
+            request.setAttribute("add_movie", true);
+            return PagePath.ADMIN_MAIN_PAGE;
+        }
+        Map<String, String[]> parameters = request.getParameterMap();
+        if (!Validation.checkAddMovieForm(parameters).isEmpty()){
+            request.setAttribute("emptyField", true);
+            request.setAttribute("add_movie", true);
+            return PagePath.ADMIN_MAIN_PAGE;
+        }
+        //get uploaded photo if there was one
+        String path = uploadFile(request, FILE_PATH, PARAM_POSTER);
         movieService.createMovie(parameters,path);
         return PagePath.MAIN_PAGE;
     }
