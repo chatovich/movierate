@@ -12,15 +12,34 @@
 <c:import url="../fragment/header.jsp"/>
 <%--<jsp:include page = "${pageContext.request.contextPath}/jsp/header/header.jsp"/>--%>
 
-<body class="body">
+<div class="body">
 <c:import url="../fragment/top_menu.jsp"/>
 
 <div id="radius" class="col-lg-8 col-sm-8" style="float: left;margin-left: 90px">
-    <c:import url="../fragment/admin_menu.jsp"/>
-    <c:if test="${add_movie}">
-        <c:import url="../fragment/add_movie_form.jsp"/>
+    <c:import url="../fragment/admin_menu.jsp"/><br>
+<div id="for-insert" align="center">
+    <c:if test="${genreAdded}">
+        <span class="admin-success"><fmt:message key="admin.genre.added"/> </span>
+    </c:if>
+    <c:if test="${movieAdded}">
+        <span class="admin-success"><fmt:message key="admin.movie.added"/> </span>
+    </c:if>
+    <c:if test="${movieExists}">
+        <span class="validation-msg"><fmt:message key="admin.movie.exists"/> </span>
+    </c:if>
+    <c:if test="${emptyField}">
+        <span class="validation-msg"><fmt:message key="admin.movie.empty.fields"/> </span>
+    </c:if>
+    <c:if test="${participantExists}">
+        <span class="validation-msg"><fmt:message key="admin.participant.exists"/> </span>
+    </c:if>
+    <c:if test="${participantAdded}">
+        <span class="admin-success"><fmt:message key="admin.participant.added"/> </span>
     </c:if>
 </div>
+</div>
+</div>
+
 
 <c:import url="../fragment/right_block.jsp"/>
 <script>

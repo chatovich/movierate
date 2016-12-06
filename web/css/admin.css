@@ -91,10 +91,25 @@
 #star {
     margin-left: 40px;
     margin-right: 5px;
+    color: red;
 }
 
-#add_movie span, #add_movie p {
+.star, #oblig_field{
     color: red;
     font-size: 12px;
 }
 
+.admin-success {
+    font-size: 26px;
+    color: #ffa10e;
+}
+
+.validation-msg {
+    color: red;
+    font-size: 16px;
+}
+
+#for-insert {
+    margin-top: 50px;
+    text-align: center;
+}

@@ -11,4 +11,5 @@ public class PagePath {
     public static final String ERROR_PAGE = "jsp/main/error.jsp";
     public static final String REGISTR_PAGE = "jsp/login/reg.jsp";
     public static final String ADMIN_MAIN_PAGE = "jsp/admin/admin_main.jsp";
+    public static final String ADD_MOVIE_PAGE = "jsp/admin/add_movie.jsp";
 }

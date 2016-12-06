@@ -1,6 +1,7 @@
 package com.movierate.movie.dao;
 
 import com.movierate.movie.entity.Participant;
+import com.movierate.movie.exception.DAOFailedException;
 
 import java.util.List;
 
@@ -9,7 +10,8 @@ import java.util.List;
  */
 public interface ParticipantDAO {
 
-    Participant findEntityByName (String name);
+    List<Participant> findEntityByName (String name);
     List<Participant> findAllByProfession (String profession);
+    void save(Participant participant) throws DAOFailedException;
 
 }

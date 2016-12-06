@@ -5,6 +5,7 @@ import com.movierate.movie.connection.ProxyConnection;
 import com.movierate.movie.dao.DAO;
 import com.movierate.movie.dao.ParticipantDAO;
 import com.movierate.movie.entity.Participant;
+import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.type.Profession;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -24,6 +25,7 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
 
     public static final Logger LOGGER = LogManager.getLogger(ParticipantDAOImpl.class);
     public static final String SQL_FIND_ALL_PARTICIPANTS = "SELECT id_participant, name, profession FROM participants";
+    public static final String SQL_SAVE_PARTICIPANT = "INSERT INTO participants (name, profession) VALUES (?,?)";
     public static final String SQL_FIND_PARTICIPANTS_BY_PROFESSION = "SELECT id_participant, name, profession FROM participants WHERE profession=?";
     public static final String SQL_FIND_PARTICIPANTS_OF_MOVIE = "SELECT * FROM participants WHERE id_participant IN " +
             "(SELECT id_participant FROM movies_participants WHERE id_movie=?)";
@@ -63,19 +65,16 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
         return participantsList;
     }
 
-    /**
-     *
-     * @param id
-     * @return
-     */
+
     @Override
     public List findEntityById(int id) {
         return null;
     }
 
     @Override
-    public Participant findEntityByName(String name) {
-        Participant participant = new Participant();
+    public List<Participant> findEntityByName(String name) {
+        List<Participant> participants = new ArrayList<>();
+        Participant participant = null;
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         ProxyConnection connection = null;
         PreparedStatement st = null;
@@ -84,10 +83,12 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
             st = connection.prepareStatement(SQL_FIND_PARTICIPANT_BY_NAME);
             st.setString(1, name);
             ResultSet rs = st.executeQuery();
-            if (rs.next()){
+            while (rs.next()){
+                participant = new Participant();
                 participant.setId(rs.getLong("id_participant"));
                 participant.setName(rs.getString("name"));
                 participant.setProfession(Profession.valueOf(rs.getString("profession").toUpperCase()));
+                participants.add(participant);
             }
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
@@ -95,7 +96,7 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
             close(st);
             connectionPool.releaseConnection(connection);
         }
-        return participant;
+        return participants;
     }
 
 
@@ -132,5 +133,26 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
             connectionPool.releaseConnection(connection);
         }
         return participants;
+    }
+
+    @Override
+    public void save(Participant participant) throws DAOFailedException {
+
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement st = null;
+        try{
+            connection = connectionPool.takeConnection();
+            st = connection.prepareStatement(SQL_SAVE_PARTICIPANT);
+            st.setString(1, participant.getName());
+            st.setString(2, String.valueOf(participant.getProfession()).toLowerCase());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
+            throw new DAOFailedException("Saving participant failed: "+e.getMessage());
+        } finally {
+            close(st);
+            connectionPool.releaseConnection(connection);
+        }
     }
 }

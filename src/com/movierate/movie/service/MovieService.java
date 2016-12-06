@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 /**
  * Class that encapsulates logic connected with entity "movie" and represents intermediate layer between database and client
@@ -75,12 +76,22 @@ public class MovieService {
                     break;
                 case "actor":
                     for (String s : entry.getValue()) {
-                        participants.add(participantDAO.findEntityByName(s));
+                        for (Participant participant : participantDAO.findEntityByName(s)) {
+                            if ("actor".equals(String.valueOf(participant.getProfession()).toLowerCase())){
+                                participants.add(participant);
+                            }
+                        }
+
+//                        participants.add(participantDAO.findEntityByName(s));
                     }
                     break;
                 case "director":
                     for (String s : entry.getValue()) {
-                        participants.add(participantDAO.findEntityByName(s));
+                        for (Participant participant : participantDAO.findEntityByName(s)) {
+                            if ("director".equals(String.valueOf(participant.getProfession()).toLowerCase())){
+                                participants.add(participant);
+                            }
+                        }
                     }
                     break;
             }

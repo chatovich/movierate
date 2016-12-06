@@ -20,7 +20,7 @@ public class Validation {
 
     final static Logger LOGGER = LogManager.getLogger(Validation.class);
 
-    public static List<String> checkAddMovieForm (Map<String, String[]> parameters){
+    public static List<String> checkEmptyFields (Map<String, String[]> parameters){
         List<String> wrongParameters = new ArrayList<>();
         for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
             if (entry.getValue()[0].isEmpty()){

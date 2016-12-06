@@ -107,7 +107,7 @@ public class MovieDAOImpl implements MovieDAO, DAO {
 
             } finally {
                 close(stMovie);
-                connectionPool.releaseConnection(connection);
+//                connectionPool.releaseConnection(connection);
             }
 
             try {
@@ -129,7 +129,7 @@ public class MovieDAOImpl implements MovieDAO, DAO {
 
             } finally {
                 close(stGenre);
-                connectionPool.releaseConnection(connection);
+//                connectionPool.releaseConnection(connection);
             }
 
             try {
@@ -150,7 +150,7 @@ public class MovieDAOImpl implements MovieDAO, DAO {
 
             } finally {
                 close(stCountry);
-                connectionPool.releaseConnection(connection);
+//                connectionPool.releaseConnection(connection);
             }
 
             try {
@@ -171,7 +171,7 @@ public class MovieDAOImpl implements MovieDAO, DAO {
 
             } finally {
                 close(stParticipant);
-                connectionPool.releaseConnection(connection);
+//                connectionPool.releaseConnection(connection);
             }
             connection.commit();
         } catch (SQLException e) {
@@ -181,6 +181,8 @@ public class MovieDAOImpl implements MovieDAO, DAO {
                 LOGGER.log(Level.ERROR, "Problem rolling back: " + e.getMessage());
             }
             LOGGER.log(Level.ERROR, "Problem connecting with db " + e.getMessage());
+        } finally {
+            connectionPool.releaseConnection(connection);
         }
     }
 

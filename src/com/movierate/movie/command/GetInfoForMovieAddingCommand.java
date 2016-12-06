@@ -31,7 +31,6 @@ public class GetInfoForMovieAddingCommand implements ICommand {
         request.setAttribute("directors", directors);
         request.setAttribute("genres", genres);
         request.setAttribute("countries", countries);
-        request.setAttribute("add_movie", true);
-        return PagePath.ADMIN_MAIN_PAGE;
+        return PagePath.ADD_MOVIE_PAGE;
     }
 }

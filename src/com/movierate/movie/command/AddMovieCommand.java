@@ -31,18 +31,17 @@ public class AddMovieCommand extends UploadPhoto implements ICommand {
         MovieService movieService = new MovieService();
         if (movieService.movieExists(request.getParameter(PARAM_TITLE))){
             request.setAttribute("movieExists", true);
-            request.setAttribute("add_movie", true);
             return PagePath.ADMIN_MAIN_PAGE;
         }
         Map<String, String[]> parameters = request.getParameterMap();
-        if (!Validation.checkAddMovieForm(parameters).isEmpty()){
+        if (!Validation.checkEmptyFields(parameters).isEmpty()){
             request.setAttribute("emptyField", true);
-            request.setAttribute("add_movie", true);
             return PagePath.ADMIN_MAIN_PAGE;
         }
         //get uploaded photo if there was one
         String path = uploadFile(request, FILE_PATH, PARAM_POSTER);
         movieService.createMovie(parameters,path);
-        return PagePath.MAIN_PAGE;
+        request.setAttribute("movieAdded", true);
+        return PagePath.ADMIN_MAIN_PAGE;
     }
 }
