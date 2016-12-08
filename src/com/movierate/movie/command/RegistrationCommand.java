@@ -3,6 +3,7 @@ package com.movierate.movie.command;
 import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.dao.impl.UserDAOImpl;
 import com.movierate.movie.entity.User;
+import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.service.UserService;
 import com.movierate.movie.util.Validation;
 import org.apache.logging.log4j.Level;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Yultos_ on 26.11.2016
+ * command that picks data for registration entered by a new user
  */
 public class RegistrationCommand extends UploadPhoto implements ICommand {
 
@@ -47,9 +48,13 @@ public class RegistrationCommand extends UploadPhoto implements ICommand {
         }
 
         UserService userService = new UserService();
-        if (!userService.loginAvailable(PARAM_USERNAME)){
-            request.setAttribute(ATTR_LOGIN_EXISTS, true);
-            return PagePath.REGISTR_PAGE;
+        try {
+            if (!userService.loginAvailable(PARAM_USERNAME)){
+                request.setAttribute(ATTR_LOGIN_EXISTS, true);
+                return PagePath.REGISTR_PAGE;
+            }
+        } catch (DAOFailedException e) {
+            LOGGER.log(Level.ERROR, e);
         }
 
         //get uploaded photo if there was one

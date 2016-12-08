@@ -17,12 +17,19 @@
 
 <div class = "container">
     <div class="wrapper">
-        <form action="" method="post" name="Login_Form" class="form-signin">
+        <c:if test="${emptyFields}">
+            <fmt:message key="admin.movie.empty.fields"/>
+        </c:if>
+        <c:if test="${loginFailed}">
+            <fmt:message key="login.login.failed"/>
+        </c:if>
+        <form action="/controller" method="post" name="login" class="form-signin">
             <h3 class="form-signin-heading"><fmt:message key="login.please.signin"/></h3>
             <hr class="colorgraph"><br>
 
-            <input type="text" class="form-control" name="Username" placeholder=<fmt:message key="login.username"/> required="" autofocus="" />
-            <input type="password" class="form-control" name="Password" style="margin-bottom: 10px" placeholder=<fmt:message key="login.password"/> required=""/>
+            <input type="hidden" name="command" value="login">
+            <input type="text" class="form-control" name="login" placeholder=<fmt:message key="login.username"/> required autofocus="" >
+            <input type="password" class="form-control" name="password" style="margin-bottom: 10px" placeholder=<fmt:message key="login.password"/> required>
 
             <div class="col-xs-6 col-sm-6 col-md-6">
                 <input type="submit" class="btn btn-lg btn-success btn-block" value=<fmt:message key="nav.login"/>>

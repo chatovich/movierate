@@ -19,6 +19,7 @@ public enum CommandType {
     GET_ALL_PARTICIPANTS (new GetAllParticipantsCommand()),
     GET_PARTICIPANT_FOR_UPDATE (new GetParticipantForUpdateCommand()),
     UPDATE_PARTICIPANT (new UpdateParticipantCommand()),
+    LOGIN (new LoginCommand()),
     GET_INFO_FOR_MOVIE_ADDING(new GetInfoForMovieAddingCommand());
 
     private ICommand command;

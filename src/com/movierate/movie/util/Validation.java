@@ -2,6 +2,7 @@ package com.movierate.movie.util;
 
 import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.constant.PatternValues;
+import com.movierate.movie.entity.User;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -74,6 +75,17 @@ public class Validation {
             }
         }
         return password1.equals(password2);
+    }
+
+    public static boolean loginInfoValid (User user, Map<String, String[]> parameters){
+        String login = parameters.get("login")[0];
+        if (login.equals(user.getLogin())){
+            String hashedPassword = PasswordHash.getHashPassword(parameters.get("password")[0]);
+            if (hashedPassword.equals(user.getPassword())){
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean matchPattern (String pattern, String value){

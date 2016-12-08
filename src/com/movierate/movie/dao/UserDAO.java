@@ -1,6 +1,7 @@
 package com.movierate.movie.dao;
 
 import com.movierate.movie.entity.User;
+import com.movierate.movie.exception.DAOFailedException;
 
 import java.util.List;
 
@@ -11,5 +12,5 @@ public interface UserDAO {
 
     List<User> findEntityByName(String name);
     boolean save(User user);
-    boolean checkLoginAvailable(String login);
+    User findUserByLogin(String login) throws DAOFailedException;
 }

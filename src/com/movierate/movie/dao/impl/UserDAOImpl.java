@@ -5,10 +5,12 @@ import com.movierate.movie.connection.ProxyConnection;
 import com.movierate.movie.dao.DAO;
 import com.movierate.movie.dao.UserDAO;
 import com.movierate.movie.entity.User;
+import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.type.Role;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.omg.PortableInterceptor.USER_EXCEPTION;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class UserDAOImpl implements UserDAO, DAO {
     public static final String SQL_FIND_USER_BY_LOGIN = "SELECT id_user,login,password,e_mail,points,photo,rating,isBanned,role FROM users WHERE login=?";
     public static final String SQL_SAVE_USER = "INSERT into users (login, password, e_mail, registr_date, role, photo) " +
             "VALUES (?,?,?,?,?,?)";
-    public static final String SQL_FIND_LOGIN = "SELECT login FROM users WHERE login=?";
+    public static final String SQL_FIND_LOGIN_INFO = "SELECT id_user, login, password FROM users WHERE login=?";
 
 
     @Override
@@ -69,29 +71,29 @@ public class UserDAOImpl implements UserDAO, DAO {
      * @return true if there is no such login in database and false if user with such login already exists
      */
     @Override
-    public boolean checkLoginAvailable(String login) {
+    public User findUserByLogin(String login) throws DAOFailedException {
 
-        boolean loginAvailable = true;
+        User user = new User();
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection connection = null;
         PreparedStatement st = null;
         try {
             connection = pool.takeConnection();
-            st = connection.prepareStatement(SQL_FIND_LOGIN);
+            st = connection.prepareStatement(SQL_FIND_LOGIN_INFO);
             st.setString(1,login);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                loginAvailable = false;
+                user.setId(rs.getLong("id_user"));
+                user.setLogin(rs.getString("login"));
+                user.setPassword(rs.getString("password"));
             }
-
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Request failed "+e.getMessage());
+            throw new DAOFailedException("Impossible to find user in db: "+e.getMessage());
         } finally {
             close(st);
             pool.releaseConnection(connection);
         }
-
-        return loginAvailable;
+        return user;
     }
 
     @Override

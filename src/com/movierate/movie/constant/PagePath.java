@@ -14,4 +14,6 @@ public class PagePath {
     public static final String ADD_MOVIE_PAGE = "jsp/admin/add_movie.jsp";
     public static final String UPDATE_MOVIE_PAGE = "jsp/admin/update_movie.jsp";
     public static final String UPDATE_PARTICIPANT_PAGE = "jsp/admin/update_participant.jsp";
+    public static final String LOGIN_PAGE = "jsp/login/login.jsp";
+
 }

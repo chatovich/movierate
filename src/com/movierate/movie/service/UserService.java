@@ -1,13 +1,12 @@
 package com.movierate.movie.service;
 
-import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.dao.impl.UserDAOImpl;
 import com.movierate.movie.entity.User;
+import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.type.Role;
 import com.movierate.movie.util.PasswordHash;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,8 +38,16 @@ public class UserService {
         return userDAO.save(user);
     }
 
-    public boolean loginAvailable (String login){
+    public boolean loginAvailable (String login) throws DAOFailedException {
         UserDAOImpl userDAOImpl = new UserDAOImpl();
-        return userDAOImpl.checkLoginAvailable(login);
+        User user = userDAOImpl.findUserByLogin(login);
+        return user.getLogin()==null;
+    }
+
+    public User getLoginInfo (Map<String, String[]> parameters) throws DAOFailedException {
+
+        String login = parameters.get("login")[0];
+        UserDAOImpl userDAOImpl = new UserDAOImpl();
+        return userDAOImpl.findUserByLogin(login);
     }
 }

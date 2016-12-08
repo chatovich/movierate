@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html;charset=utf-8"  pageEncoding="UTF-8" %>
-<%@ taglib prefix="ctg" uri="/WEB-INF/tld/custom.tld" %>
+<%--<%@ taglib prefix="ctg" uri="/WEB-INF/tld/custom.tld" %>--%>
 
 <!DOCTYPE html>
 <html>
@@ -76,7 +76,9 @@
         </div><!-- /carousel -->
     </div>
 </div>
-<ctg:login/>
+<c:if test="${userSignedIn}">
+    ${user.login}
+</c:if>
 <div style="width:100%; height:15px; clear:both;">.</div>
 
 
