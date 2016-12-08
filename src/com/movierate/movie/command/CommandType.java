@@ -13,6 +13,9 @@ public enum CommandType {
     ADD_FEEDBACK (new AddFeedbackCommand()),
     ADD_GENRE (new AddGenreCommand()),
     ADD_PARTICIPANT (new AddParticipantCommand ()),
+    GET_ALL_MOVIES (new GetAllMoviesCommand()),
+    GET_MOVIE_INFO_FOR_UPDATE (new GetMovieInfoForUpdateCommand()),
+    UPDATE_MOVIE (new UpdateMovieCommand()),
     GET_INFO_FOR_MOVIE_ADDING(new GetInfoForMovieAddingCommand());
 
     private ICommand command;

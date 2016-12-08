@@ -55,6 +55,7 @@
     <%--</c:forEach>--%>
     <%--<br>--%>
     <div style="clear:both;">
+        <p>${movie.plot}</p>
 
         <form action="/controller" method="post" name="add_feedback">
             <input type="hidden" name="command" value="add_feedback">

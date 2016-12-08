@@ -31,8 +31,9 @@ public class MarkDAOImpl implements MarkDAO, DAO {
      * @param id id of the movie
      * @return list containing marks of the movie
      */
+
     @Override
-    public List<Mark> findEntityById(int id) {
+    public List<Mark> findMarksByMovieId(int id) {
         List<Mark> marksList = new ArrayList<>();
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         ProxyConnection connection = null;

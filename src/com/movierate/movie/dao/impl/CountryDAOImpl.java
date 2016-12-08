@@ -118,8 +118,5 @@ public class CountryDAOImpl implements CountryDAO, DAO {
         return countriesList;
     }
 
-    @Override
-    public List findEntityById(int id) {
-        return null;
-    }
+
 }

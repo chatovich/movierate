@@ -15,8 +15,6 @@ public interface DAO<T extends Entity> {
 
     Logger LOGGER = LogManager.getLogger(DAO.class);
 
-    List<T> findEntityById(int id);
-
     default void close (Statement st){
         if (st!=null) {
             try {

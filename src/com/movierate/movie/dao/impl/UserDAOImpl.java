@@ -121,9 +121,4 @@ public class UserDAOImpl implements UserDAO, DAO {
         return isCreated;
 
     }
-
-    @Override
-    public List findEntityById(int id) {
-        return null;
-    }
 }

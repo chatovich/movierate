@@ -65,12 +65,6 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
         return participantsList;
     }
 
-
-    @Override
-    public List findEntityById(int id) {
-        return null;
-    }
-
     @Override
     public List<Participant> findEntityByName(String name) {
         List<Participant> participants = new ArrayList<>();

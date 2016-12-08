@@ -1,6 +1,7 @@
 package com.movierate.movie.dao;
 
 import com.movierate.movie.entity.Movie;
+import com.movierate.movie.exception.DAOFailedException;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface MovieDAO {
     List<Movie> findMovieByGenre (String genre, int start, int pageQuantity);
     int getIdByTitle (String title);
     boolean checkMovieExists (String title);
+    List<Movie> findAll() throws DAOFailedException;
+    Movie findEntityById(long id) throws DAOFailedException;
 }

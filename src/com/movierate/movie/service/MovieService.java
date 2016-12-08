@@ -5,12 +5,12 @@ import com.movierate.movie.entity.Country;
 import com.movierate.movie.entity.Genre;
 import com.movierate.movie.entity.Movie;
 import com.movierate.movie.entity.Participant;
+import com.movierate.movie.exception.DAOFailedException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
 
 /**
  * Class that encapsulates logic connected with entity "movie" and represents intermediate layer between database and client
@@ -22,28 +22,29 @@ public class MovieService {
      * @param id id of the movie to save
      * @return created movie object
      */
-    public Movie findMovieById(int id){
-        Movie movie = new Movie();
+    public Movie findMovieById(int id) throws DAOFailedException {
+        Movie movie = null;
         MovieDAOImpl movieDAOImpl = new MovieDAOImpl();
-        if (!movieDAOImpl.findEntityById(id).isEmpty()){
-            movie = movieDAOImpl.findEntityById(id).get(0);
-        }
-        GenreDAOImpl genreDAOImpl = new GenreDAOImpl();
-        CountryDAOImpl countryDAOImpl = new CountryDAOImpl();
-        ParticipantDAOImpl participantDAOImpl = new ParticipantDAOImpl();
-        MarkDAOImpl markDAOImpl = new MarkDAOImpl();
-        FeedbackDAOImpl feedbackDAOImpl = new FeedbackDAOImpl();
+        if (movieDAOImpl.findEntityById(id)!=null){
+            movie = movieDAOImpl.findEntityById(id);
+            GenreDAOImpl genreDAOImpl = new GenreDAOImpl();
+            CountryDAOImpl countryDAOImpl = new CountryDAOImpl();
+            ParticipantDAOImpl participantDAOImpl = new ParticipantDAOImpl();
+            MarkDAOImpl markDAOImpl = new MarkDAOImpl();
+            FeedbackDAOImpl feedbackDAOImpl = new FeedbackDAOImpl();
 
-        movie.setMovieGenres(genreDAOImpl.findGenresByMovieId(id));
-        movie.setMovieCountries(countryDAOImpl.findEntityById(id));
-        movie.setMovieParticipants(participantDAOImpl.findParticipantsByMovieId(id));
-        movie.setMovieMarks(markDAOImpl.findEntityById(id));
-        movie.setMovieFeedbacks(feedbackDAOImpl.findEntityById(id));
+            movie.setMovieGenres(genreDAOImpl.findGenresByMovieId(id));
+            movie.setMovieCountries(countryDAOImpl.findCountriesByMovieId(id));
+            movie.setMovieParticipants(participantDAOImpl.findParticipantsByMovieId(id));
+            movie.setMovieMarks(markDAOImpl.findMarksByMovieId(id));
+            movie.setMovieFeedbacks(feedbackDAOImpl.findFeedbacksByMovieId(id));
+        }
+
         return movie;
 
     }
 
-    public void createMovie(Map<String,String[]> parameters, String path){
+    public void createMovie(Map<String,String[]> parameters, String path) throws DAOFailedException {
 
         Movie movie = new Movie();
         List<Genre> genres = new ArrayList<>();
@@ -52,10 +53,11 @@ public class MovieService {
         GenreDAOImpl genreDAO = new GenreDAOImpl();
         CountryDAOImpl countryDAO = new CountryDAOImpl();
         ParticipantDAOImpl participantDAO = new ParticipantDAOImpl();
-        movie.setPoster(path);
-        movie.setAdding_date(LocalDate.now());
+
         for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
             switch (entry.getKey()){
+                case "id_movie": movie.setId(Long.parseLong(entry.getValue()[0]));
+                    break;
                 case "title": movie.setTitle(entry.getValue()[0]);
                     break;
                 case "year": movie.setYear(Integer.parseInt(entry.getValue()[0]));
@@ -81,8 +83,6 @@ public class MovieService {
                                 participants.add(participant);
                             }
                         }
-
-//                        participants.add(participantDAO.findEntityByName(s));
                     }
                     break;
                 case "director":
@@ -99,8 +99,22 @@ public class MovieService {
         movie.setMovieGenres(genres);
         movie.setMovieCountries(countries);
         movie.setMovieParticipants(participants);
-        System.out.println(movie);
         MovieDAOImpl movieDAO = new MovieDAOImpl();
+
+        if (movie.getId()==0){
+            movie.setPoster(path);
+            movie.setAdding_date(LocalDate.now());
+        } else {
+            Movie oldMovie = movieDAO.findEntityById(movie.getId());
+            System.out.println(oldMovie);
+            movie.setAdding_date(oldMovie.getAdding_date());
+            if (path==null){
+                movie.setPoster(oldMovie.getPoster());
+            } else {
+                movie.setPoster(path);
+            }
+        }
+        System.out.println(movie);
         movieDAO.save(movie);
     }
 
@@ -108,4 +122,13 @@ public class MovieService {
         MovieDAOImpl movieDAO = new MovieDAOImpl();
         return movieDAO.checkMovieExists(title);
     }
+
+    public List<Movie> getAllMovies () throws DAOFailedException {
+        MovieDAOImpl movieDAO = new MovieDAOImpl();
+        return movieDAO.findAll();
+    }
+
+//    public Movie getMovie (String title){
+//
+//    }
 }

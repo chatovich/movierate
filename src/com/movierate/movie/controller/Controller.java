@@ -2,6 +2,7 @@ package com.movierate.movie.controller;
 
 import com.movierate.movie.command.CommandType;
 import com.movierate.movie.command.ICommand;
+import com.movierate.movie.constant.Parameters;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -19,7 +20,6 @@ import java.io.IOException;
 public class Controller extends HttpServlet{
 
     private static final long serialVersionUID = 1L;
-    private static final String COMMAND = "command";
 
     public Controller() {
         super();
@@ -40,7 +40,7 @@ public class Controller extends HttpServlet{
     protected void processRequest (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
-        String commandName = request.getParameter(COMMAND);
+        String commandName = request.getParameter(Parameters.COMMAND);
         CommandType commandType = CommandType.valueOf(commandName.toUpperCase());
         ICommand command  = commandType.getCommand();
         String pageName = command.execute(request);

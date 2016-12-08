@@ -18,6 +18,13 @@ public abstract class UploadPhoto {
 
     private static final Logger LOGGER = LogManager.getLogger(UploadPhoto.class);
 
+    /**
+     *
+     * @param request HttpServletRequest request from jsp page where user can upload a foto
+     * @param path directory where the file should be save
+     * @param parameter value of the parameter from the form on jsp page (poster, photo)
+     * @return path to the saved file if there was one otherwise null
+     */
     public String uploadFile (HttpServletRequest request, String path, String parameter) {
 
         Part filePart;

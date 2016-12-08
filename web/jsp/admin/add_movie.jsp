@@ -31,9 +31,10 @@
                 <div>
                     <span class="star">*  </span><input name="year" class="form-control" type="number" min="1920" required placeholder=<fmt:message key="admin.movie.year"/>>
                 </div>
+
                 <div id="genres">
                     <div >
-                        <span id="star">*</span><select name="genre" class="form-control">
+                        <span id="star">*</span><select name="genre" class="form-control" required>
                         <option value="" disabled selected><fmt:message key="admin.add.movie.choosegenre"/> </option>
                         <c:forEach var="genre" items="${genres}">
                             <option>${genre.genreName}</option>
@@ -47,7 +48,7 @@
 
                 <div id="countries">
                     <div >
-                        <span id="star">*</span><select name="country" class="form-control">
+                        <span id="star">*</span><select name="country" class="form-control" required>
                         <option value="" disabled selected><fmt:message key="admin.add.movie.choosecountry"/> </option>
                         <c:forEach var="country" items="${countries}">
                             <option>${country.countryName}</option>
@@ -60,7 +61,7 @@
 
                 <div id="actors">
                     <div >
-                        <span id="star">*</span><select name="actor" class="form-control">
+                        <span id="star">*</span><select name="actor" class="form-control" required>
                         <option value="" disabled selected><fmt:message key="admin.add.movie.chooseactor"/> </option>
                         <c:forEach var="actor" items="${actors}">
                             <option>${actor.name}</option>
@@ -73,7 +74,7 @@
 
                 <div id="directors">
                     <div >
-                        <span id="star">*</span><select name="director" class="form-control">
+                        <span id="star">*</span><select name="director" class="form-control" required>
                         <option value="" disabled selected><fmt:message key="admin.add.movie.choosedirector"/> </option>
                         <c:forEach var="director" items="${directors}">
                             <option>${director.name}</option>
@@ -98,7 +99,7 @@
                 <br>
 
                 <div>
-                    <button class="btn btn-primary" style="width: 400px"><fmt:message key="admin.add.movie.submit"/> </button>
+                    <button class="btn btn-primary admin-button"><fmt:message key="admin.add.movie.submit"/> </button>
                 </div>
 
     </form>

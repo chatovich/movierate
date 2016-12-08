@@ -105,11 +105,6 @@ public class GenreDAOImpl implements GenreDAO, DAO {
 
 
     @Override
-    public List findEntityById(int id) {
-        return null;
-    }
-
-    @Override
     public List<Genre> findAll() {
         List<Genre> genresList = new ArrayList<>();
         ConnectionPool connectionPool = ConnectionPool.getInstance();

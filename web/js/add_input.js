@@ -3,7 +3,7 @@
     function add_genre(obj)
     {
         var new_input=document.createElement('div');
-        new_input.innerHTML='<span id="star">*</span><select name="genre" class="form-control"><option value="" disabled selected>' +
+        new_input.innerHTML='<span id="star">*</span><select name="genre" class="form-control" required><option value="" disabled selected>' +
             '<fmt:message key="admin.add.movie.choosegenre"/></option><c:forEach var="genre" items="${genres}">' +
             '<option>${genre.genreName}</option></c:forEach></select>';
         // new_input.innerHTML='<select name="genre" class="form-control"><option>thriller</option><option>comedy</option><option>drama</option></select>';
@@ -27,7 +27,7 @@ function del_genre(obj)
 function add_country(obj)
 {
     var new_input=document.createElement('div');
-    new_input.innerHTML='<span id="star">*</span><select name="country" class="form-control"><option value="" disabled selected>' +
+    new_input.innerHTML='<span id="star">*</span><select name="country" class="form-control" required><option value="" disabled selected>' +
         '<fmt:message key="admin.add.movie.choosecountry"/></option><c:forEach var="country" items="${countries}">' +
         '<option>${country.countryName}</option> </c:forEach>';
     new_input.innerHTML=new_input.innerHTML+' <button type="button" onclick="del_country(this.parentNode)"><img src="../../img/icon/delete.png"></button>';
@@ -43,7 +43,7 @@ function del_country(obj)
 function add_actor(obj)
     {
         var new_input=document.createElement('div');
-        new_input.innerHTML='<span id="star">*</span><select name="actor" class="form-control"><option value="" disabled selected>' +
+        new_input.innerHTML='<span id="star">*</span><select name="actor" class="form-control" required><option value="" disabled selected>' +
             '<fmt:message key="admin.add.movie.chooseactor"/> </option> <c:forEach var="actor" items="${actors}">' +
             '<option>${actor.name}</option> </c:forEach>';
         new_input.innerHTML=new_input.innerHTML+' <button type="button" onclick="del_actor(this.parentNode)"><img src="../../img/icon/delete.png"></button>';
@@ -59,7 +59,7 @@ function add_actor(obj)
     function add_director(obj)
     {
         var new_input=document.createElement('div');
-        new_input.innerHTML='<span id="star">*</span><select name="director" class="form-control"><option value="" disabled selected>' +
+        new_input.innerHTML='<span id="star">*</span><select name="director" class="form-control" required><option value="" disabled selected>' +
             '<fmt:message key="admin.add.movie.choosedirector"/></option><c:forEach var="director" items="${directors}">' +
             '<option>${director.name}</option> </c:forEach>';
         new_input.innerHTML=new_input.innerHTML+' <button type="button" onclick="del_director(this.parentNode)"><img src="../../img/icon/delete.png"></button>';

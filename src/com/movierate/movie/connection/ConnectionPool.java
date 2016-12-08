@@ -39,15 +39,14 @@ public class ConnectionPool {
             properties.setProperty("url", bundle.getString("db.url"));
             properties.setProperty("user", bundle.getString("db.user"));
             properties.setProperty("password", bundle.getString("db.password"));
-
-            //insert default poolsize!!!
+            int poolsize=0;
             if (!bundle.getString("db.poolsize").isEmpty()) {
                 properties.setProperty("poolsize", bundle.getString("db.poolsize"));
-            } else {properties.setProperty("poolsize", DEFAULT_POOLSIZE);
-
+                poolsize = Integer.parseInt(bundle.getString("db.poolsize"));
+            } else {
+                properties.setProperty("poolsize", DEFAULT_POOLSIZE);
+                poolsize = Integer.parseInt(DEFAULT_POOLSIZE);
             }
-
-            int poolsize = Integer.parseInt(bundle.getString("db.poolsize"));
             connections = new ArrayBlockingQueue<ProxyConnection>(poolsize);
 
 //            for (int i = 0; i < poolsize; i++) {

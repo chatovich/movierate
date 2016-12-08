@@ -113,3 +113,8 @@
     margin-top: 50px;
     text-align: center;
 }
+
+.admin-button{
+    width: 400px;
+    margin: 20px;
+}

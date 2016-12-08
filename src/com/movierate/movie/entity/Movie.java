@@ -159,6 +159,6 @@ public class Movie extends Entity{
 
     @Override
     public String toString(){
-        return title+" "+year+"year ("+plot+") "+adding_date+" duration - "+duration+" "+movieGenres.toString()+" "+movieCountries.toString()+" "+movieParticipants.toString();
+        return super.getId()+" "+title+" "+year+"year ("+plot+") "+adding_date+" duration - "+duration+" "+movieGenres+" "+movieCountries+" "+movieParticipants+" "+poster;
     }
 }

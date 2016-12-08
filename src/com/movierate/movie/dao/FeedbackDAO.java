@@ -11,4 +11,5 @@ import java.util.List;
 public interface FeedbackDAO {
 
     boolean save(Feedback feedback);
+    List <Feedback> findFeedbacksByMovieId (int id);
 }

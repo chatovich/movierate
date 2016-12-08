@@ -34,8 +34,9 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
      * @param id id of the movie
      * @return list containing feedbacks of the movie
      */
+
     @Override
-    public List <Feedback> findEntityById(int id) {
+    public List <Feedback> findFeedbacksByMovieId(int id) {
         List<Feedback> feedbacksList = new ArrayList<>();
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         ProxyConnection connection = null;
