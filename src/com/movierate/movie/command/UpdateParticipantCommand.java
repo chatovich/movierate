@@ -1,9 +1,9 @@
 package com.movierate.movie.command;
 
 import com.movierate.movie.constant.PagePath;
-import com.movierate.movie.constant.Parameters;
+import com.movierate.movie.dao.impl.ParticipantDAOImpl;
 import com.movierate.movie.exception.DAOFailedException;
-import com.movierate.movie.service.MovieService;
+import com.movierate.movie.service.ParticipantService;
 import com.movierate.movie.util.Validation;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
- * command that picks the data entered by admin to edit movie info
+ * command that picks the data entered by admin to edit participant info
  */
-public class UpdateMovieCommand extends UploadPhoto implements ICommand{
+public class UpdateParticipantCommand implements ICommand {
 
-    private static final Logger LOGGER = LogManager.getLogger(UpdateMovieCommand.class);
+    public static final Logger LOGGER = LogManager.getLogger(UpdateParticipantCommand.class);
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -27,16 +27,13 @@ public class UpdateMovieCommand extends UploadPhoto implements ICommand{
             request.setAttribute("emptyField", true);
             return PagePath.ADMIN_MAIN_PAGE;
         }
-        MovieService movieService = new MovieService();
-        //get uploaded photo if there was one
-        String path = uploadFile(request, Parameters.POSTER_FILE_PATH, Parameters.PARAM_POSTER);
+        ParticipantService participantService = new ParticipantService();
         try {
-            movieService.createMovie(parameters,path);
+            participantService.createParticipant(parameters);
         } catch (DAOFailedException e) {
-            LOGGER.log(Level.ERROR, "Impossible to add a movie"+e.getMessage());
-            return PagePath.ERROR_PAGE;
+            LOGGER.log(Level.ERROR, e);
         }
-        request.setAttribute("movieUpdated", true);
+        request.setAttribute("participantUpdated", true);
         return PagePath.ADMIN_MAIN_PAGE;
     }
 }

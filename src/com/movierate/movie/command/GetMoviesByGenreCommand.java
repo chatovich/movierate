@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Class that serves the request to get movies by genre
  */
-public class FindMoviesByGenreCommand implements ICommand {
+public class GetMoviesByGenreCommand implements ICommand {
 
     private static final int MOVIES_PER_PAGE = 3;
     private static final String PARAM_PAGE = "page";

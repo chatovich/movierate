@@ -66,7 +66,7 @@ public class ConnectionPool {
             }
 
         } catch (MissingResourceException|SQLException e){
-            LOGGER.log(Level.ERROR, "Impossible to connect with database: "+e.getMessage());
+            LOGGER.log(Level.FATAL, "Impossible to connect with database: "+e.getMessage());
             throw new RuntimeException();
         }
 
@@ -78,7 +78,7 @@ public class ConnectionPool {
             try{
                 if (instance==null){
                     instance = new ConnectionPool();
-                    poolExists.set(true);
+                    poolExists.getAndSet(true);
                 }
             } finally {
                 lock.unlock();

@@ -25,7 +25,7 @@
     <p><b><fmt:message key="movie.page.duration"/>:</b> ${movie.duration} <fmt:message key="movie.page.minutes"/> </p>
     <p><b><fmt:message key="movie.page.genre"/>:</b>
         <c:forEach var="genre" items="${movie.movieGenres}">
-        <a href="/controller?command=get_movie_page&id=${genre.genreName}">${genre.genreName}</a>
+        <a href="/controller?command=get_movies_by_genre&genre=${genre.genreName}">${genre.genreName}</a>
         </c:forEach>
     </p>
     <p><b><fmt:message key="movie.page.country"/>:</b>

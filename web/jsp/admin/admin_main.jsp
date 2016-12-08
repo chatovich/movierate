@@ -27,6 +27,9 @@
     <c:if test="${movieUpdated}">
         <span class="admin-success"><fmt:message key="admin.movie.updated"/> </span>
     </c:if>
+    <c:if test="${participantUpdated}">
+        <span class="admin-success"><fmt:message key="admin.participant.updated"/> </span>
+    </c:if>
     <c:if test="${movieExists}">
         <span class="validation-msg"><fmt:message key="admin.movie.exists"/> </span>
     </c:if>
@@ -54,6 +57,23 @@
             <div>
             <button class="btn btn-primary"><fmt:message key="admin.add.movie.submit"/></button>
         </div>
+        </form>
+    </c:if>
+
+    <c:if test="${chooseParticipant}">
+        <form action="/controller" role="form" method="post" name="choose-participant">
+            <input type="hidden" name="command" value="get_participant_for_update">
+            <div class="form-group">
+                <select name="id_participant" class="form-control-static" style="width: 350px; color: black;" required>
+                    <option value="" disabled selected><fmt:message key="admin.update.chooseparticipant"/> </option>
+                    <c:forEach var="participant" items="${participants}">
+                        <option value="${participant.id}">${participant.name} - ${participant.profession}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div>
+                <button class="btn btn-primary"><fmt:message key="admin.add.movie.submit"/></button>
+            </div>
         </form>
     </c:if>
 </div>

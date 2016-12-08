@@ -11,7 +11,8 @@ import java.util.List;
 public interface ParticipantDAO {
 
     List<Participant> findEntityByName (String name);
-    List<Participant> findAllByProfession (String profession);
+    List<Participant> findAllByProfession (String profession) throws DAOFailedException;
     void save(Participant participant) throws DAOFailedException;
+    Participant findEntityById (long id) throws DAOFailedException;
 
 }

@@ -19,7 +19,7 @@
 
 <div id="radius" class="col-lg-8 col-sm-8" style="float: left;margin-left: 100px;" >
 
-    <div>
+    <div style="display:inline-block;text-align: justify">
     <c:forEach var="movie" items="${movies}">
         <div style="float: left; margin-left: 10px; margin-top: 10px;">
         <%--<a href="#"><img src="${movie.poster}" alt="img" border="0" height="314" width="220"></a>--%>

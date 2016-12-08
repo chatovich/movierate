@@ -26,10 +26,12 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
     public static final Logger LOGGER = LogManager.getLogger(ParticipantDAOImpl.class);
     public static final String SQL_FIND_ALL_PARTICIPANTS = "SELECT id_participant, name, profession FROM participants";
     public static final String SQL_SAVE_PARTICIPANT = "INSERT INTO participants (name, profession) VALUES (?,?)";
+    public static final String SQL_UPDATE_PARTICIPANT = "UPDATE participants SET name=?, profession=? WHERE id_participant=?";
     public static final String SQL_FIND_PARTICIPANTS_BY_PROFESSION = "SELECT id_participant, name, profession FROM participants WHERE profession=?";
     public static final String SQL_FIND_PARTICIPANTS_OF_MOVIE = "SELECT * FROM participants WHERE id_participant IN " +
             "(SELECT id_participant FROM movies_participants WHERE id_movie=?)";
     public static final String SQL_FIND_PARTICIPANT_BY_NAME = "SELECT id_participant, name, profession FROM participants WHERE name=?";
+    public static final String SQL_FIND_PARTICIPANT_BY_ID = "SELECT id_participant, name, profession FROM participants WHERE id_participant=?";
 
 
     /**
@@ -95,7 +97,7 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
 
 
     @Override
-    public List<Participant> findAllByProfession(String profession) {
+    public List<Participant> findAllByProfession(String profession) throws DAOFailedException {
         List<Participant> participants = new ArrayList<>();
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         ProxyConnection connection = null;
@@ -121,6 +123,7 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
             }
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
+            throw new DAOFailedException("Impossible to get participants from the db: "+e.getMessage());
         } finally {
             close(statement);
             close(preparedStatement);
@@ -137,16 +140,50 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
         PreparedStatement st = null;
         try{
             connection = connectionPool.takeConnection();
-            st = connection.prepareStatement(SQL_SAVE_PARTICIPANT);
+            if (participant.getId()==0){
+                st = connection.prepareStatement(SQL_SAVE_PARTICIPANT);
+            } else {
+                st = connection.prepareStatement(SQL_UPDATE_PARTICIPANT);
+                st.setLong(3, participant.getId());
+            }
+
             st.setString(1, participant.getName());
             st.setString(2, String.valueOf(participant.getProfession()).toLowerCase());
             st.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
-            throw new DAOFailedException("Saving participant failed: "+e.getMessage());
+            throw new DAOFailedException("Saving/updationg participant failed: "+e.getMessage());
         } finally {
             close(st);
             connectionPool.releaseConnection(connection);
         }
+    }
+
+    @Override
+    public Participant findEntityById(long id) throws DAOFailedException {
+
+        Participant participant = null;
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement st = null;
+        try{
+            connection = connectionPool.takeConnection();
+            st = connection.prepareStatement(SQL_FIND_PARTICIPANT_BY_ID);
+            st.setLong(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                participant = new Participant();
+                participant.setId(rs.getLong("id_participant"));
+                participant.setName(rs.getString("name"));
+                participant.setProfession(Profession.valueOf(rs.getString("profession").toUpperCase()));
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
+            throw new DAOFailedException("Impossible to get the participant: "+e.getMessage());
+        } finally {
+            close(st);
+            connectionPool.releaseConnection(connection);
+        }
+
+        return participant;
     }
 }

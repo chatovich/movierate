@@ -13,16 +13,21 @@ import java.util.Map;
  */
 public class ParticipantService {
 
-    public List<Participant> getParticipants (String profession){
+    public List<Participant> getParticipants (String profession) throws DAOFailedException {
         ParticipantDAOImpl participantDAO = new ParticipantDAOImpl();
         return participantDAO.findAllByProfession(profession);
     }
 
+    /**
+     * creates a new object "participant" using parameters
+     * @param parameters map with parameters' names and their values entered by admin
+     * @throws DAOFailedException if there is a problem connecting with db and SQLException is thrown
+     */
     public void createParticipant (Map<String, String[]> parameters) throws DAOFailedException {
-
         Participant participant = new Participant();
         for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
             switch (entry.getKey()){
+                case "id_participant": participant.setId(Long.parseLong(entry.getValue()[0]));
                 case "name": participant.setName(entry.getValue()[0]);
                     break;
                 case "profession": participant.setProfession(Profession.valueOf(entry.getValue()[0].toUpperCase()));
@@ -56,5 +61,10 @@ public class ParticipantService {
         return participantExists;
     }
 
+    public Participant getParticipantById(long id) throws DAOFailedException {
+
+        ParticipantDAOImpl participantDAO = new ParticipantDAOImpl();
+        return participantDAO.findEntityById(id);
+    }
 
 }
