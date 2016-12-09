@@ -30,12 +30,12 @@ public class AddMovieCommand extends UploadPhoto implements ICommand {
         MovieService movieService = new MovieService();
         if (movieService.movieExists(request.getParameter(Parameters.PARAM_TITLE))){
             request.setAttribute("movieExists", true);
-            return PagePath.ADMIN_MAIN_PAGE;
+            return PagePath.ADMIN_PAGE;
         }
         Map<String, String[]> parameters = request.getParameterMap();
         if (!Validation.checkEmptyFields(parameters).isEmpty()){
             request.setAttribute("emptyField", true);
-            return PagePath.ADMIN_MAIN_PAGE;
+            return PagePath.ADMIN_PAGE;
         }
         //get uploaded photo if there was one
         String path = uploadFile(request, Parameters.POSTER_FILE_PATH, Parameters.PARAM_POSTER);
@@ -46,6 +46,6 @@ public class AddMovieCommand extends UploadPhoto implements ICommand {
             return PagePath.ERROR_PAGE;
         }
         request.setAttribute("movieAdded", true);
-        return PagePath.ADMIN_MAIN_PAGE;
+        return PagePath.ADMIN_PAGE;
     }
 }

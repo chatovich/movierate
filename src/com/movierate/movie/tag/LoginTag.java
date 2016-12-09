@@ -1,5 +1,9 @@
 package com.movierate.movie.tag;
 
+import com.movierate.movie.constant.PagePath;
+import com.movierate.movie.constant.Parameters;
+import com.movierate.movie.type.Role;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -10,24 +14,23 @@ import java.util.Locale;
 /**
  * Created by Yultos_ on 08.12.2016
  */
+@SuppressWarnings("serial")
 public class LoginTag extends TagSupport {
+
+    private String role;
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     @Override
     public int doStartTag() throws JspException {
-
-        GregorianCalendar gc = new GregorianCalendar();
-        String time = "<hr/>Time : <b> " + gc.getTime() + " </b><hr/>";
-        String locale = "Locale : <b> " + Locale.getDefault() + " </b><hr/> ";
-        try {
-            JspWriter out = pageContext.getOut();
-            out.write(time + locale);
-        } catch (IOException e) {
-            throw new JspException(e.getMessage());
+        if (Role.USER.getRoleName().equalsIgnoreCase(role)) {
+            pageContext.setAttribute(Parameters.INCLUDE_MENU, PagePath.USER_MENU_PAGE);
+        } else {
+            pageContext.setAttribute(Parameters.INCLUDE_MENU,PagePath.ADMIN_MENU_PAGE);
         }
         return SKIP_BODY;
     }
-    @Override
-    public int doEndTag() throws JspException {
-        return EVAL_PAGE;
-    }    }
+}
 

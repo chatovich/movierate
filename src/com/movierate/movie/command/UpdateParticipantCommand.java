@@ -25,7 +25,7 @@ public class UpdateParticipantCommand implements ICommand {
         Map<String, String[]> parameters = request.getParameterMap();
         if (!Validation.checkEmptyFields(parameters).isEmpty()){
             request.setAttribute("emptyField", true);
-            return PagePath.ADMIN_MAIN_PAGE;
+            return PagePath.ADMIN_PAGE;
         }
         ParticipantService participantService = new ParticipantService();
         try {
@@ -34,6 +34,6 @@ public class UpdateParticipantCommand implements ICommand {
             LOGGER.log(Level.ERROR, e);
         }
         request.setAttribute("participantUpdated", true);
-        return PagePath.ADMIN_MAIN_PAGE;
+        return PagePath.ADMIN_PAGE;
     }
 }

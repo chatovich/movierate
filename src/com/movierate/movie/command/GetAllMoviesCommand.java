@@ -28,6 +28,7 @@ public class GetAllMoviesCommand implements ICommand {
             return PagePath.ERROR_PAGE;
         }
 
-        return PagePath.ADMIN_MAIN_PAGE;
+//        return PagePath.ADMIN_MAIN_PAGE;
+        return PagePath.ADMIN_PAGE;
     }
 }

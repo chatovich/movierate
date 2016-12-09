@@ -17,4 +17,6 @@ public class Parameters {
     public static final String ATTR_USER_SIGNED_IN = "userSignedIn";
     public static final String ATTR_LOGIN_FAILED = "loginFailed";
     public static final String USER = "user";
+    public static final String ADMIN = "admin";
+    public static final String INCLUDE_MENU = "includeMenu";
 }

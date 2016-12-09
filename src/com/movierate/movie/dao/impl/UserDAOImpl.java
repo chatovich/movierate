@@ -25,7 +25,7 @@ public class UserDAOImpl implements UserDAO, DAO {
     public static final String SQL_FIND_USER_BY_LOGIN = "SELECT id_user,login,password,e_mail,points,photo,rating,isBanned,role FROM users WHERE login=?";
     public static final String SQL_SAVE_USER = "INSERT into users (login, password, e_mail, registr_date, role, photo) " +
             "VALUES (?,?,?,?,?,?)";
-    public static final String SQL_FIND_LOGIN_INFO = "SELECT id_user, login, password FROM users WHERE login=?";
+    public static final String SQL_FIND_LOGIN_INFO = "SELECT id_user, login, password, role FROM users WHERE login=?";
 
 
     @Override
@@ -86,6 +86,7 @@ public class UserDAOImpl implements UserDAO, DAO {
                 user.setId(rs.getLong("id_user"));
                 user.setLogin(rs.getString("login"));
                 user.setPassword(rs.getString("password"));
+                user.setRole(Role.valueOf(rs.getString("role").toUpperCase()));
             }
         } catch (SQLException e) {
             throw new DAOFailedException("Impossible to find user in db: "+e.getMessage());

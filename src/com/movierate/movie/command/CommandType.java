@@ -20,6 +20,7 @@ public enum CommandType {
     GET_PARTICIPANT_FOR_UPDATE (new GetParticipantForUpdateCommand()),
     UPDATE_PARTICIPANT (new UpdateParticipantCommand()),
     LOGIN (new LoginCommand()),
+    LOGOUT (new LogOutCommand()),
     GET_INFO_FOR_MOVIE_ADDING(new GetInfoForMovieAddingCommand());
 
     private ICommand command;

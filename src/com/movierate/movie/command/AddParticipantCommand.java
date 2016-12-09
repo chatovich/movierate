@@ -27,11 +27,11 @@ public class AddParticipantCommand implements ICommand {
         Map<String, String[]> parameters = request.getParameterMap();
         if (!Validation.checkEmptyFields(parameters).isEmpty()){
             request.setAttribute("emptyFields", true);
-            return PagePath.ADMIN_MAIN_PAGE;
+            return PagePath.ADMIN_PAGE;
         }
         if (participantService.checkParticipantExists(parameters)){
             request.setAttribute("participantExists",true);
-            return PagePath.ADMIN_MAIN_PAGE;
+            return PagePath.ADMIN_PAGE;
         }
 
         try{
@@ -43,6 +43,6 @@ public class AddParticipantCommand implements ICommand {
             request.setAttribute("participantAdded", false);
             return PagePath.ERROR_PAGE;
         }
-        return PagePath.ADMIN_MAIN_PAGE;
+        return PagePath.ADMIN_PAGE;
     }
 }
