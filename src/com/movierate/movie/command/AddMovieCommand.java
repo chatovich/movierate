@@ -4,17 +4,12 @@ import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.service.MovieService;
-import com.movierate.movie.service.UserService;
 import com.movierate.movie.util.Validation;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
-import java.io.File;
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -30,12 +25,12 @@ public class AddMovieCommand extends UploadPhoto implements ICommand {
         MovieService movieService = new MovieService();
         if (movieService.movieExists(request.getParameter(Parameters.PARAM_TITLE))){
             request.setAttribute("movieExists", true);
-            return PagePath.ADMIN_PAGE;
+            return PagePath.USER_PAGE;
         }
         Map<String, String[]> parameters = request.getParameterMap();
         if (!Validation.checkEmptyFields(parameters).isEmpty()){
             request.setAttribute("emptyField", true);
-            return PagePath.ADMIN_PAGE;
+            return PagePath.USER_PAGE;
         }
         //get uploaded photo if there was one
         String path = uploadFile(request, Parameters.POSTER_FILE_PATH, Parameters.PARAM_POSTER);
@@ -46,6 +41,6 @@ public class AddMovieCommand extends UploadPhoto implements ICommand {
             return PagePath.ERROR_PAGE;
         }
         request.setAttribute("movieAdded", true);
-        return PagePath.ADMIN_PAGE;
+        return PagePath.USER_PAGE;
     }
 }

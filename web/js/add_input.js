@@ -89,4 +89,25 @@ function add_actor(obj)
             '<div><button class="btn btn-primary"><fmt:message key="admin.add.movie.submit"/></button></div></form>';
     }
 
+    function user_info(){
+        document.getElementById('for-insert').innerHTML='<div><img src="${pageContext.request.contextPath}${signedUser.photo}" width="200px" height="200px">' +
+            '</div><b><p style="font-size: 18px">${signedUser.login}</p></b>' +
+            '<p><fmt:message key="user.since"/> ${signedUser.registrDate}</p><c:if test="${!anotherUser}">' +
+            '<p>${signedUser.email}</p></p><p align="right"><input type="button" value="<fmt:message key="user.info.edit"/>" onclick="edit_user_info()">' +
+            '</p></c:if>';
+    }
+
+    function edit_user_info(){
+        document.getElementById('for-insert').innerHTML='<div style="text-align:center">' +
+            '<form action="/controller" role="form" method="post" name="edit_user_info">' +
+            '<input type="hidden" name="command" value="edit_user_info">' +
+            '<div class="form-group"><span class="star">* </span><input type="text" name="email" style="width: 300px; color: black;display: inline" class="form-control" required placeholder="${signedUser.email}"></div>' +
+            '<div class="form-group"><span class="star">* </span><input type="password" name="oldPassword" style="width: 300px; color: black;display: inline" class="form-control" required placeholder="<fmt:message key="user.old.password"/>"></div>' +
+            '<div class="form-group"><input type="password" name="newPassword" style="width: 300px; color: black;display: inline" class="form-control" required placeholder="<fmt:message key="user.new.password"/>"></div>' +
+            '<div class="form-group"><input type="password" name="confirmPassword" style="width: 300px; color: black;display: inline" class="form-control" required placeholder="<fmt:message key="user.confirmnew.password"/>"></div>' +
+            '<div class="form-group"><input value="${signedUser}" class="form-control" type="file" name="photo" style="width:300px;display:inline"></div>'+
+            '<span id="oblig_field">*  <fmt:message key="obligatory.field"/></span><br>'+
+            '<div class="form-group"><button class="btn btn-primary" style="margin-top:10px"><fmt:message key="admin.add.movie.submit"/></button></div></form></div>';
+    }
+
 

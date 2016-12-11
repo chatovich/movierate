@@ -25,7 +25,7 @@ public class UpdateMovieCommand extends UploadPhoto implements ICommand{
         Map<String, String[]> parameters = request.getParameterMap();
         if (!Validation.checkEmptyFields(parameters).isEmpty()){
             request.setAttribute("emptyField", true);
-            return PagePath.ADMIN_PAGE;
+            return PagePath.USER_PAGE;
         }
         MovieService movieService = new MovieService();
         //get uploaded photo if there was one
@@ -37,6 +37,6 @@ public class UpdateMovieCommand extends UploadPhoto implements ICommand{
             return PagePath.ERROR_PAGE;
         }
         request.setAttribute("movieUpdated", true);
-        return PagePath.ADMIN_PAGE;
+        return PagePath.USER_PAGE;
     }
 }

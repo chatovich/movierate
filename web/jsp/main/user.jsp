@@ -24,14 +24,14 @@
             <!-- http://lorempixel.com/850/280/people/9/ -->
         </div>
         <div class="useravatar">
-            <img alt="" src="http://lorempixel.com/100/100/people/9/">
+            <img alt="no photo" src="${pageContext.request.contextPath}${signedUser.photo}">
         </div>
         <div class="card-info"> <span class="card-title">admin</span>
 
         </div>
     </div>
 
-    <yul:menu role="${user.role}"/>
+    <yul:menu role="${signedUser.role}"/>
     <jsp:include page="${pageContext.request.contextPath}/${includeMenu}"/>
     <%--<c:import url="../fragment/admin_menu.jsp"/>--%>
 
@@ -53,11 +53,11 @@
         <%--</div>--%>
     <%--</div>--%>
 
-    <div class="well" align="center" >
+    <div class="well">
         <div class="tab-content">
-            <div class="tab-pane fade in active" id="add_movie" style="width: 600px" align="center">
+            <div class="tab-pane fade in active">
 
-                <div id="for-insert" align="center">
+                <div id="for-insert">
                     <c:if test="${genreAdded}">
                         <span class="admin-success"><fmt:message key="admin.genre.added"/> </span>
                     </c:if>

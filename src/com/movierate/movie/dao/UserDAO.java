@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface UserDAO {
 
-    List<User> findEntityByName(String name);
+    User findEntityByName(String name) throws DAOFailedException;
     boolean save(User user);
     User findUserByLogin(String login) throws DAOFailedException;
 }

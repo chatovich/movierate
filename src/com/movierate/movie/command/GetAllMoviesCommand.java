@@ -6,7 +6,6 @@ import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.service.MovieService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +28,6 @@ public class GetAllMoviesCommand implements ICommand {
         }
 
 //        return PagePath.ADMIN_MAIN_PAGE;
-        return PagePath.ADMIN_PAGE;
+        return PagePath.USER_PAGE;
     }
 }

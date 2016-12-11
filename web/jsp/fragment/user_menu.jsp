@@ -10,7 +10,7 @@
 
 <nav id="admin-nav">
     <ul id="navbar">
-        <li><a href="#"><fmt:message key="user.menu.info"/></a>
+        <li><a href="#" type="button" onclick="user_info()"><fmt:message key="user.menu.info"/></a>
 
         </li>
         <li><a href="#"><fmt:message key="user.menu.activity"/></a>

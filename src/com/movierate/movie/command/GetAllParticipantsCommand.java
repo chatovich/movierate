@@ -4,7 +4,6 @@ import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.entity.Participant;
 import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.service.ParticipantService;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,6 +29,6 @@ public class GetAllParticipantsCommand implements ICommand {
             return PagePath.ERROR_PAGE;
         }
 
-        return PagePath.ADMIN_PAGE;
+        return PagePath.USER_PAGE;
     }
 }

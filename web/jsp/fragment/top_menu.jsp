@@ -43,7 +43,7 @@
                 <a href="#">${signedUser.login}</a>
                 <ul>
                     <li>
-                        <a href="${pageContext.request.contextPath}/jsp/admin/admin.jsp"><fmt:message key="nav.profile"/></a>
+                        <a href="${pageContext.request.contextPath}/jsp/main/user.jsp"><fmt:message key="nav.profile"/></a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/controller?command=logout"><fmt:message key="nav.signout"/></a>

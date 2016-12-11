@@ -1,7 +1,6 @@
 package com.movierate.movie.command;
 
 import com.movierate.movie.constant.PagePath;
-import com.movierate.movie.dao.impl.ParticipantDAOImpl;
 import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.service.ParticipantService;
 import com.movierate.movie.util.Validation;
@@ -25,7 +24,7 @@ public class UpdateParticipantCommand implements ICommand {
         Map<String, String[]> parameters = request.getParameterMap();
         if (!Validation.checkEmptyFields(parameters).isEmpty()){
             request.setAttribute("emptyField", true);
-            return PagePath.ADMIN_PAGE;
+            return PagePath.USER_PAGE;
         }
         ParticipantService participantService = new ParticipantService();
         try {
@@ -34,6 +33,6 @@ public class UpdateParticipantCommand implements ICommand {
             LOGGER.log(Level.ERROR, e);
         }
         request.setAttribute("participantUpdated", true);
-        return PagePath.ADMIN_PAGE;
+        return PagePath.USER_PAGE;
     }
 }

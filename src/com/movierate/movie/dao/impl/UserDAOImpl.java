@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.omg.PortableInterceptor.USER_EXCEPTION;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,15 +23,16 @@ import java.util.List;
 public class UserDAOImpl implements UserDAO, DAO {
 
     public static final Logger LOGGER = LogManager.getLogger(UserDAOImpl.class);
-    public static final String SQL_FIND_USER_BY_LOGIN = "SELECT id_user,login,password,e_mail,points,photo,rating,isBanned,role FROM users WHERE login=?";
+    public static final String SQL_FIND_USER_BY_LOGIN = "SELECT id_user,login,password,e_mail,points,photo,rating,isBanned," +
+            "role, registr_date FROM users WHERE login=?";
     public static final String SQL_SAVE_USER = "INSERT into users (login, password, e_mail, registr_date, role, photo) " +
             "VALUES (?,?,?,?,?,?)";
     public static final String SQL_FIND_LOGIN_INFO = "SELECT id_user, login, password, role FROM users WHERE login=?";
 
 
     @Override
-    public List<User> findEntityByName (String login){
-        List<User> entityList = new ArrayList<>();
+    public User findEntityByName (String login) throws DAOFailedException {
+        User user = new User();
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection connection = null;
         PreparedStatement st = null;
@@ -39,10 +41,8 @@ public class UserDAOImpl implements UserDAO, DAO {
             st = connection.prepareStatement(SQL_FIND_USER_BY_LOGIN);
             st.setString(1,login);
             ResultSet rs = st.executeQuery();
-            //change to long1!!
             if (rs.next()) {
-                User user = new User();
-                user.setId(rs.getInt("id_user"));
+                user.setId(rs.getLong("id_user"));
                 user.setLogin(rs.getString("login"));
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("e_mail"));
@@ -53,22 +53,22 @@ public class UserDAOImpl implements UserDAO, DAO {
                 user.setBanned(rs.getInt("isBanned") != 0);
                 //when in db string instead of enum!!
                 user.setRole(Role.valueOf(rs.getString("role").toUpperCase()));
-                entityList.add(user);
+                user.setRegistrDate(LocalDate.parse(rs.getString("registr_date")));
             }
 
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Request failed "+e.getMessage());
+            throw new DAOFailedException("Impossible to find user in db: "+e.getMessage());
         } finally {
             close(st);
             pool.releaseConnection(connection);
         }
-        return entityList;
+        return user;
     }
 
     /**
      *
      * @param login user login that was entered during registration
-     * @return true if there is no such login in database and false if user with such login already exists
+     * @return user with given id
      */
     @Override
     public User findUserByLogin(String login) throws DAOFailedException {

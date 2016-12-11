@@ -48,6 +48,6 @@ public class UserService {
 
         String login = parameters.get("login")[0];
         UserDAOImpl userDAOImpl = new UserDAOImpl();
-        return userDAOImpl.findUserByLogin(login);
+        return userDAOImpl.findEntityByName(login);
     }
 }

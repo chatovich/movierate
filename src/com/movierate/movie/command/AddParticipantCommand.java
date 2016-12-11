@@ -2,7 +2,6 @@ package com.movierate.movie.command;
 
 import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.exception.DAOFailedException;
-import com.movierate.movie.service.GenreService;
 import com.movierate.movie.service.ParticipantService;
 import com.movierate.movie.util.Validation;
 import org.apache.logging.log4j.Level;
@@ -10,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
 import java.util.Map;
 
 /**
@@ -27,11 +25,11 @@ public class AddParticipantCommand implements ICommand {
         Map<String, String[]> parameters = request.getParameterMap();
         if (!Validation.checkEmptyFields(parameters).isEmpty()){
             request.setAttribute("emptyFields", true);
-            return PagePath.ADMIN_PAGE;
+            return PagePath.USER_PAGE;
         }
         if (participantService.checkParticipantExists(parameters)){
             request.setAttribute("participantExists",true);
-            return PagePath.ADMIN_PAGE;
+            return PagePath.USER_PAGE;
         }
 
         try{
@@ -43,6 +41,6 @@ public class AddParticipantCommand implements ICommand {
             request.setAttribute("participantAdded", false);
             return PagePath.ERROR_PAGE;
         }
-        return PagePath.ADMIN_PAGE;
+        return PagePath.USER_PAGE;
     }
 }
