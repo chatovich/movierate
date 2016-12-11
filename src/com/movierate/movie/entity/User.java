@@ -42,6 +42,11 @@ public class User extends Entity{
         this.photo = photo;
     }
 
+    public User(long id, String login) {
+        super(id);
+        this.login = login;
+    }
+
     public String getLogin() {
         return login;
     }

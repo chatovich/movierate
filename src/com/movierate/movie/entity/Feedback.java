@@ -15,8 +15,9 @@ public class Feedback extends Entity{
     private int likes;
     private LocalDate creatingDate;
     private FeedbackStatus status;
+    private int mark;
 
-    public Feedback(long id, Movie movie, User user, String text, int likes, LocalDate creatingDate, FeedbackStatus status) {
+    public Feedback(long id, Movie movie, User user, String text, int likes, LocalDate creatingDate, FeedbackStatus status, int mark) {
         super(id);
         this.movie = movie;
         this.user = user;
@@ -24,6 +25,7 @@ public class Feedback extends Entity{
         this.likes = likes;
         this.creatingDate = creatingDate;
         this.status = status;
+        this.mark = mark;
     }
 
     public Feedback(){
@@ -76,5 +78,13 @@ public class Feedback extends Entity{
 
     public void setStatus(FeedbackStatus status) {
         this.status = status;
+    }
+
+    public int getMark() {
+        return mark;
+    }
+
+    public void setMark(int mark) {
+        this.mark = mark;
     }
 }

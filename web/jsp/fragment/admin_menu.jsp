@@ -24,12 +24,7 @@
 
             </ul>
         </li>
-        <li><a href="#"><fmt:message key="admin.menu.users"/></a>
-            <ul>
-                <%--pagecontext works at both tomcat configuration options (/ and /movierate), without - only with/--%>
-                <li><a href="${pageContext.request.contextPath}/controller?command=get_all_users"><fmt:message key="nav.thriller"/></a></li>
-
-            </ul>
+        <li><a href="${pageContext.request.contextPath}/controller?command=get_new_feedbacks"><fmt:message key="admin.new.comments"/></a>
         </li>
     </ul>
 </nav>

@@ -13,6 +13,7 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <title>Movie rating</title>
     <link href="${pageContext.request.contextPath}/css/fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome-4.6.3/css/font-awesome.min.css">
     <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.js"></script>
     <script src="${pageContext.request.contextPath}/js/loadphoto.js"></script>
     <script src="${pageContext.request.contextPath}/js/admin.js"></script>
@@ -20,6 +21,7 @@
     <script src="${pageContext.request.contextPath}/js/validation.js"></script>
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/star_rating.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/maincarousel.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/login.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/movies_list.css" rel="stylesheet" />

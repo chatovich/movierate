@@ -1,5 +1,12 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html;charset=utf-8"  pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="yul" uri="/WEB-INF/tld/custom.tld" %>
+<%@ page session="true" %>
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="resource.locale" />
+
 <%--<%@ taglib prefix="ctg" uri="/WEB-INF/tld/custom.tld" %>--%>
 
 <!DOCTYPE html>
@@ -28,11 +35,11 @@
                     <div class="header-text hidden-xs">
                         <div class="col-md-12 text-center">
                             <h2>
-                                <span>Welcome to <strong style="font-family:Sofia;">MOVIERATE</strong></span>
+                                <span><fmt:message key="main.welcome"/> <strong style="font-family:Sofia;"><fmt:message key="main.movierate"/><yul:login/></strong></span>
                             </h2>
                             <br>
                             <h3>
-                                <span>Place where you can learn about movies and share opinions</span>
+                                <span><fmt:message key="main.first.image"/></span>
                             </h3>
 
                         </div>
@@ -44,11 +51,11 @@
                     <div class="header-text hidden-xs">
                         <div class="col-md-12 text-center">
                             <h2>
-                                <span>Easy movie search</span>
+                                <span><fmt:message key="main.second.image1"/></span>
                             </h2>
                             <br>
                             <h3>
-                                <span>Search movies by genre, country, release year</span>
+                                <span><fmt:message key="main.second.image2"/></span>
                             </h3>
                             <br>
                         </div>
@@ -60,11 +67,11 @@
                     <div class="header-text hidden-xs">
                         <div class="col-md-12 text-center">
                             <h2>
-                                <span>Be active!</span>
+                                <span><fmt:message key="main.third.image1"/></span>
                             </h2>
                             <br>
                             <h3>
-                                <span>Leave marks and feedbacks about movies, earn points and go to the cinema for free! </span>
+                                <span><fmt:message key="main.third.image2"/></span>
                             </h3>
                             <br>
                         </div>
@@ -76,12 +83,7 @@
         </div><!-- /carousel -->
     </div>
 </div>
-<c:if test="${userSignedIn}">
-    ${user.login}
-</c:if>
 <div style="width:100%; height:15px; clear:both;">.</div>
-
-
 
 </body>
 </html>

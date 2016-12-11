@@ -40,7 +40,7 @@
                 <a href="${pageContext.request.contextPath}/jsp/login/login.jsp"><fmt:message key="nav.login"/></a>
             </c:if>
             <c:if test="${userSignedIn}">
-                <a href="#">${user.login}</a>
+                <a href="#">${signedUser.login}</a>
                 <ul>
                     <li>
                         <a href="${pageContext.request.contextPath}/jsp/admin/admin.jsp"><fmt:message key="nav.profile"/></a>

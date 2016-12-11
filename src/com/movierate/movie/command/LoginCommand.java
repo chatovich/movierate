@@ -36,7 +36,7 @@ public class LoginCommand implements ICommand {
             if (Validation.loginInfoValid(user, parameters)){
                 HttpSession session = request.getSession(true);
                 session.setAttribute(Parameters.ATTR_USER_SIGNED_IN, true);
-                session.setAttribute(Parameters.USER, user);
+                session.setAttribute(Parameters.SIGNED_USER, user);
             } else {
                 request.setAttribute(Parameters.ATTR_LOGIN_FAILED, true);
                 return PagePath.LOGIN_PAGE;

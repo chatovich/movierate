@@ -8,12 +8,17 @@
     <short-name>yul</short-name>
     <uri>customtags</uri>
     <tag>
-        <name>login</name>
-        <tag-class>com.movierate.movie.tag.LoginTag</tag-class>
+        <name>menu</name>
+        <tag-class>com.movierate.movie.tag.SwitchMenuTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>role</name>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
+    </tag>
+    <tag>
+        <name>login</name>
+        <tag-class>com.movierate.movie.tag.LoginTag</tag-class>
+        <body-content>empty</body-content>
     </tag>
 </taglib>

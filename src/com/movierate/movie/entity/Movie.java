@@ -45,6 +45,11 @@ public class Movie extends Entity{
 
     public Movie (){}
 
+    public Movie(long id, String title) {
+        super(id);
+        this.title = title;
+    }
+
     public String getTitle() {
         return title;
     }

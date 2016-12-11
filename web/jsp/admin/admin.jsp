@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <yul:login role="${user.role}"/>
+    <yul:menu role="${user.role}"/>
     <jsp:include page="${pageContext.request.contextPath}/${includeMenu}"/>
     <%--<c:import url="../fragment/admin_menu.jsp"/>--%>
 

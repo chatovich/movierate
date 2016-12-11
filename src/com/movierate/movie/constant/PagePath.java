@@ -18,5 +18,6 @@ public class PagePath {
     public static final String ADMIN_PAGE = "jsp/admin/admin.jsp";
     public static final String ADMIN_MENU_PAGE = "jsp/fragment/admin_menu.jsp";
     public static final String USER_MENU_PAGE = "jsp/fragment/user_menu.jsp";
+    public static final String ADMIN_NEW_FEEDBACK_PAGE = "jsp/admin/new_feedbacks.jsp";
 
 }
