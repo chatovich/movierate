@@ -58,6 +58,15 @@
             <div class="tab-pane fade in active">
 
                 <div id="for-insert">
+                    <c:if test="${emptyFields}">
+                        <fmt:message key="admin.movie.empty.fields"/>
+                    </c:if>
+                    <c:if test="${userUpdated}">
+                    <span class="admin-success"><fmt:message key="user.updated"/></span>
+                    </c:if>
+                    <c:if test="${loginFailed}">
+                        <fmt:message key="user.wrong.password"/>
+                    </c:if>
                     <c:if test="${genreAdded}">
                         <span class="admin-success"><fmt:message key="admin.genre.added"/> </span>
                     </c:if>
@@ -124,6 +133,10 @@
 </div>
 
 <c:import url="../fragment/right_block.jsp"/>
+<script>
+    <%@include file="../../js/validation.js"%>
+    <%--<c:import url="../../js/add_input.js"/>--%>
+</script>
 
 </body>
 </html>

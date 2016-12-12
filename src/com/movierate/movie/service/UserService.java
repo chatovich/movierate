@@ -1,5 +1,6 @@
 package com.movierate.movie.service;
 
+import com.movierate.movie.dao.impl.FeedbackDAOImpl;
 import com.movierate.movie.dao.impl.UserDAOImpl;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.exception.DAOFailedException;
@@ -44,10 +45,43 @@ public class UserService {
         return user.getLogin()==null;
     }
 
+    public User getUser(Map<String, String[]> parameters) throws DAOFailedException {
+
+        String login = parameters.get("login")[0];
+        UserDAOImpl userDAOImpl = new UserDAOImpl();
+        FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
+        User user = userDAOImpl.findEntityByName(login);
+        user.setUserFeedbacks(feedbackDAO.findFeedbacksByUserId(user.getId()));
+        return user;
+    }
+
     public User getLoginInfo (Map<String, String[]> parameters) throws DAOFailedException {
 
         String login = parameters.get("login")[0];
         UserDAOImpl userDAOImpl = new UserDAOImpl();
-        return userDAOImpl.findEntityByName(login);
+        return userDAOImpl.findUserByLogin(login);
+    }
+
+    public void updateUser (Map<String, String[]> parameters, String path) throws DAOFailedException {
+
+        String email = "";
+        String password = "";
+        String login = "";
+        for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+            switch (entry.getKey()){
+                case "email": email = entry.getValue()[0];
+                    break;
+                case "login": login = entry.getValue()[0];
+                case "password": if (password.isEmpty()){
+                    password = entry.getValue()[0];}
+                    break;
+                case "new_password": if (!entry.getValue()[0].isEmpty()){
+                    password = entry.getValue()[0];}
+                    break;
+            }
+        }
+        UserDAOImpl userDAO = new UserDAOImpl();
+        userDAO.updateUser(login, email, PasswordHash.getHashPassword(password), path);
+
     }
 }

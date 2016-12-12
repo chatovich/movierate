@@ -13,7 +13,7 @@
         <li><a href="#" type="button" onclick="user_info()"><fmt:message key="user.menu.info"/></a>
 
         </li>
-        <li><a href="#"><fmt:message key="user.menu.activity"/></a>
+        <li><a href="${pageContext.request.contextPath}/controller?command=get_info_for_user_rating"><fmt:message key="user.menu.activity"/></a>
 
         </li>
         <li><a href="#"><fmt:message key="nav.cinema"/></a>

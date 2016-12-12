@@ -29,7 +29,7 @@ public class UpdateMovieCommand extends UploadPhoto implements ICommand{
         }
         MovieService movieService = new MovieService();
         //get uploaded photo if there was one
-        String path = uploadFile(request, Parameters.POSTER_FILE_PATH, Parameters.PARAM_POSTER);
+        String path = uploadFile(request, Parameters.POSTER_FILE_PATH, Parameters.POSTER);
         try {
             movieService.createMovie(parameters,path);
         } catch (DAOFailedException e) {

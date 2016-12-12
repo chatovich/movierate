@@ -12,7 +12,9 @@ public class Parameters {
     public final static String ID_MOVIE = "id_movie";
     public final static String ID_FEEDBACK = "id_feedback";
     public static final String POSTER_FILE_PATH = "/img/poster";
-    public static final String PARAM_POSTER = "poster";
+    public static final String PHOTO_FILE_PATH = "/img/photo";
+    public static final String POSTER = "poster";
+    public static final String PHOTO = "photo";
     public static final String PARAM_TITLE = "title";
     public static final String ATTR_EMPTY_FIELDS = "emptyFields";
     public static final String ATTR_USER_SIGNED_IN = "userSignedIn";
@@ -27,4 +29,6 @@ public class Parameters {
     public static final String SHOW_FEEDBACK = "showFeedback";
     public static final String FEEDBACK_ACTION = "feedback_action";
     public static final String STATUS_UPDATED = "statusUpdated";
+    public static final String NEW_PASSWORD = "new_password";
+    public static final String USER_UPDATED = "userUpdated";
 }

@@ -12,8 +12,10 @@ import java.util.List;
 public interface FeedbackDAO {
 
     boolean save(Feedback feedback);
-    List <Feedback> findFeedbacksByMovieId (int id);
+    List <Feedback> findFeedbacksByMovieId (long id);
     List<Feedback> findFeedbacksByStatus (String status) throws DAOFailedException;
     Feedback findEntityById (long id) throws DAOFailedException;
     void updateFeedbackStatus (boolean isAccepted, long id) throws DAOFailedException;
+    List <Feedback> findFeedbacksByUserId (long id) throws DAOFailedException;
+
 }

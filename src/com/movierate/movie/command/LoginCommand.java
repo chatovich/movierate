@@ -2,7 +2,6 @@ package com.movierate.movie.command;
 
 import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.constant.Parameters;
-import com.movierate.movie.dao.impl.UserDAOImpl;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.service.UserService;
@@ -32,7 +31,7 @@ public class LoginCommand implements ICommand {
         }
         UserService userService = new UserService();
         try {
-            User user = userService.getLoginInfo(parameters);
+            User user = userService.getUser(parameters);
             if (Validation.loginInfoValid(user, parameters)){
                 HttpSession session = request.getSession(true);
                 session.setAttribute(Parameters.ATTR_USER_SIGNED_IN, true);

@@ -13,4 +13,5 @@ public interface UserDAO {
     User findEntityByName(String name) throws DAOFailedException;
     boolean save(User user);
     User findUserByLogin(String login) throws DAOFailedException;
+    void updateUser (String login, String email, String password, String path) throws DAOFailedException;
 }

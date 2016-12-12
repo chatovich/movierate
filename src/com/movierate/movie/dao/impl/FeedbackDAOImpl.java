@@ -28,6 +28,8 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
 
     public static final Logger LOGGER = LogManager.getLogger(MarkDAOImpl.class);
     public static final String SQL_UPDATE_FEEDBACK_STATUS = "UPDATE feedbacks SET status=? WHERE id_feedback=?";
+    public static final String SQL_FIND_FEEDBACKS_OF_USER = "SELECT id_feedback, text,mark, likes, creating_date, status," +
+            "movies.id_movie, movies.title FROM feedbacks JOIN movies ON movies.id_movie=feedbacks.to_movie WHERE from_user=?";
     public static final String SQL_FIND_FEEDBACKS_OF_MOVIE = "SELECT id_feedback, text, from_user, likes, creating_date, status," +
             " users.login, users.photo FROM feedbacks JOIN users ON from_user=id_user WHERE to_movie=?;";
     public static final String SQL_FIND_FEEDBACK_BY_ID = "SELECT id_feedback, text, from_user, to_movie, likes, creating_date, status," +
@@ -44,7 +46,7 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
      * @return list containing feedbacks of the movie
      */
     @Override
-    public List <Feedback> findFeedbacksByMovieId(int id) {
+    public List <Feedback> findFeedbacksByMovieId(long id) {
         List<Feedback> feedbacksList = new ArrayList<>();
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         ProxyConnection connection = null;
@@ -53,7 +55,7 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
         try  {
             connection = connectionPool.takeConnection();
             st = connection.prepareStatement(SQL_FIND_FEEDBACKS_OF_MOVIE);
-            st.setInt(1, id);
+            st.setLong(1, id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Feedback feedback = new Feedback();
@@ -186,5 +188,38 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
             close(st);
             connectionPool.releaseConnection(connection);
         }
+    }
+
+    @Override
+    public List<Feedback> findFeedbacksByUserId(long id) throws DAOFailedException {
+        List<Feedback> feedbacksList = new ArrayList<>();
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement st = null;
+
+        try  {
+            connection = connectionPool.takeConnection();
+            st = connection.prepareStatement(SQL_FIND_FEEDBACKS_OF_USER);
+            st.setLong(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Feedback feedback = new Feedback();
+                feedback.setId(rs.getInt("id_feedback"));
+                feedback.setText(rs.getString("text"));
+                feedback.setLikes(rs.getInt("likes"));
+                feedback.setMark(rs.getInt("mark"));
+                feedback.setStatus(FeedbackStatus.valueOf((rs.getString("status")).toUpperCase()));
+                feedback.setCreatingDate(LocalDate.parse(rs.getString("creating_date")));
+                feedback.setUser(new User(id));
+                feedback.setMovie(new Movie(rs.getLong("id_movie"), rs.getString("title")));
+                feedbacksList.add(feedback);
+            }
+        } catch (SQLException e) {
+            throw new DAOFailedException("Impossible to get feedbacks: "+e.getMessage());
+        } finally {
+            close(st);
+            connectionPool.releaseConnection(connection);
+        }
+        return feedbacksList;
     }
 }

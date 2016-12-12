@@ -24,6 +24,7 @@ public enum CommandType {
     GET_NEW_FEEDBACKS (new GetNewFeedbacksCommand()),
     GET_FEEDBACK (new GetFeedbackCommand()),
     ACCEPT_FEEDBACK (new AcceptFeedbackCommand()),
+    EDIT_USER_INFO (new EditUserInfoCommand()),
     GET_INFO_FOR_MOVIE_ADDING(new GetInfoForMovieAddingCommand());
 
     private ICommand command;

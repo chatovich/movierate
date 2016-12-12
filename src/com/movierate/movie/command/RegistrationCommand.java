@@ -1,6 +1,7 @@
 package com.movierate.movie.command;
 
 import com.movierate.movie.constant.PagePath;
+import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.dao.impl.UserDAOImpl;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.exception.DAOFailedException;
@@ -26,9 +27,9 @@ public class RegistrationCommand extends UploadPhoto implements ICommand {
     private static final String ATTR_REGISTR_FAILED = "registrFailed";
     private static final String ATTR_PASSWORDS_NO_MATCH = "passwordsNoMatch";
     private static final String PARAM_USERNAME = "username";
-    private static final String PARAM_PHOTO = "photo";
+
     private static final String ATTR_LOGIN_EXISTS = "loginExists";
-    private static final String FILE_PATH = "/img/photo";
+
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -58,7 +59,7 @@ public class RegistrationCommand extends UploadPhoto implements ICommand {
         }
 
         //get uploaded photo if there was one
-        String path = uploadFile(request, FILE_PATH, PARAM_PHOTO);
+        String path = uploadFile(request, Parameters.PHOTO_FILE_PATH, Parameters.PHOTO);
         boolean isCreated = userService.createUser(parameters,path);
 //        request.setAttribute("registrFailed", false);
 //        return "jsp/main/main.jsp";

@@ -28,6 +28,8 @@ public class UserDAOImpl implements UserDAO, DAO {
     public static final String SQL_SAVE_USER = "INSERT into users (login, password, e_mail, registr_date, role, photo) " +
             "VALUES (?,?,?,?,?,?)";
     public static final String SQL_FIND_LOGIN_INFO = "SELECT id_user, login, password, role FROM users WHERE login=?";
+    public static final String SQL_UPDATE_USER_ = "UPDATE users SET e_mail=?,password=? WHERE login=?";
+    public static final String SQL_UPDATE_USER_WITH_PHOTO = "UPDATE users SET e_mail=?,password=?, photo=? WHERE login=?";
 
 
     @Override
@@ -123,5 +125,32 @@ public class UserDAOImpl implements UserDAO, DAO {
         }
         return isCreated;
 
+    }
+
+    @Override
+    public void updateUser(String login, String email, String password, String path) throws DAOFailedException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement st = null;
+        try {
+            connection = pool.takeConnection();
+            if (path==null){
+                st = connection.prepareStatement(SQL_UPDATE_USER_);
+                st.setString(3,login);
+            } else {
+                st = connection.prepareStatement(SQL_UPDATE_USER_WITH_PHOTO);
+                st.setString(3,path);
+                st.setString(4,login);
+            }
+            st.setString(1, email);
+            st.setString(2, password);
+
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOFailedException("Impossible to update user: "+e.getMessage());
+        } finally {
+            close(st);
+            pool.releaseConnection(connection);
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.movierate.movie.entity;
 import com.movierate.movie.type.Role;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Created by Yultos_ on 27.11.2016
@@ -18,12 +19,13 @@ public class User extends Entity{
     private LocalDate registrDate;
     private boolean isBanned;
     private double rating;
+    private List<Feedback> userFeedbacks;
 
     public User() {
     }
 
     public User(long id, String login, String password, String email, Role role, int points, String photo,
-                LocalDate registrDate, boolean isBanned, double rating) {
+                LocalDate registrDate, boolean isBanned, double rating, List<Feedback> userFeedbacks) {
         super(id);
         this.login = login;
         this.password = password;
@@ -34,6 +36,7 @@ public class User extends Entity{
         this.registrDate = registrDate;
         this.isBanned = isBanned;
         this.rating = rating;
+        this.userFeedbacks = userFeedbacks;
     }
 
     public User(long id, String login, String photo) {
@@ -45,6 +48,10 @@ public class User extends Entity{
     public User(long id, String login) {
         super(id);
         this.login = login;
+    }
+
+    public User(long id) {
+        super(id);
     }
 
     public String getLogin() {
@@ -120,6 +127,13 @@ public class User extends Entity{
         this.rating = rating;
     }
 
+    public List<Feedback> getUserFeedbacks() {
+        return userFeedbacks;
+    }
+
+    public void setUserFeedbacks(List<Feedback> userFeedbacks) {
+        this.userFeedbacks = userFeedbacks;
+    }
 
     @Override
     public String toString() {

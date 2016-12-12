@@ -99,15 +99,22 @@ function add_actor(obj)
 
     function edit_user_info(){
         document.getElementById('for-insert').innerHTML='<div style="text-align:center">' +
-            '<form action="/controller" role="form" method="post" name="edit_user_info">' +
+            '<form onsubmit="return validateEditForm()" action="/controller" enctype="multipart/form-data" role="form" method="post" name="edit_user_info">' +
             '<input type="hidden" name="command" value="edit_user_info">' +
-            '<div class="form-group"><span class="star">* </span><input type="text" name="email" style="width: 300px; color: black;display: inline" class="form-control" required placeholder="${signedUser.email}"></div>' +
-            '<div class="form-group"><span class="star">* </span><input type="password" name="oldPassword" style="width: 300px; color: black;display: inline" class="form-control" required placeholder="<fmt:message key="user.old.password"/>"></div>' +
-            '<div class="form-group"><input type="password" name="newPassword" style="width: 300px; color: black;display: inline" class="form-control" required placeholder="<fmt:message key="user.new.password"/>"></div>' +
-            '<div class="form-group"><input type="password" name="confirmPassword" style="width: 300px; color: black;display: inline" class="form-control" required placeholder="<fmt:message key="user.confirmnew.password"/>"></div>' +
-            '<div class="form-group"><input value="${signedUser}" class="form-control" type="file" name="photo" style="width:300px;display:inline"></div>'+
+            '<input type="hidden" name="login" value="${signedUser.login}">' +
+
+            '<span style="color: red" id="error_email"></span>'+
+            '<div class="form-group"><span class="star">* </span><input type="text" name="email" value="${signedUser.email}" style="width: 300px; color: black;display: inline" class="form-control" required placeholder="${signedUser.email}"></div>' +
+
+            '<div class="form-group"><span class="star">* </span><input type="password" name="password" style="width: 300px; color: black;display: inline" class="form-control" required placeholder="<fmt:message key="user.old.password"/>"></div>' +
+            '<span style="color: red" id="error_password1"></span>'+
+            '<div class="form-group"><input type="password" name="new_password" id="new_password" style="width: 300px; color: black;display: inline" class="form-control" placeholder="<fmt:message key="user.new.password"/>"></div>' +
+            '<span style="color: red" id="error_password2"></span>'+
+            '<div class="form-group"><input type="password" name="confirm_password" id="confirm_password" style="width: 300px; color: black;display: inline" class="form-control" placeholder="<fmt:message key="user.confirmnew.password"/>"></div>' +
+
+            '<div class="form-group"><input class="form-control" type="file" name="photo" style="width:300px;display:inline"></div>'+
             '<span id="oblig_field">*  <fmt:message key="obligatory.field"/></span><br>'+
-            '<div class="form-group"><button class="btn btn-primary" style="margin-top:10px"><fmt:message key="admin.add.movie.submit"/></button></div></form></div>';
+            '<div class="form-group"><input type="submit" class="btn btn-primary" value="<fmt:message key="admin.add.movie.submit"/>" style="margin-top:10px"></input></div></form></div>';
     }
 
 

@@ -9,7 +9,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern = "${pattern}"/>
         </Console>
-        <RollingFile name = "File" fileName = "logs/log.txt" append = "true"
+        <RollingFile name = "File" fileName = "d:/mine/movierate/logs/log.txt" append = "true"
                      filePattern = "logs/$${dd.MM.yyyy}/log-%d{dd.MM.yyyy-HH}.txt">
             <PatternLayout pattern = "${pattern}"/>
             <Policies>
