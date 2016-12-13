@@ -23,12 +23,15 @@
             <img class="card-bkimg" alt="" src="http://lorempixel.com/100/100/people/9/">
             <!-- http://lorempixel.com/850/280/people/9/ -->
         </div>
-        <div class="useravatar">
-            <img alt="no photo" src="${pageContext.request.contextPath}${signedUser.photo}">
-        </div>
-        <div class="card-info"> <span class="card-title">admin</span>
+        <c:if test="${showAnotherUser}">
+            <div class="useravatar"><img alt="no photo" src="${pageContext.request.contextPath}${anotherUser.photo}"></div>
+            <div class="card-info"> <span class="card-title">${anotherUser.login}</span></div>
+        </c:if>
+        <c:if test="${!showAnotherUser}">
+            <div class="useravatar"><img alt="no photo" src="${pageContext.request.contextPath}${signedUser.photo}"></div>
+            <div class="card-info"> <span class="card-title">${signedUser.login}</span></div>
+        </c:if>
 
-        </div>
     </div>
 
     <yul:menu role="${signedUser.role}"/>

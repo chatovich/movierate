@@ -15,20 +15,18 @@ import java.util.List;
  */
 public class FeedbackService {
 
-    public boolean createFeedback (User user, long id_movie, String text){
+    public void createFeedback (User user, long id_movie, String text, int mark) throws DAOFailedException {
 
-        boolean isCreated = false;
         Feedback feedback = new Feedback();
         Movie movie = new Movie();
         movie.setId(id_movie);
         feedback.setMovie(movie);
         feedback.setUser(user);
         feedback.setText(text);
+        feedback.setMark(mark);
         feedback.setCreatingDate(LocalDate.now());
         FeedbackDAOImpl feedbackDAOImpl = new FeedbackDAOImpl();
-        isCreated = feedbackDAOImpl.save(feedback);
-        return isCreated;
-
+        feedbackDAOImpl.save(feedback);
     }
 
     public List<Feedback> getFeedbacksByStatus(String status) throws DAOFailedException {

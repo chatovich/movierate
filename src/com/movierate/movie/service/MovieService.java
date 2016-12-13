@@ -30,13 +30,13 @@ public class MovieService {
             GenreDAOImpl genreDAOImpl = new GenreDAOImpl();
             CountryDAOImpl countryDAOImpl = new CountryDAOImpl();
             ParticipantDAOImpl participantDAOImpl = new ParticipantDAOImpl();
-            MarkDAOImpl markDAOImpl = new MarkDAOImpl();
+//            MarkDAOImpl markDAOImpl = new MarkDAOImpl();
             FeedbackDAOImpl feedbackDAOImpl = new FeedbackDAOImpl();
 
             movie.setMovieGenres(genreDAOImpl.findGenresByMovieId(id));
             movie.setMovieCountries(countryDAOImpl.findCountriesByMovieId(id));
             movie.setMovieParticipants(participantDAOImpl.findParticipantsByMovieId(id));
-            movie.setMovieMarks(markDAOImpl.findMarksByMovieId(id));
+//            movie.setMovieMarks(markDAOImpl.findMarksByMovieId(id));
             movie.setMovieFeedbacks(feedbackDAOImpl.findFeedbacksByMovieId(id));
         }
 

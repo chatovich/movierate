@@ -64,25 +64,25 @@
             <p style="margin-top: 20px"><textarea id="feedback-textarea" name="feedback" rows="5" cols="50" placeholder=<fmt:message key="movie.write.comment"/>></textarea></p>
             <div class="star-rating">
                 <div class="star-rating__wrap">
-                    <input class="star-rating__input" id="star-rating-10" type="radio" name="rating" value="10">
+                    <input class="star-rating__input" id="star-rating-10" type="radio" name="mark" value="10">
                     <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-10" title="10 out of 10 stars"></label>
-                    <input class="star-rating__input" id="star-rating-9" type="radio" name="rating" value="9">
+                    <input class="star-rating__input" id="star-rating-9" type="radio" name="mark" value="9">
                     <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-9" title="9 out of 10 stars"></label>
-                    <input class="star-rating__input" id="star-rating-8" type="radio" name="rating" value="8">
+                    <input class="star-rating__input" id="star-rating-8" type="radio" name="mark" value="8">
                     <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-8" title="8 out of 10 stars"></label>
-                    <input class="star-rating__input" id="star-rating-7" type="radio" name="rating" value="7">
+                    <input class="star-rating__input" id="star-rating-7" type="radio" name="mark" value="7">
                     <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-7" title="7 out of 10 stars"></label>
-                    <input class="star-rating__input" id="star-rating-6" type="radio" name="rating" value="6">
+                    <input class="star-rating__input" id="star-rating-6" type="radio" name="mark" value="6">
                     <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-6" title="6 out of 10 stars"></label>
-                    <input class="star-rating__input" id="star-rating-5" type="radio" name="rating" value="5">
+                    <input class="star-rating__input" id="star-rating-5" type="radio" name="mark" value="5">
                     <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-5" title="5 out of 10 stars"></label>
-                    <input class="star-rating__input" id="star-rating-4" type="radio" name="rating" value="4">
+                    <input class="star-rating__input" id="star-rating-4" type="radio" name="mark" value="4">
                     <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-4" title="4 out of 10 stars"></label>
-                    <input class="star-rating__input" id="star-rating-3" type="radio" name="rating" value="3">
+                    <input class="star-rating__input" id="star-rating-3" type="radio" name="mark" value="3">
                     <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-3" title="3 out of 10 stars"></label>
-                    <input class="star-rating__input" id="star-rating-2" type="radio" name="rating" value="2">
+                    <input class="star-rating__input" id="star-rating-2" type="radio" name="mark" value="2">
                     <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-2" title="2 out of 10 stars"></label>
-                    <input class="star-rating__input" id="star-rating-1" type="radio" name="rating" value="1">
+                    <input class="star-rating__input" id="star-rating-1" type="radio" name="mark" value="1">
                     <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-1" title="1 out of 10 stars"></label>
 
                 </div>
@@ -95,7 +95,7 @@
             <c:if test="${feedback.status eq 'PUBLISHED'}">
             <hr>
             <img id="user-icon" src="${pageContext.request.contextPath}${feedback.user.photo}" alt="img" border="0" height="90px" width="90px">
-            <span style="color: #ff8900"><b>${feedback.user.login}</b></span>
+            <span style="color: #ff8900"><b><a href="${pageContext.request.contextPath}/controller?command=get_another_user_page&login=${feedback.user.login}">${feedback.user.login}</a></b></span>
             <br>
             <span>${feedback.creatingDate}</span>
             <br>

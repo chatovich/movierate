@@ -1,5 +1,6 @@
 package com.movierate.movie.dao;
 
+import com.movierate.movie.entity.Feedback;
 import com.movierate.movie.entity.Movie;
 import com.movierate.movie.exception.DAOFailedException;
 
@@ -16,4 +17,5 @@ public interface MovieDAO {
     boolean checkMovieExists (String title);
     List<Movie> findAll() throws DAOFailedException;
     Movie findEntityById(long id) throws DAOFailedException;
+    List<Movie> findMoviesByDynamicId(List<Feedback> feedbacks) throws DAOFailedException;
 }

@@ -10,15 +10,15 @@
 
 <nav id="admin-nav">
     <ul id="navbar">
-        <li><a href="#" type="button" onclick="user_info()"><fmt:message key="user.menu.info"/></a>
-
-        </li>
-        <li><a href="${pageContext.request.contextPath}/controller?command=get_info_for_user_rating"><fmt:message key="user.menu.activity"/></a>
-
-        </li>
-        <li><a href="#"><fmt:message key="nav.cinema"/></a>
-
-        </li>
+        <c:if test="${showAnotherUser}">
+            <li><a href="#" type="button" onclick="another_user_info()"><fmt:message key="user.menu.info"/></a></li>
+            <li><a href="${pageContext.request.contextPath}/controller?command=get_info_for_user_rating&id=${anotherUser.id}"><fmt:message key="user.menu.activity"/></a></li>
+        </c:if>
+        <c:if test="${!showAnotherUser}">
+            <li><a href="#" type="button" onclick="signed_user_info()"><fmt:message key="user.menu.info"/></a></li>
+            <li><a href="${pageContext.request.contextPath}/controller?command=get_info_for_user_rating&id=${signedUser.id}"><fmt:message key="user.menu.activity"/></a></li>
+            <li><a href="#"><fmt:message key="nav.cinema"/></a></li>
+        </c:if>
     </ul>
 </nav>
 

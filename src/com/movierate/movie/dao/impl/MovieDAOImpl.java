@@ -320,4 +320,46 @@ public class MovieDAOImpl implements MovieDAO, DAO {
             close(st);
         }
     }
+
+    @Override
+    public List<Movie> findMoviesByDynamicId(List<Feedback> feedbacks) throws DAOFailedException {
+        List <Movie> movies = new ArrayList<>();
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement st = null;
+        try {
+            connection = connectionPool.takeConnection();
+            st = connection.prepareStatement(buildQuery(feedbacks.size()));
+            for (int i = 0; i < feedbacks.size(); i++) {
+                st.setLong(i+1, feedbacks.get(i).getMovie().getId());
+            }
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Movie movie = new Movie();
+                movie.setId(rs.getLong("id_movie"));
+                movie.setTitle(rs.getString("title"));
+                movie.setRating(rs.getDouble("rating"));
+                movies.add(movie);
+            }
+        } catch (SQLException e) {
+            throw new DAOFailedException("Finding movies by dynamic id failed: "+e.getMessage());
+        } finally {
+            close(st);
+            connectionPool.releaseConnection(connection);
+        }
+        return movies;
+    }
+
+    private String buildQuery(int size){
+        String query = "SELECT id_movie, title, rating FROM movies WHERE id_movie IN (";
+        StringBuilder sb = new StringBuilder(query);
+        for (int i = 0; i < size; i++) {
+            sb.append("?");
+            if (i!=(size-1)){
+                sb.append(",");
+            }
+        }
+        sb.append(")");
+        return sb.toString();
+    }
 }

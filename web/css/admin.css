@@ -118,3 +118,8 @@
     width: 400px;
     margin: 20px;
 }
+
+#user-rating {
+    color: #8d1100;
+    font-size: 16px;
+}

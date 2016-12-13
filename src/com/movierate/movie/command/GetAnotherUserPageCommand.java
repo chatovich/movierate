@@ -10,28 +10,28 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
- * gets movies which were commented by signed user
+ * gets the page of another user (who is not signed in)
  */
-public class GetInfoForUserRatingCommand implements ICommand {
+public class GetAnotherUserPageCommand implements ICommand {
 
-    public static final Logger LOGGER = LogManager.getLogger(GetInfoForUserRatingCommand.class);
+    public static final Logger LOGGER = LogManager.getLogger(GetAnotherUserPageCommand.class);
     @Override
     public String execute(HttpServletRequest request) {
-        String id = request.getParameter(Parameters.ID_USER);
-        User signedUser = (User)request.getSession().getAttribute(Parameters.SIGNED_USER);
-        if (Long.parseLong(id)!=signedUser.getId()){
-            request.setAttribute(Parameters.SHOW_ANOTHER_USER, true);
-        }
+
+        String login = request.getParameter(Parameters.LOGIN);
+        HttpSession session = request.getSession(true);
         UserService userService = new UserService();
         try {
-            Double rating = userService.calcUserRating(id);
-            request.setAttribute(Parameters.USER_RATING, rating);
+            User user = userService.getUser(login);
+            session.setAttribute(Parameters.ANOTHER_USER, user);
+            request.setAttribute(Parameters.SHOW_ANOTHER_USER, true);
         } catch (DAOFailedException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;
         }
-        return PagePath.USER_ACTIVITY_PAGE;
+        return PagePath.USER_PAGE;
     }
 }

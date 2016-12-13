@@ -31,7 +31,7 @@ public class LoginCommand implements ICommand {
         }
         UserService userService = new UserService();
         try {
-            User user = userService.getUser(parameters);
+            User user = userService.getUser(parameters.get(Parameters.LOGIN)[0]);
             if (Validation.loginInfoValid(user, parameters)){
                 HttpSession session = request.getSession(true);
                 session.setAttribute(Parameters.ATTR_USER_SIGNED_IN, true);

@@ -31,4 +31,10 @@ public class Parameters {
     public static final String STATUS_UPDATED = "statusUpdated";
     public static final String NEW_PASSWORD = "new_password";
     public static final String USER_UPDATED = "userUpdated";
+    public static final String LOGIN = "login";
+    public static final String ID_USER = "id";
+    public static final String USER_RATING = "userRating";
+    public static final String MOVIE_MARK = "mark";
+    public static final String ANOTHER_USER = "anotherUser";
+    public static final String SHOW_ANOTHER_USER = "showAnotherUser";
 }

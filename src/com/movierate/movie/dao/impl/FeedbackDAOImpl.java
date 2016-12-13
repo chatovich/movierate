@@ -30,6 +30,8 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
     public static final String SQL_UPDATE_FEEDBACK_STATUS = "UPDATE feedbacks SET status=? WHERE id_feedback=?";
     public static final String SQL_FIND_FEEDBACKS_OF_USER = "SELECT id_feedback, text,mark, likes, creating_date, status," +
             "movies.id_movie, movies.title FROM feedbacks JOIN movies ON movies.id_movie=feedbacks.to_movie WHERE from_user=?";
+    public static final String SQL_FIND_MARKS_OF_USER = "SELECT id_feedback, mark, movies.id_movie, movies.title FROM feedbacks " +
+            "JOIN movies ON movies.id_movie=feedbacks.to_movie WHERE from_user=?";
     public static final String SQL_FIND_FEEDBACKS_OF_MOVIE = "SELECT id_feedback, text, from_user, likes, creating_date, status," +
             " users.login, users.photo FROM feedbacks JOIN users ON from_user=id_user WHERE to_movie=?;";
     public static final String SQL_FIND_FEEDBACK_BY_ID = "SELECT id_feedback, text, from_user, to_movie, likes, creating_date, status," +
@@ -37,7 +39,7 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
     public static final String SQL_FIND_ALL_FEEDBACKS = "SELECT id_feedback, from_user, to_movie FROM feedbacks";
     public static final String SQL_FIND_FEEDBACKS_BY_STATUS = "SELECT id_feedback, from_user, to_movie, movies.title, creating_date, users.login, " +
             "movies.title FROM feedbacks JOIN users ON from_user=id_user JOIN movies ON to_movie=id_movie WHERE status=?";
-    public static final String SQL_SAVE_FEEDBACK = "INSERT INTO feedbacks (text,from_user,to_movie, creating_date) VALUES (?,?,?,?)";
+    public static final String SQL_SAVE_FEEDBACK = "INSERT INTO feedbacks (text,from_user,to_movie, creating_date, mark) VALUES (?,?,?,?,?)";
 
 
     /**
@@ -82,8 +84,7 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
      * @return true if feedback was added to db successfully, false if not
      */
     @Override
-    public boolean save(Feedback feedback) {
-        boolean isCreated = false;
+    public void save(Feedback feedback) throws DAOFailedException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         ProxyConnection connection = null;
         PreparedStatement st = null;
@@ -94,17 +95,14 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
             st.setLong(2, feedback.getUser().getId());
             st.setLong(3, feedback.getMovie().getId());
             st.setString(4, feedback.getCreatingDate().toString());
-            if (st.executeUpdate()>0){
-                isCreated = true;
-            }
+            st.setInt(5, feedback.getMark());
+            st.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
+            throw new DAOFailedException("Impossible to save feedback into db: "+e.getMessage());
         } finally {
             close(st);
             connectionPool.releaseConnection(connection);
         }
-
-        return isCreated;
     }
 
     @Override
@@ -211,6 +209,33 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
                 feedback.setStatus(FeedbackStatus.valueOf((rs.getString("status")).toUpperCase()));
                 feedback.setCreatingDate(LocalDate.parse(rs.getString("creating_date")));
                 feedback.setUser(new User(id));
+                feedback.setMovie(new Movie(rs.getLong("id_movie"), rs.getString("title")));
+                feedbacksList.add(feedback);
+            }
+        } catch (SQLException e) {
+            throw new DAOFailedException("Impossible to get feedbacks: "+e.getMessage());
+        } finally {
+            close(st);
+            connectionPool.releaseConnection(connection);
+        }
+        return feedbacksList;
+    }
+
+    @Override
+    public List<Feedback> findUserMarks(long id) throws DAOFailedException {
+        List<Feedback> feedbacksList = new ArrayList<>();
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement st = null;
+        try  {
+            connection = connectionPool.takeConnection();
+            st = connection.prepareStatement(SQL_FIND_MARKS_OF_USER);
+            st.setLong(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Feedback feedback = new Feedback();
+                feedback.setId(rs.getInt("id_feedback"));
+                feedback.setMark(rs.getInt("mark"));
                 feedback.setMovie(new Movie(rs.getLong("id_movie"), rs.getString("title")));
                 feedbacksList.add(feedback);
             }

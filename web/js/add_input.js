@@ -89,12 +89,16 @@ function add_actor(obj)
             '<div><button class="btn btn-primary"><fmt:message key="admin.add.movie.submit"/></button></div></form>';
     }
 
-    function user_info(){
+    function signed_user_info(){
         document.getElementById('for-insert').innerHTML='<div><img src="${pageContext.request.contextPath}${signedUser.photo}" width="200px" height="200px">' +
-            '</div><b><p style="font-size: 18px">${signedUser.login}</p></b>' +
-            '<p><fmt:message key="user.since"/> ${signedUser.registrDate}</p><c:if test="${!anotherUser}">' +
+            '</div><b><p style="font-size: 18px">${signedUser.login}</p></b><p><fmt:message key="user.since"/> ${signedUser.registrDate}</p>' +
             '<p>${signedUser.email}</p></p><p align="right"><input type="button" value="<fmt:message key="user.info.edit"/>" onclick="edit_user_info()">' +
-            '</p></c:if>';
+            '</p>';
+    }
+
+    function another_user_info(){
+        document.getElementById('for-insert').innerHTML='<div><img src="${pageContext.request.contextPath}${anotherUser.photo}" width="200px" height="200px">' +
+            '</div><b><p style="font-size: 18px">${anotherUser.login}</p></b><p><fmt:message key="user.since"/> ${anotherUser.registrDate}</p>';
     }
 
     function edit_user_info(){

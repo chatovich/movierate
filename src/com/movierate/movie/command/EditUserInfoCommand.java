@@ -44,7 +44,7 @@ public class EditUserInfoCommand extends UploadPhoto implements ICommand {
             String path = uploadFile(request, Parameters.PHOTO_FILE_PATH, Parameters.PHOTO);
             System.out.println(path);
             userService.updateUser(parameters, path);
-            User user = userService.getUser(parameters);
+            User user = userService.getUser(parameters.get(Parameters.LOGIN)[0]);
             request.setAttribute(Parameters.USER_UPDATED, true);
             request.getSession().setAttribute(Parameters.SIGNED_USER, user);
 
