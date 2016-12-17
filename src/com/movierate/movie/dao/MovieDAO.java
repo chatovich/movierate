@@ -18,4 +18,5 @@ public interface MovieDAO {
     List<Movie> findAll() throws DAOFailedException;
     Movie findEntityById(long id) throws DAOFailedException;
     List<Movie> findMoviesByDynamicId(List<Feedback> feedbacks) throws DAOFailedException;
+    List<Movie> findFilteredMovies (String query, int start, int moviesPerPage) throws DAOFailedException;
 }

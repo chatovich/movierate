@@ -26,13 +26,13 @@ import java.util.List;
  */
 public class FeedbackDAOImpl implements FeedbackDAO, DAO {
 
-    public static final Logger LOGGER = LogManager.getLogger(MarkDAOImpl.class);
+    public static final Logger LOGGER = LogManager.getLogger(FeedbackDAOImpl.class);
     public static final String SQL_UPDATE_FEEDBACK_STATUS = "UPDATE feedbacks SET status=? WHERE id_feedback=?";
     public static final String SQL_FIND_FEEDBACKS_OF_USER = "SELECT id_feedback, text,mark, likes, creating_date, status," +
             "movies.id_movie, movies.title FROM feedbacks JOIN movies ON movies.id_movie=feedbacks.to_movie WHERE from_user=?";
     public static final String SQL_FIND_MARKS_OF_USER = "SELECT id_feedback, mark, movies.id_movie, movies.title FROM feedbacks " +
             "JOIN movies ON movies.id_movie=feedbacks.to_movie WHERE from_user=?";
-    public static final String SQL_FIND_FEEDBACKS_OF_MOVIE = "SELECT id_feedback, text, from_user, likes, creating_date, status," +
+    public static final String SQL_FIND_FEEDBACKS_OF_MOVIE = "SELECT id_feedback, text,mark, from_user, likes, creating_date, status," +
             " users.login, users.photo FROM feedbacks JOIN users ON from_user=id_user WHERE to_movie=?;";
     public static final String SQL_FIND_FEEDBACK_BY_ID = "SELECT id_feedback, text, from_user, to_movie, likes, creating_date, status," +
             " users.login, movies.title, mark FROM feedbacks JOIN users ON from_user=id_user JOIN movies ON to_movie=id_movie WHERE id_feedback=?";
@@ -64,6 +64,7 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
                 feedback.setId(rs.getInt("id_feedback"));
                 feedback.setText(rs.getString("text"));
                 feedback.setLikes(rs.getInt("likes"));
+                feedback.setMark(rs.getInt("mark"));
                 feedback.setStatus(FeedbackStatus.valueOf((rs.getString("status")).toUpperCase()));
                 feedback.setCreatingDate(LocalDate.parse(rs.getString("creating_date")));
                 feedback.setUser(new User(rs.getInt("from_user"), rs.getString("users.login"), rs.getString("users.photo")));

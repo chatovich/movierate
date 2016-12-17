@@ -1,4 +1,4 @@
-/**
+package com.movierate.movie.listener; /**
  * Created by Yultos_ on 09.12.2016.
  */
 
@@ -10,10 +10,6 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.servlet.http.HttpSessionAttributeListener;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
-import javax.servlet.http.HttpSessionBindingEvent;
 
 @WebListener()
 public class MovierateServletContextListener implements ServletContextListener {

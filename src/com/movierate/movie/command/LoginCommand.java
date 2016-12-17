@@ -5,6 +5,7 @@ import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.service.UserService;
+import com.movierate.movie.util.QueryUtil;
 import com.movierate.movie.util.Validation;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -43,6 +44,7 @@ public class LoginCommand implements ICommand {
         } catch (DAOFailedException e) {
             LOGGER.log(Level.ERROR, e);
         }
+
         return PagePath.MAIN_PAGE;
     }
 }

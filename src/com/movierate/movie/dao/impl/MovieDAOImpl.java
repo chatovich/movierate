@@ -20,25 +20,25 @@ import java.util.List;
  */
 public class MovieDAOImpl implements MovieDAO, DAO {
 
-    public static final Logger LOGGER = LogManager.getLogger(MovieDAOImpl.class);
-    public static final String SQL_FIND_TITLE = "SELECT title FROM movies WHERE title=?";
-    public static final String SQL_FIND_ALL_MOVIES = "SELECT id_movie, title FROM movies";
-    public static final String SQL_INSERT_MOVIES_GENRES = "INSERT INTO movies_genres (id_movie, id_genre) VALUES (?,?)";
-    public static final String SQL_INSERT_MOVIES_COUNTRIES = "INSERT INTO movies_countries (id_movie, id_country) VALUES (?,?)";
-    public static final String SQL_INSERT_MOVIES_PARTICIPANTS = "INSERT INTO movies_participants (id_movie, id_participant) VALUES (?,?)";
-    public static final String SQL_FIND_MOVIES_BY_GENRE = "SELECT SQL_CALC_FOUND_ROWS * FROM movies WHERE id_movie IN (SELECT id_movie FROM movies_genres JOIN genres ON movies_genres.id_genre=genres.id_genre WHERE genre=?) LIMIT ?,?;";
-    public static final String SQL_FOUND_ROWS = "SELECT FOUND_ROWS()";
-    public static final String SQL_FIND_GENRES_OF_MOVIE = "SELECT genre FROM genres WHERE id_genre IN " +
+    private static final Logger LOGGER = LogManager.getLogger(MovieDAOImpl.class);
+    private static final String SQL_FIND_TITLE = "SELECT title FROM movies WHERE title=?";
+    private static final String SQL_FIND_ALL_MOVIES = "SELECT id_movie, title FROM movies";
+    private static final String SQL_INSERT_MOVIES_GENRES = "INSERT INTO movies_genres (id_movie, id_genre) VALUES (?,?)";
+    private static final String SQL_INSERT_MOVIES_COUNTRIES = "INSERT INTO movies_countries (id_movie, id_country) VALUES (?,?)";
+    private static final String SQL_INSERT_MOVIES_PARTICIPANTS = "INSERT INTO movies_participants (id_movie, id_participant) VALUES (?,?)";
+    private static final String SQL_FIND_MOVIES_BY_GENRE = "SELECT SQL_CALC_FOUND_ROWS * FROM movies WHERE id_movie IN (SELECT id_movie FROM movies_genres JOIN genres ON movies_genres.id_genre=genres.id_genre WHERE genre=?) LIMIT ?,?;";
+    private static final String SQL_FOUND_ROWS = "SELECT FOUND_ROWS()";
+    private static final String SQL_FIND_GENRES_OF_MOVIE = "SELECT genre FROM genres WHERE id_genre IN " +
             "(SELECT id_genre FROM movies_genres WHERE id_movie=?)";
-    public static final String SQL_FIND_MOVIE_BY_ID = "SELECT id_movie, title, rating,year,plot,poster,trailer,duration,points, adding_date FROM movies WHERE id_movie=?";
-    public static final String SQL_GET_ID_BY_TITLE = "SELECT id_movie FROM movies WHERE title=?";
-    public static final String SQL_SAVE_MOVIE = "INSERT INTO movies (title, year, plot, poster, duration, adding_date) VALUES (?,?,?,?,?,?)";
-    public static final String SQL_UPDATE_MOVIE = "UPDATE movies SET title=?,year=?,plot=?,poster=?,duration=?,adding_date=? WHERE id_movie=?";
-    public static final String SQL_DELETE_MOVIES_GENRES = "DELETE FROM movies_genres WHERE id_movie=?";
-    public static final String SQL_DELETE_MOVIES_COUNTRIES = "DELETE FROM movies_countries WHERE id_movie=?";
-    public static final String SQL_DELETE_MOVIES_PARTICIPANTS = "DELETE FROM movies_participants WHERE id_movie=?";
+    private static final String SQL_FIND_MOVIE_BY_ID = "SELECT id_movie, title, rating,year,plot,poster,trailer,duration,points, adding_date FROM movies WHERE id_movie=?";
+    private static final String SQL_GET_ID_BY_TITLE = "SELECT id_movie FROM movies WHERE title=?";
+    private static final String SQL_SAVE_MOVIE = "INSERT INTO movies (title, year, plot, poster, duration, adding_date) VALUES (?,?,?,?,?,?)";
+    private static final String SQL_UPDATE_MOVIE = "UPDATE movies SET title=?,year=?,plot=?,poster=?,duration=?,adding_date=? WHERE id_movie=?";
+    private static final String SQL_DELETE_MOVIES_GENRES = "DELETE FROM movies_genres WHERE id_movie=?";
+    private static final String SQL_DELETE_MOVIES_COUNTRIES = "DELETE FROM movies_countries WHERE id_movie=?";
+    private static final String SQL_DELETE_MOVIES_PARTICIPANTS = "DELETE FROM movies_participants WHERE id_movie=?";
 
-    private int movieQuantity;
+    private static int movieQuantity;
 
     /**
      *
@@ -188,7 +188,7 @@ public class MovieDAOImpl implements MovieDAO, DAO {
      *
      * @param genre user makes request to see movies of this genre
      */
-    public List<Movie> findMovieByGenre(String genre, int start, int pageQuantity) {
+    public List<Movie> findMovieByGenre(String genre, int start, int moviesPerPage) {
 
         List<Movie> moviesList = new ArrayList<>();
         ConnectionPool connectionPool = ConnectionPool.getInstance();
@@ -199,7 +199,7 @@ public class MovieDAOImpl implements MovieDAO, DAO {
             st = connection.prepareStatement(SQL_FIND_MOVIES_BY_GENRE);
             st.setString(1, genre);
             st.setInt(2, start);
-            st.setInt(3, pageQuantity);
+            st.setInt(3, moviesPerPage);
 
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -234,8 +234,8 @@ public class MovieDAOImpl implements MovieDAO, DAO {
 
     }
 
-    public int getPageQuantity() {
-        return this.movieQuantity;
+    public int getMovieQuantity() {
+        return movieQuantity;
     }
 
     @Override
@@ -348,6 +348,44 @@ public class MovieDAOImpl implements MovieDAO, DAO {
             connectionPool.releaseConnection(connection);
         }
         return movies;
+    }
+
+    @Override
+    public List<Movie> findFilteredMovies(String query, int start, int moviesPerPage) throws DAOFailedException {
+        List<Movie> moviesList = new ArrayList<>();
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement st = null;
+        try {
+            connection = connectionPool.takeConnection();
+            st = connection.prepareStatement(query);
+            st.setInt(1, start);
+            st.setInt(2, moviesPerPage);
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Movie movie = new Movie();
+                movie.setId(rs.getInt("id_movie"));
+                movie.setTitle(rs.getString("title"));
+                movie.setPoster(rs.getString("poster"));
+                moviesList.add(movie);
+            }
+            rs.close();
+
+            rs = st.executeQuery(SQL_FOUND_ROWS);
+            if (rs.next()) {
+                movieQuantity = rs.getInt(1);
+                System.out.println("moviequantity"+movieQuantity);
+            }
+
+
+        } catch (SQLException e) {
+            throw new DAOFailedException("Impossible to get filtered movies: "+e.getMessage());
+        } finally {
+            close(st);
+            connectionPool.releaseConnection(connection);
+        }
+        return moviesList;
     }
 
     private String buildQuery(int size){

@@ -21,7 +21,10 @@ public class GetInfoForUserRatingCommand implements ICommand {
     public String execute(HttpServletRequest request) {
         String id = request.getParameter(Parameters.ID_USER);
         User signedUser = (User)request.getSession().getAttribute(Parameters.SIGNED_USER);
-        if (Long.parseLong(id)!=signedUser.getId()){
+        if (signedUser==null){
+            request.setAttribute(Parameters.SHOW_ANOTHER_USER, true);
+        }
+        else if (Long.parseLong(id)!=signedUser.getId()){
             request.setAttribute(Parameters.SHOW_ANOTHER_USER, true);
         }
         UserService userService = new UserService();

@@ -37,4 +37,13 @@ public class Parameters {
     public static final String MOVIE_MARK = "mark";
     public static final String ANOTHER_USER = "anotherUser";
     public static final String SHOW_ANOTHER_USER = "showAnotherUser";
+    public static final String PAGE = "page";
+    public static final int MOVIES_PER_PAGE = 3;
+    public static final String MOVIES = "movies";
+    public static final String PAGE_QUANTITY = "pageQuantity";
+    public static final String CURRENT_PAGE = "currentPage";
+    public static final String GENRE = "genre";
+    public static final String COUNTRY = "country";
+    public static final String PARTICIPANT = "participant";
+    public static final String YEAR = "year";
 }

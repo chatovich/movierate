@@ -113,7 +113,7 @@ public class UserService {
                 sum += singleRating;
             }
             return new BigDecimal(sum / singleRatings.size()).setScale(2, RoundingMode.UP).doubleValue();
-        } else return 0.0;
+        } else {return 0.0;}
     }
 
     public User updateUserFeedbacks (User user) throws DAOFailedException {

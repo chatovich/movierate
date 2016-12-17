@@ -18,10 +18,6 @@
                     <li><a href="#" type="button" onclick="add_new_genre()" ><fmt:message key="admin.add.genre"/></a></li>
                 <li><a href="#" type="button" onclick="add_new_participant()"><fmt:message key="admin.add.participant"/></a></li>
                     <li><a href="${pageContext.request.contextPath}/controller?command=get_all_participants"><fmt:message key="admin.update.participant"/></a></li>
-
-
-                    <li><a href="${pageContext.request.contextPath}/controller?command=add_country"><fmt:message key="admin.add.country"/></a></li>
-
             </ul>
         </li>
         <li><a href="${pageContext.request.contextPath}/controller?command=get_new_feedbacks"><fmt:message key="admin.new.comments"/></a>

@@ -43,7 +43,7 @@
                 <p id="user-rating"><fmt:message key="user.rating"/>: ${userRating}</p>
                 <c:forEach var="feedback" items="${showAnotherUser? anotherUser.userFeedbacks : signedUser.userFeedbacks}">
                     <hr color="black">
-                    <p><strong>${feedback.movie.title}</strong></p>
+                    <p><strong><a href="${pageContext.request.contextPath}/controller?command=get_movie_page&id=${feedback.movie.id}" style="font-size: 16px;color: black">${feedback.movie.title}</a></strong></p>
                     <p style="font-size: medium;">
                         <c:forEach begin="0" end="9" varStatus="loop">
                                                 <span style="color: ${loop.index < feedback.mark ? "gold" : "lightgrey"}">

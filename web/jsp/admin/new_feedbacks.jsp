@@ -61,7 +61,7 @@
                                     ${feedback.mark} <fmt:message key="user.mark"/></td>
                             </tr>
                             <tr><td align="right">
-                                <strong>${feedback.user.login}</strong></td>
+                                <strong><a href="${pageContext.request.contextPath}/controller?command=get_another_user_page&login=${feedback.user.login}">${feedback.user.login}</a> </strong></td>
                             </tr>
                             <tr><td align="right">
                                     ${feedback.creatingDate}</td>

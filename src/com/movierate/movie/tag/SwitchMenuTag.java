@@ -25,10 +25,10 @@ public class SwitchMenuTag extends TagSupport {
 
     @Override
     public int doStartTag() throws JspException {
-        if (Role.USER.getRoleName().equalsIgnoreCase(role)) {
-            pageContext.setAttribute(Parameters.INCLUDE_MENU, PagePath.USER_MENU_PAGE);
+        if (Role.ADMIN.getRoleName().equalsIgnoreCase(role)) {
+            pageContext.setAttribute(Parameters.INCLUDE_MENU, PagePath.ADMIN_MENU_PAGE);
         } else {
-            pageContext.setAttribute(Parameters.INCLUDE_MENU,PagePath.ADMIN_MENU_PAGE);
+            pageContext.setAttribute(Parameters.INCLUDE_MENU,PagePath.USER_MENU_PAGE);
         }
         return SKIP_BODY;
     }

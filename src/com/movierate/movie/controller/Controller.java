@@ -3,6 +3,7 @@ package com.movierate.movie.controller;
 import com.movierate.movie.command.CommandType;
 import com.movierate.movie.command.ICommand;
 import com.movierate.movie.constant.Parameters;
+import com.movierate.movie.util.QueryUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -44,6 +45,10 @@ public class Controller extends HttpServlet{
         CommandType commandType = CommandType.valueOf(commandName.toUpperCase());
         ICommand command  = commandType.getCommand();
         String pageName = command.execute(request);
+        if (commandName.equalsIgnoreCase("change_language")&&request.getAttribute("prev")!=null){
+            response.sendRedirect((String)request.getAttribute("prev"));
+        } else
+//        response.sendRedirect(QueryUtil.createHttpQueryString(request));
         request.getRequestDispatcher(pageName).forward(request, response);
     }
 

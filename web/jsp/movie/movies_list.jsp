@@ -30,11 +30,11 @@
 
     <div align="center" style="clear: both;padding-top: 20px">
         <c:if test="${currentPage!=1}">
-            <a href="/controller?page=${currentPage-1}&command=get_movies_by_genre&genre=${genre}"><fmt:message key="movie.previous"/> </a>
+            <a href="/controller?page=${currentPage-1}&command=filtered_movie_search&genre=${genre}&participant=${participant}&country=${country}&year=${year}"><fmt:message key="movie.previous"/> </a>
         </c:if>
         ${currentPage}
         <c:if test="${currentPage lt pageQuantity}">
-            <a href="/controller?page=${currentPage+1}&command=get_movies_by_genre&genre=${genre}"><fmt:message key="movie.next"/></a>
+            <a href="/controller?page=${currentPage+1}&command=filtered_movie_search&genre=${genre}&participant=${participant}&country=${country}&year=${year}"><fmt:message key="movie.next"/></a>
         </c:if>
     </div>
     

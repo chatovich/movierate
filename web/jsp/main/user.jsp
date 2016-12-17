@@ -35,7 +35,12 @@
     </div>
 
     <yul:menu role="${signedUser.role}"/>
+    <c:if test="${showAnotherUser}">
+        <jsp:include page="${pageContext.request.contextPath}/jsp/fragment/user_menu.jsp"/>
+    </c:if>
+    <c:if test="${!showAnotherUser}">
     <jsp:include page="${pageContext.request.contextPath}/${includeMenu}"/>
+    </c:if>
     <%--<c:import url="../fragment/admin_menu.jsp"/>--%>
 
     <%--<div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">--%>

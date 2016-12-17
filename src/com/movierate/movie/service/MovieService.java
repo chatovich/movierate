@@ -1,11 +1,14 @@
 package com.movierate.movie.service;
 
+import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.dao.impl.*;
 import com.movierate.movie.entity.Country;
 import com.movierate.movie.entity.Genre;
 import com.movierate.movie.entity.Movie;
 import com.movierate.movie.entity.Participant;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.ServiceException;
+import com.movierate.movie.util.QueryUtil;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -128,7 +131,23 @@ public class MovieService {
         return movieDAO.findAll();
     }
 
-//    public Movie getMovie (String title){
-//
-//    }
+    public List<Movie> filteredMovieSearch (Map <String, String[]> parameters, int start, int moviesPerPage) throws ServiceException {
+
+        String query = QueryUtil.buildMovieSearchQuery(parameters);
+        System.out.println(query);
+        MovieDAOImpl movieDAO = new MovieDAOImpl();
+        List<Movie> movies = new ArrayList<>();
+        try {
+            movies = movieDAO.findFilteredMovies(query, start, moviesPerPage);
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e.getMessage());
+        }
+        return movies;
+    }
+
+    public int getMovieQuantity (){
+        MovieDAOImpl movieDAO = new MovieDAOImpl();
+        System.out.println("service"+movieDAO.getMovieQuantity());
+        return movieDAO.getMovieQuantity();
+    }
 }

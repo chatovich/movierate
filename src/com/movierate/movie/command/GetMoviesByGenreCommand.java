@@ -28,7 +28,7 @@ public class GetMoviesByGenreCommand implements ICommand {
         }
         MovieDAOImpl movieDAOImpl = new MovieDAOImpl();
         List <Movie> movies = movieDAOImpl.findMovieByGenre(genre, (page-1)*MOVIES_PER_PAGE, MOVIES_PER_PAGE);
-        int movieQuantity = movieDAOImpl.getPageQuantity();
+        int movieQuantity = movieDAOImpl.getMovieQuantity();
         int pageQuantity = (int)Math.ceil(((double)movieQuantity)/MOVIES_PER_PAGE);
 
         request.setAttribute(ATTR_MOVIES, movies);
