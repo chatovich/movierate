@@ -1,0 +1,67 @@
+{
+  "genres": [
+    {
+      "name": "Action",
+      "code": "Боевик"
+    },
+    {
+      "name": "Comedy",
+      "code": "Комедия"
+    },
+    {
+      "name": "Thriller",
+      "code": "Триллер"
+    },
+    {
+      "name": "Drama",
+      "code": "Драма"
+    },
+    {
+      "name": "Fantasy",
+      "code": "Фэнтези"
+    },
+    {
+      "name": "Documantal",
+      "code": "Документальный"
+    },
+    {
+      "name": "Biography",
+      "code": "Биография"
+    },
+    {
+      "name": "Detective",
+      "code": "Детектив"
+    },
+    {
+      "name": "Historic",
+      "code": "Исторический"
+    },
+    {
+      "name": "Criminal",
+      "code": "Криминал"
+    },
+    {
+      "name": "Cartoon",
+      "code": "Мультфильм"
+    },
+    {
+      "name": "Adventure",
+      "code": "Приключения"
+    },
+    {
+      "name": "Family",
+      "code": "Семейный"
+    },
+    {
+      "name": "Military",
+      "code": "Военный"
+    },
+    {
+      "name": "Science Fiction",
+      "code": "Фантастика"
+    },
+    {
+      "name": "Western",
+      "code": "Вестерн"
+    }
+    ]}

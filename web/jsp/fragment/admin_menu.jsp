@@ -13,11 +13,11 @@
         <li><a href="#"><fmt:message key="admin.menu.movies"/></a>
             <ul>
                 <%--pagecontext works at both tomcat configuration options (/ and /movierate), without - only with/--%>
-                <li><a href="${pageContext.request.contextPath}/controller?command=get_info_for_movie_adding"><fmt:message key="admin.add.movie"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=get_all_movies"><fmt:message key="admin.update.movie"/></a></li>
-                    <li><a href="#" type="button" onclick="add_new_genre()" ><fmt:message key="admin.add.genre"/></a></li>
-                <li><a href="#" type="button" onclick="add_new_participant()"><fmt:message key="admin.add.participant"/></a></li>
-                    <li><a href="${pageContext.request.contextPath}/controller?command=get_all_participants"><fmt:message key="admin.update.participant"/></a></li>
+                <li><a style="padding: 5px 5px" href="${pageContext.request.contextPath}/controller?command=get_info_for_movie_adding"><fmt:message key="admin.add.movie"/></a></li>
+                <li><a style="padding: 5px 5px" href="${pageContext.request.contextPath}/controller?command=get_all_movies"><fmt:message key="admin.update.movie"/></a></li>
+                    <li><a style="padding: 5px 5px" href="#" type="button" onclick="add_new_genre()" ><fmt:message key="admin.add.genre"/></a></li>
+                <li><a style="padding: 5px 5px" href="#" type="button" onclick="add_new_participant()"><fmt:message key="admin.add.participant"/></a></li>
+                    <li><a style="padding: 5px 5px" href="${pageContext.request.contextPath}/controller?command=get_all_participants"><fmt:message key="admin.update.participant"/></a></li>
             </ul>
         </li>
         <li><a href="${pageContext.request.contextPath}/controller?command=get_new_feedbacks"><fmt:message key="admin.new.comments"/></a>

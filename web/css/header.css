@@ -27,7 +27,7 @@
 #navbar li {
     float: left;
     position: relative;
-    height: 100%;
+    /*height: 100%;*/
 }
 #navbar li a {
     display: block;
@@ -38,10 +38,19 @@
     text-decoration: none;
 }
 
+/*.top-list {*/
+    /*padding: 5px 5px;*/
+/*}*/
+
+/*.top-href {*/
+    /*padding: 15px 5px;*/
+
+/*}*/
+
 
 #navbar ul li {
     float: none;
-    height: 50px;
+    height: 30px;
 }
 #navbar li:hover {
     background-color: #f90;

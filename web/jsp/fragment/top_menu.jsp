@@ -11,12 +11,12 @@
 
 <nav class="fixed-nav-bar">
     <ul id="navbar">
-        <li><a href="${pageContext.request.contextPath}/controller?command=load_main_page"><fmt:message key="nav.home"/></a></li>
-        <li><a href="#"><fmt:message key="nav.genres"/></a>
+        <li><a  href="${pageContext.request.contextPath}/controller?command=load_main_page"><fmt:message key="nav.home"/></a></li>
+        <li><a class="top-href" href="#"><fmt:message key="nav.genres"/></a>
             <ul>
                 <%--pagecontext works at both tomcat configuration options (/ and /movierate), without - only with/--%>
-                <li><a href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=thriller"><fmt:message key="nav.thriller"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=comedy"><fmt:message key="nav.comedy"/></a></li>
+                <li><a style="padding: 5px 5px" href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=thriller"><fmt:message key="nav.thriller"/></a></li>
+                <li><a style="padding: 5px 5px" href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=comedy"><fmt:message key="nav.comedy"/></a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=drama"><fmt:message key="nav.drama"/></a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=action"><fmt:message key="nav.action"/></a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=documental"><fmt:message key="nav.documental"/></a></li>
@@ -27,12 +27,12 @@
                 <li><a href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=criminal"><fmt:message key="nav.criminal"/></a></li>
             </ul>
         </li>
-        <li><a href="#"><fmt:message key="nav.new"/></a>
+        <li><a class="top-href" href="#"><fmt:message key="nav.new"/></a>
         <li><a href="#"><fmt:message key="nav.cinema"/></a></li>
         <li  style="float: right;"><a href="#"><fmt:message key="nav.language"/> </a>
             <ul>
-                <li><a href="${pageContext.request.contextPath}/controller?command=change_language&language=en_EN"><fmt:message key="nav.language.en"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=change_language&language=ru_RU"><fmt:message key="nav.language.ru"/></a></li>
+                <li><a style="padding: 5px 5px" href="${pageContext.request.contextPath}/controller?command=change_language&language=en_EN"><fmt:message key="nav.language.en"/></a></li>
+                <li><a style="padding: 5px 5px" href="${pageContext.request.contextPath}/controller?command=change_language&language=ru_RU"><fmt:message key="nav.language.ru"/></a></li>
             </ul>
         </li>
         <li style="float: right;">
@@ -43,10 +43,10 @@
                 <a href="#">${signedUser.login}</a>
                 <ul>
                     <li>
-                        <a href="${pageContext.request.contextPath}/jsp/main/user.jsp"><fmt:message key="nav.profile"/></a>
+                        <a style="padding: 5px 5px" href="${pageContext.request.contextPath}/jsp/main/user.jsp"><fmt:message key="nav.profile"/></a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/controller?command=logout"><fmt:message key="nav.signout"/></a>
+                        <a style="padding: 5px 5px" href="${pageContext.request.contextPath}/controller?command=logout"><fmt:message key="nav.signout"/></a>
                     </li>
                 </ul>
             </c:if>

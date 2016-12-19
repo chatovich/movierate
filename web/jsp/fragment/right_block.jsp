@@ -13,15 +13,15 @@
         <input type="hidden" name="command" value="filtered_movie_search">
         <%--<div class="selects">--%>
         <label>
-            <select class="select-right" name="genre" >
+            <select id="genresRight" class="select-right" name="genre" >
                 <option disabled selected><fmt:message key="admin.add.movie.choosegenre"/> </option>
-                <option>thriller</option>
-                <option>comedy</option>
-                <option>drams</option>
-                <option>action</option>
-                <option>documental</option>
-                <option>biography</option>
-                <option>detective</option>
+                <%--<option>thriller</option>--%>
+                <%--<option>comedy</option>--%>
+                <%--<option>drams</option>--%>
+                <%--<option>action</option>--%>
+                <%--<option>documental</option>--%>
+                <%--<option>biography</option>--%>
+                <%--<option>detective</option>--%>
             </select>
 
         </label>
@@ -54,9 +54,19 @@
             <%--<button id="searchbutton" name="searchbutton">Search</button>--%>
         </div>
     </form>
-    <%--</div>--%>
 
 </div>
+
+<c:if test="${language eq 'en_EN'}">
+    <script type="text/javascript">
+        <jsp:include page="${pageContext.request.contextPath}/js/select_genres_en.js"/>
+    </script>
+</c:if>
+<c:if test="${language eq 'ru_RU'}">
+    <script type="text/javascript">
+        <jsp:include page="${pageContext.request.contextPath}/js/select_genres_ru.js"/>
+    </script>
+</c:if>
 
 <script type="text/javascript">
     $(function(){
