@@ -4,7 +4,9 @@ import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.service.UserService;
+import com.movierate.movie.util.QueryUtil;
 import com.movierate.movie.util.Validation;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -48,9 +50,10 @@ public class EditUserInfoCommand extends UploadPhoto implements ICommand {
             request.setAttribute(Parameters.USER_UPDATED, true);
             request.getSession().setAttribute(Parameters.SIGNED_USER, user);
 
-        } catch (DAOFailedException e) {
+        } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         }
+        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
         return PagePath.USER_PAGE;
     }
 }

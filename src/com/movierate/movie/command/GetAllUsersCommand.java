@@ -3,7 +3,6 @@ package com.movierate.movie.command;
 import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.entity.User;
-import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.service.UserService;
 import com.movierate.movie.util.QueryUtil;
@@ -12,24 +11,21 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
- * gets the page of another user (who is not signed in)
+ * gets the list of all users from the db
  */
-public class GetAnotherUserPageCommand implements ICommand {
+public class GetAllUsersCommand implements ICommand {
 
-    public static final Logger LOGGER = LogManager.getLogger(GetAnotherUserPageCommand.class);
+    private static final Logger LOGGER = LogManager.getLogger(GetAllUsersCommand.class);
     @Override
     public String execute(HttpServletRequest request) {
-
-        String login = request.getParameter(Parameters.LOGIN);
-        HttpSession session = request.getSession(true);
         UserService userService = new UserService();
         try {
-            User user = userService.getUser(login);
-            session.setAttribute(Parameters.ANOTHER_USER, user);
-            request.setAttribute(Parameters.SHOW_ANOTHER_USER, true);
+            List<User> users = userService.getAllUsers();
+            request.setAttribute(Parameters.USERS, users);
+            request.setAttribute(Parameters.CHOOSE_USER, true);
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;

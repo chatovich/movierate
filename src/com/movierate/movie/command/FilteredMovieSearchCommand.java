@@ -5,6 +5,7 @@ import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.entity.Movie;
 import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.service.MovieService;
+import com.movierate.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,6 +58,7 @@ public class FilteredMovieSearchCommand implements ICommand {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;
         }
+        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
         return PagePath.MOVIE_LIST_PAGE;
     }
 }

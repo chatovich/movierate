@@ -5,6 +5,7 @@ import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.entity.Feedback;
 import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.service.FeedbackService;
+import com.movierate.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,6 +34,7 @@ public class GetFeedbackCommand implements ICommand {
         } catch (DAOFailedException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         }
+        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
         return PagePath.ADMIN_NEW_FEEDBACK_PAGE;
     }
 }

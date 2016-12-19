@@ -28,6 +28,9 @@ public enum CommandType {
     GET_INFO_FOR_USER_RATING (new GetInfoForUserRatingCommand()),
     GET_ANOTHER_USER_PAGE (new GetAnotherUserPageCommand()),
     FILTERED_MOVIE_SEARCH (new FilteredMovieSearchCommand()),
+    LOAD_MAIN_PAGE (new LoadMainPageCommand()),
+    GET_ALL_USERS (new GetAllUsersCommand()),
+    CHANGE_USER_STATUS (new ChangeUserStatusCommand()),
     GET_INFO_FOR_MOVIE_ADDING(new GetInfoForMovieAddingCommand());
 
     private ICommand command;

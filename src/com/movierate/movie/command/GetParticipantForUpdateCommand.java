@@ -4,6 +4,7 @@ import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.entity.Participant;
 import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.service.ParticipantService;
+import com.movierate.movie.util.QueryUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,7 +24,7 @@ public class GetParticipantForUpdateCommand implements ICommand{
         } catch (DAOFailedException e) {
             return PagePath.ERROR_PAGE;
         }
-
+        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
         return PagePath.UPDATE_PARTICIPANT_PAGE;
     }
 }

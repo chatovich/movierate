@@ -10,7 +10,6 @@ import com.movierate.movie.type.Role;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.omg.PortableInterceptor.USER_EXCEPTION;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -28,7 +27,9 @@ public class UserDAOImpl implements UserDAO, DAO {
     public static final String SQL_SAVE_USER = "INSERT into users (login, password, e_mail, registr_date, role, photo) " +
             "VALUES (?,?,?,?,?,?)";
     public static final String SQL_FIND_LOGIN_INFO = "SELECT id_user, login, password, role FROM users WHERE login=?";
-    public static final String SQL_UPDATE_USER_ = "UPDATE users SET e_mail=?,password=? WHERE login=?";
+    public static final String SQL_FIND_ALL_USERS = "SELECT id_user, login FROM users WHERE role='user'";
+    public static final String SQL_UPDATE_USER = "UPDATE users SET e_mail=?,password=? WHERE login=?";
+    public static final String SQL_UPDATE_USER_STATUS = "UPDATE users SET isBanned=? WHERE login=?";
     public static final String SQL_UPDATE_USER_WITH_PHOTO = "UPDATE users SET e_mail=?,password=?, photo=? WHERE login=?";
 
 
@@ -52,7 +53,11 @@ public class UserDAOImpl implements UserDAO, DAO {
                 user.setPhoto(rs.getString("photo"));
                 //change to double!!!
                 user.setRating(rs.getInt("rating"));
-                user.setBanned(rs.getInt("isBanned") != 0);
+                if (rs.getInt("isBanned")==1){
+                    user.setBanned(true);
+                } else {
+                    user.setBanned(false);
+                }
                 //when in db string instead of enum!!
                 user.setRole(Role.valueOf(rs.getString("role").toUpperCase()));
                 user.setRegistrDate(LocalDate.parse(rs.getString("registr_date")));
@@ -135,7 +140,7 @@ public class UserDAOImpl implements UserDAO, DAO {
         try {
             connection = pool.takeConnection();
             if (path==null){
-                st = connection.prepareStatement(SQL_UPDATE_USER_);
+                st = connection.prepareStatement(SQL_UPDATE_USER);
                 st.setString(3,login);
             } else {
                 st = connection.prepareStatement(SQL_UPDATE_USER_WITH_PHOTO);
@@ -152,5 +157,53 @@ public class UserDAOImpl implements UserDAO, DAO {
             close(st);
             pool.releaseConnection(connection);
         }
+    }
+
+    @Override
+    public void changeUserStatus(String login, boolean toBan) throws DAOFailedException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement st = null;
+        try {
+            connection = pool.takeConnection();
+                st = connection.prepareStatement(SQL_UPDATE_USER_STATUS);
+                st.setString(2,login);
+            if (toBan){
+                st.setInt(1,1);
+            } else {
+                st.setInt(1,0);
+            }
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOFailedException("Impossible to update user status: "+e.getMessage());
+        } finally {
+            close(st);
+            pool.releaseConnection(connection);
+        }
+    }
+
+    @Override
+    public List<User> findAllUsers() throws DAOFailedException {
+        List<User> users = new ArrayList<>();
+        ConnectionPool pool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        Statement st = null;
+        try {
+            connection = pool.takeConnection();
+            st = connection.createStatement();
+            ResultSet rs = st.executeQuery(SQL_FIND_ALL_USERS);
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getLong("id_user"));
+                user.setLogin(rs.getString("login"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            throw new DAOFailedException("Impossible to find all user in db: "+e.getMessage());
+        } finally {
+            close(st);
+            pool.releaseConnection(connection);
+        }
+        return users;
     }
 }

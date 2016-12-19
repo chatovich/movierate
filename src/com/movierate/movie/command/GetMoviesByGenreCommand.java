@@ -3,6 +3,7 @@ package com.movierate.movie.command;
 import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.dao.impl.MovieDAOImpl;
 import com.movierate.movie.entity.Movie;
+import com.movierate.movie.util.QueryUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -35,6 +36,7 @@ public class GetMoviesByGenreCommand implements ICommand {
         request.setAttribute(ATTR_PAGE_QUANTITY, pageQuantity);
         request.setAttribute(ATTR_PAGE_CURRENT, page);
         request.setAttribute(PARAM_GENRE, genre);
+        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
         return PagePath.MOVIE_LIST_PAGE;
     }
 }

@@ -3,6 +3,7 @@ package com.movierate.movie.command;
 import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.service.ParticipantService;
+import com.movierate.movie.util.QueryUtil;
 import com.movierate.movie.util.Validation;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -41,6 +42,7 @@ public class AddParticipantCommand implements ICommand {
             request.setAttribute("participantAdded", false);
             return PagePath.ERROR_PAGE;
         }
+        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
         return PagePath.USER_PAGE;
     }
 }

@@ -12,6 +12,7 @@ import com.movierate.movie.service.GenreService;
 import com.movierate.movie.service.MovieService;
 import com.movierate.movie.service.ParticipantService;
 import com.movierate.movie.type.Profession;
+import com.movierate.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -62,6 +63,7 @@ public class GetMovieInfoForUpdateCommand implements ICommand {
             LOGGER.log(Level.ERROR, "Impossible to get info for movie update: "+e.getMessage());
             return PagePath.ERROR_PAGE;
         }
+        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
         return PagePath.UPDATE_MOVIE_PAGE;
     }
 }

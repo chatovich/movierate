@@ -34,7 +34,12 @@
     </div>
 
     <yul:menu role="${signedUser.role}"/>
-    <jsp:include page="${pageContext.request.contextPath}/${includeMenu}"/>
+    <c:if test="${showAnotherUser}">
+        <jsp:include page="${pageContext.request.contextPath}/jsp/fragment/user_menu.jsp"/>
+    </c:if>
+    <c:if test="${!showAnotherUser}">
+        <jsp:include page="${pageContext.request.contextPath}/${includeMenu}"/>
+    </c:if>
 
     <div class="well">
         <div class="tab-content">

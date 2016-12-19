@@ -22,6 +22,8 @@
         </li>
         <li><a href="${pageContext.request.contextPath}/controller?command=get_new_feedbacks"><fmt:message key="admin.new.comments"/></a>
         </li>
+        <li><a href="${pageContext.request.contextPath}/controller?command=get_all_users"><fmt:message key="admin.menu.users"/></a>
+        </li>
     </ul>
 </nav>
 

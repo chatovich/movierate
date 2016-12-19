@@ -28,8 +28,7 @@ public class GetMoviePageCommand implements ICommand {
             e.printStackTrace();
         }
         request.setAttribute(ATTR_MOVIE, movie);
-        request.setAttribute("prev", QueryUtil.createHttpQueryString(request));
-
+        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
         return PagePath.MOVIE_PAGE;
     }
 }

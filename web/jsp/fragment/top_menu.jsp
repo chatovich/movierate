@@ -11,7 +11,7 @@
 
 <nav class="fixed-nav-bar">
     <ul id="navbar">
-        <li><a href="${pageContext.request.contextPath}/jsp/main/main.jsp"><fmt:message key="nav.home"/></a></li>
+        <li><a href="${pageContext.request.contextPath}/controller?command=load_main_page"><fmt:message key="nav.home"/></a></li>
         <li><a href="#"><fmt:message key="nav.genres"/></a>
             <ul>
                 <%--pagecontext works at both tomcat configuration options (/ and /movierate), without - only with/--%>

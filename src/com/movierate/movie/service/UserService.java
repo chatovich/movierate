@@ -7,6 +7,7 @@ import com.movierate.movie.entity.Feedback;
 import com.movierate.movie.entity.Movie;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.type.Role;
 import com.movierate.movie.util.PasswordHash;
 
@@ -53,24 +54,35 @@ public class UserService {
         return user.getLogin()==null;
     }
 
-    public User getUser(String login) throws DAOFailedException {
+    public User getUser(String login) throws ServiceException {
 
 //        String login = parameters.get("login")[0];
         UserDAOImpl userDAOImpl = new UserDAOImpl();
         FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
-        User user = userDAOImpl.findEntityByName(login);
-        user.setUserFeedbacks(feedbackDAO.findFeedbacksByUserId(user.getId()));
+        User user = null;
+        try {
+            user = userDAOImpl.findEntityByName(login);
+            user.setUserFeedbacks(feedbackDAO.findFeedbacksByUserId(user.getId()));
+        } catch (DAOFailedException e) {
+            throw  new ServiceException(e.getMessage());
+        }
         return user;
     }
 
-    public User getLoginInfo (Map<String, String[]> parameters) throws DAOFailedException {
+    public User getLoginInfo (Map<String, String[]> parameters) throws ServiceException {
 
         String login = parameters.get("login")[0];
         UserDAOImpl userDAOImpl = new UserDAOImpl();
-        return userDAOImpl.findUserByLogin(login);
+        User user = new User();
+        try {
+            user = userDAOImpl.findUserByLogin(login);
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e.getMessage());
+        }
+        return user;
     }
 
-    public void updateUser (Map<String, String[]> parameters, String path) throws DAOFailedException {
+    public void updateUser (Map<String, String[]> parameters, String path) throws ServiceException {
 
         String email = "";
         String password = "";
@@ -89,7 +101,11 @@ public class UserService {
             }
         }
         UserDAOImpl userDAO = new UserDAOImpl();
-        userDAO.updateUser(login, email, PasswordHash.getHashPassword(password), path);
+        try {
+            userDAO.updateUser(login, email, PasswordHash.getHashPassword(password), path);
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e.getMessage());
+        }
     }
 
     public double calcUserRating(String id) throws DAOFailedException {
@@ -120,6 +136,26 @@ public class UserService {
         FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
         user.setUserFeedbacks(feedbackDAO.findFeedbacksByUserId(user.getId()));
         return user;
+    }
+
+    public List<User> getAllUsers() throws ServiceException {
+        UserDAOImpl userDAO = new UserDAOImpl();
+        List <User> users = new ArrayList<>();
+        try {
+            users = userDAO.findAllUsers();
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e.getMessage());
+        }
+        return users;
+    }
+
+    public void changeUserStatus (String login, boolean toBan) throws ServiceException {
+        UserDAOImpl userDAO = new UserDAOImpl();
+        try {
+            userDAO.changeUserStatus(login,toBan);
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e.getMessage());
+        }
     }
 
     private double calcSingleRating (double mark, double movieRating){

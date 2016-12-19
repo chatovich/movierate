@@ -6,13 +6,11 @@ import com.movierate.movie.util.QueryUtil;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * invalidates the session when user wants to log out
+ * gets all necessary data to load main page
  */
-public class LogOutCommand implements ICommand {
+public class LoadMainPageCommand implements ICommand {
     @Override
     public String execute(HttpServletRequest request) {
-
-        request.getSession().invalidate();
         request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
         return PagePath.MAIN_PAGE;
     }

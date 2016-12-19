@@ -4,6 +4,7 @@ import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.entity.Movie;
 import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.service.MovieService;
+import com.movierate.movie.util.QueryUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -27,7 +28,7 @@ public class GetAllMoviesCommand implements ICommand {
             return PagePath.ERROR_PAGE;
         }
 
-//        return PagePath.ADMIN_MAIN_PAGE;
+        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
         return PagePath.USER_PAGE;
     }
 }

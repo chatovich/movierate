@@ -9,6 +9,7 @@ import com.movierate.movie.service.CountryService;
 import com.movierate.movie.service.GenreService;
 import com.movierate.movie.service.ParticipantService;
 import com.movierate.movie.type.Profession;
+import com.movierate.movie.util.QueryUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -36,6 +37,7 @@ public class GetInfoForMovieAddingCommand implements ICommand {
         } catch (DAOFailedException e) {
             return PagePath.ERROR_PAGE;
         }
+        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
         return PagePath.ADD_MOVIE_PAGE;
     }
 }

@@ -82,7 +82,7 @@ public class User extends Entity{
         return registrDate;
     }
 
-    public boolean isBanned() {
+    public boolean getIsBanned() {
         return isBanned;
     }
 

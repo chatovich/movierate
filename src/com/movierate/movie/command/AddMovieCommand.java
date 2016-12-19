@@ -4,6 +4,7 @@ import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.service.MovieService;
+import com.movierate.movie.util.QueryUtil;
 import com.movierate.movie.util.Validation;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -41,6 +42,7 @@ public class AddMovieCommand extends UploadPhoto implements ICommand {
             return PagePath.ERROR_PAGE;
         }
         request.setAttribute("movieAdded", true);
+        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
         return PagePath.USER_PAGE;
     }
 }

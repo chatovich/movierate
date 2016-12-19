@@ -46,4 +46,7 @@ public class Parameters {
     public static final String COUNTRY = "country";
     public static final String PARTICIPANT = "participant";
     public static final String YEAR = "year";
+    public static final String BAN = "ban";
+    public static final String USERS = "users";
+    public static final String CHOOSE_USER = "chooseUser";
 }

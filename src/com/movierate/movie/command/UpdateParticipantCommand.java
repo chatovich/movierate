@@ -3,6 +3,7 @@ package com.movierate.movie.command;
 import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.service.ParticipantService;
+import com.movierate.movie.util.QueryUtil;
 import com.movierate.movie.util.Validation;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -33,6 +34,7 @@ public class UpdateParticipantCommand implements ICommand {
             LOGGER.log(Level.ERROR, e);
         }
         request.setAttribute("participantUpdated", true);
+        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
         return PagePath.USER_PAGE;
     }
 }

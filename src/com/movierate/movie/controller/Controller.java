@@ -45,8 +45,8 @@ public class Controller extends HttpServlet{
         CommandType commandType = CommandType.valueOf(commandName.toUpperCase());
         ICommand command  = commandType.getCommand();
         String pageName = command.execute(request);
-        if (commandName.equalsIgnoreCase("change_language")&&request.getAttribute("prev")!=null){
-            response.sendRedirect((String)request.getAttribute("prev"));
+        if (commandName.equalsIgnoreCase("change_language")&&request.getSession(true).getAttribute("prev")!=null){
+            response.sendRedirect((String)request.getSession(true).getAttribute("prev"));
         } else
 //        response.sendRedirect(QueryUtil.createHttpQueryString(request));
         request.getRequestDispatcher(pageName).forward(request, response);

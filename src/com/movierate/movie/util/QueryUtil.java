@@ -9,11 +9,24 @@ import java.util.Map;
  */
 public class QueryUtil {
 
+    private static final String QUERY_START = "SELECT SQL_CALC_FOUND_ROWS id_movie, title, poster FROM movies ";
+    private static final String IN_GENRES = " IN(SELECT id_movie FROM movies_genres JOIN genres ON movies_genres.id_genre=genres.id_genre WHERE genre='";
+    private static final String IN_COUNTRIES = " IN(SELECT id_movie FROM movies_genres JOIN genres ON movies_genres.id_genre=genres.id_genre WHERE genre='";
+    private static final String IN_PARTICIPANTS = " IN(SELECT id_movie FROM movies_participants JOIN participants ON movies_participants.id_participant=participants.id_participant WHERE name='";
     private static final String GENRE = "genre";
     private static final String COUNTRY = "country";
     private static final String YEAR = "year";
     private static final String PARTICIPANT = "participant";
     private static final String AND = " AND ";
+    private static final String WHERE = "WHERE ";
+    private static final String ID_MOVIE = " id_movie ";
+    private static final String LIMIT = " LIMIT ?,?;";
+    private static final String CLOSE_PARENTHESIS = "')";
+    private static final String EQUAL = "=";
+    private static final String LESS = "<";
+    private static final String MORE_OR_EQUAL = ">=";
+    private static final String AMPERSAND = "&";
+    private static final String INTERROGATION = "?";
 
     private QueryUtil() {
     }
@@ -27,63 +40,67 @@ public class QueryUtil {
         while(params.hasMoreElements()){
             key = params.nextElement();
             value  = request.getParameter(key);
-            query = query + "&" + key + "=" + value;
+            query = query + AMPERSAND + key + EQUAL + value;
         }
 
-        query = request.getRequestURL() + "?" + query;
+        query = request.getRequestURL() + INTERROGATION + query;
 
         return query;
     }
 
     public static String buildMovieSearchQuery(Map<String, String[]> parameters){
 
-        StringBuilder query = new StringBuilder("SELECT SQL_CALC_FOUND_ROWS id_movie, title, poster FROM movies ");
-            query.append("WHERE ");
-            query.append(" id_movie ");
+        StringBuilder query = new StringBuilder(QUERY_START);
+            query.append(WHERE);
+            query.append(ID_MOVIE);
 
         for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
             if (!entry.getValue()[0].isEmpty()) {
                 switch (entry.getKey()) {
                     case GENRE:
-                        query.append(" IN(SELECT id_movie FROM movies_genres JOIN genres ON movies_genres.id_genre=genres.id_genre WHERE genre='");
+                        query.append(IN_GENRES);
                         query.append(entry.getValue()[0]);
-                        query.append("')");
-                        query.append(" AND id_movie ");
+                        query.append(CLOSE_PARENTHESIS);
+                        query.append(AND);
+                        query.append(ID_MOVIE);
                         break;
                     case COUNTRY:
-                        query.append(" IN(SELECT id_movie FROM movies_countries JOIN countries ON movies_countries.id_country=countries.id_country WHERE country='");
+                        query.append(IN_COUNTRIES);
                         query.append(entry.getValue()[0]);
-                        query.append("')");
-                        query.append(" AND id_movie ");
+                        query.append(CLOSE_PARENTHESIS);
+                        query.append(AND);
+                        query.append(ID_MOVIE);
                         break;
                     case YEAR:
-                        query.delete(query.lastIndexOf("id_movie"), query.length());
-                        query.append("year");
+                        query.delete(query.lastIndexOf(ID_MOVIE), query.length());
+                        query.append(YEAR);
                         if (entry.getValue()[0].charAt(entry.getValue()[0].length() - 1) == 's') {
-                            query.append(">=");
+                            query.append(MORE_OR_EQUAL);
                             int year = Integer.parseInt(entry.getValue()[0].substring(0, entry.getValue()[0].length() - 1));
                             query.append(year);
                             query.append(AND);
-                            query.append("year");
-                            query.append("<");
+                            query.append(YEAR);
+                            query.append(LESS);
                             year += 10;
                             query.append(year);
                         } else {
-                            query.append("=");
+                            query.append(EQUAL);
                             query.append(entry.getValue()[0]);
                         }
-                        query.append(" AND id_movie ");
+                        query.append(AND);
+                        query.append(ID_MOVIE);
                         break;
                     case PARTICIPANT:
-                        query.append(" IN(SELECT id_movie FROM movies_participants JOIN participants ON movies_participants.id_participant=participants.id_participant WHERE name='");
+                        query.append(IN_PARTICIPANTS);
                         query.append(entry.getValue()[0]);
-                        query.append("')");
-                        query.append(" AND id_movie ");
+                        query.append(CLOSE_PARENTHESIS);
+                        query.append(AND);
+                        query.append(ID_MOVIE);
                 }
             }
         }
 //        query.delete(query.lastIndexOf(AND),query.length());
-        query.append(" LIMIT ?,?;");
+        query.append(LIMIT);
         return query.toString();
     }
 }

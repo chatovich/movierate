@@ -21,29 +21,29 @@
     <img id="poster" src="${pageContext.request.contextPath}${movie.poster}" alt="No poster available" border="0" >
     <p id="title" style="color: #ff8900"><strong>${movie.title}</strong></p>
     <p><b><fmt:message key="movie.page.year"/>: </b>
-        <a href="/controller?command=filtered_movie_search&year=${movie.year}">${movie.year}</a></p>
+        <a href="${pageContext.request.contextPath}/controller?command=filtered_movie_search&year=${movie.year}">${movie.year}</a></p>
     <p><b><fmt:message key="movie.page.duration"/>:</b> ${movie.duration} <fmt:message key="movie.page.minutes"/> </p>
     <p><b><fmt:message key="movie.page.genre"/>:</b>
         <c:forEach var="genre" items="${movie.movieGenres}">
-        <a href="/controller?command=filtered_movie_search&genre=${genre.genreName}">${genre.genreName}</a>
+        <a href="${pageContext.request.contextPath}/controller?command=filtered_movie_search&genre=${genre.genreName}">${genre.genreName}</a>
         </c:forEach>
     </p>
     <p><b><fmt:message key="movie.page.country"/>:</b>
         <c:forEach var="country" items="${movie.movieCountries}">
-        <a href="/controller?command=filtered_movie_search&country=${country.countryName}">${country.countryName}</a>
+        <a href="${pageContext.request.contextPath}/controller?command=filtered_movie_search&country=${country.countryName}">${country.countryName}</a>
         </c:forEach>
     </p>
         <p><b><fmt:message key="movie.page.director"/>:</b>
             <c:forEach var="participant" items="${movie.movieParticipants}">
             <c:if test="${participant.profession eq 'DIRECTOR'}">
-            <a href="/controller?command=filtered_movie_search&participant=${participant.name}">${participant.name}</a>
+            <a href="${pageContext.request.contextPath}/controller?command=filtered_movie_search&participant=${participant.name}">${participant.name}</a>
             </c:if>
         </c:forEach>
         </p>
     <p><b><fmt:message key="movie.page.actors"/>:</b>
         <c:forEach var="participant" items="${movie.movieParticipants}">
         <c:if test="${participant.profession eq 'ACTOR'}">
-        <a href="/controller?command=filtered_movie_search&participant=${participant.name}">${participant.name}</a>
+        <a href="${pageContext.request.contextPath}/controller?command=filtered_movie_search&participant=${participant.name}">${participant.name}</a>
         </c:if>
         </c:forEach>
     </p>
@@ -57,6 +57,8 @@
     <div style="clear:both;">
         <p>${movie.plot}</p>
         <c:if test="${userSignedIn}">
+            <c:if test="${signedUser.role.roleName eq 'user'}">
+                <c:if test="${!signedUser.isBanned}">
 
         <form action="/controller" method="post" name="add_feedback">
             <input type="hidden" name="command" value="add_feedback">
@@ -92,6 +94,14 @@
                 <label id="users-only"><fmt:message key="movie.comment.onlyusers"/> </label>
             </p>
         </form>
+            </c:if>
+            </c:if>
+        </c:if>
+        <c:if test="${signedUser.isBanned}">
+            <hr>
+            <p class="ban-message" style="color: red"><b>
+                <fmt:message key="movie.page.user.banned"/></b>
+            </p>
         </c:if>
         <c:forEach var="feedback" items="${movie.movieFeedbacks}">
             <c:if test="${feedback.status eq 'PUBLISHED'}">

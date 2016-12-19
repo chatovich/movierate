@@ -117,6 +117,23 @@
                         </form>
                     </c:if>
 
+                    <c:if test="${chooseUser}">
+                        <form action="/controller" role="form" method="post" name="choose-user">
+                            <input type="hidden" name="command" value="get_another_user_page">
+                            <div class="form-group">
+                                <select name="login" class="form-control-static" style="width: 350px; color: black;" required>
+                                    <option value="" disabled selected><fmt:message key="admin.update.movie.chooseuser"/> </option>
+                                    <c:forEach var="user" items="${users}">
+                                        <option value="${user.login}">${user.login}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary"><fmt:message key="admin.add.movie.submit"/></button>
+                            </div>
+                        </form>
+                    </c:if>
+
                     <c:if test="${chooseParticipant}">
                         <form action="/controller" role="form" method="post" name="choose-participant">
                             <input type="hidden" name="command" value="get_participant_for_update">
