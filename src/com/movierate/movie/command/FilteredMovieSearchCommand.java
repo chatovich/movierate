@@ -28,7 +28,6 @@ public class FilteredMovieSearchCommand implements ICommand {
         int page = 1;
         List<Movie> movies;
         Map<String, String[]> parameters = request.getParameterMap();
-        System.out.println(request.getParameter("genre"));
 //        for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 //            System.out.println(entry.getKey()+" - "+entry.getValue()[0]);
 //        }

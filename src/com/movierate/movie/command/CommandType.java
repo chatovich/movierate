@@ -30,6 +30,7 @@ public enum CommandType {
     FILTERED_MOVIE_SEARCH (new FilteredMovieSearchCommand()),
     LOAD_MAIN_PAGE (new LoadMainPageCommand()),
     GET_ALL_USERS (new GetAllUsersCommand()),
+    ADD_LIKE( new AddLikeCommand()),
     CHANGE_USER_STATUS (new ChangeUserStatusCommand()),
     GET_INFO_FOR_MOVIE_ADDING(new GetInfoForMovieAddingCommand());
 

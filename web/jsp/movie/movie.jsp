@@ -119,6 +119,14 @@
                     </c:forEach>
                 </p>
             <p style="clear: both">${feedback.text}</p>
+            <c:if test="${userSignedIn}">
+            <c:if test="${signedUser.role.roleName eq 'user'}">
+                <c:if test="${!signedUser.isBanned}">
+                <button id="add_like" onclick="addLike(${signedUser.id}, ${feedback.id}, ${feedback.likes})">like</button>
+                <p id="like_count${feedback.id}"></p>
+                </c:if>
+                </c:if>
+            </c:if>
             </c:if>
         </c:forEach>
     </div>

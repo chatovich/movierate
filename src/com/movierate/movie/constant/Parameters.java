@@ -33,6 +33,7 @@ public class Parameters {
     public static final String USER_UPDATED = "userUpdated";
     public static final String LOGIN = "login";
     public static final String ID_USER = "id";
+    public static final String ID_USE = "id_user";
     public static final String USER_RATING = "userRating";
     public static final String MOVIE_MARK = "mark";
     public static final String ANOTHER_USER = "anotherUser";
@@ -49,4 +50,5 @@ public class Parameters {
     public static final String BAN = "ban";
     public static final String USERS = "users";
     public static final String CHOOSE_USER = "chooseUser";
+    public static final String LIKES = "likes";
 }

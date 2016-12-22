@@ -1,67 +1,75 @@
 {
   "genres": [
     {
-      "name": "Action",
-      "code": "Боевик"
+      "name": "action",
+      "code": "боевик"
     },
     {
-      "name": "Comedy",
-      "code": "Комедия"
+      "name": "comedy",
+      "code": "комедия"
     },
     {
-      "name": "Thriller",
-      "code": "Триллер"
+      "name": "thriller",
+      "code": "триллер"
     },
     {
-      "name": "Drama",
-      "code": "Драма"
+      "name": "drama",
+      "code": "драма"
     },
     {
-      "name": "Fantasy",
-      "code": "Фэнтези"
+      "name": "fantasy",
+      "code": "фэнтези"
     },
     {
-      "name": "Documantal",
-      "code": "Документальный"
+      "name": "documantal",
+      "code": "документальный"
     },
     {
-      "name": "Biography",
-      "code": "Биография"
+      "name": "biography",
+      "code": "биография"
     },
     {
-      "name": "Detective",
-      "code": "Детектив"
+      "name": "detective",
+      "code": "детектив"
     },
     {
-      "name": "Historic",
-      "code": "Исторический"
+      "name": "historic",
+      "code": "исторический"
     },
     {
-      "name": "Criminal",
-      "code": "Криминал"
+      "name": "criminal",
+      "code": "криминал"
     },
     {
-      "name": "Cartoon",
-      "code": "Мультфильм"
+      "name": "cartoon",
+      "code": "мультфильм"
     },
     {
-      "name": "Adventure",
-      "code": "Приключения"
+      "name": "adventure",
+      "code": "приключения"
     },
     {
-      "name": "Family",
-      "code": "Семейный"
+      "name": "family",
+      "code": "семейный"
     },
     {
-      "name": "Military",
-      "code": "Военный"
+      "name": "military",
+      "code": "военный"
     },
     {
-      "name": "Science Fiction",
-      "code": "Фантастика"
+      "name": "science fiction",
+      "code": "фантастика"
     },
     {
-      "name": "Western",
-      "code": "Вестерн"
+      "name": "arthouse",
+      "code": "артхаус"
+    },
+    {
+      "name": "romance",
+      "code": "романтика"
+    },
+    {
+      "name": "western",
+      "code": "вестерн"
     }
     ]}

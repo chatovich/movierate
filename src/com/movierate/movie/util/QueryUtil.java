@@ -11,7 +11,7 @@ public class QueryUtil {
 
     private static final String QUERY_START = "SELECT SQL_CALC_FOUND_ROWS id_movie, title, poster FROM movies ";
     private static final String IN_GENRES = " IN(SELECT id_movie FROM movies_genres JOIN genres ON movies_genres.id_genre=genres.id_genre WHERE genre='";
-    private static final String IN_COUNTRIES = " IN(SELECT id_movie FROM movies_genres JOIN genres ON movies_genres.id_genre=genres.id_genre WHERE genre='";
+    private static final String IN_COUNTRIES = " IN(SELECT id_movie FROM movies_countries JOIN countries ON movies_countries.id_country=countries.id_country WHERE country='";
     private static final String IN_PARTICIPANTS = " IN(SELECT id_movie FROM movies_participants JOIN participants ON movies_participants.id_participant=participants.id_participant WHERE name='";
     private static final String GENRE = "genre";
     private static final String COUNTRY = "country";

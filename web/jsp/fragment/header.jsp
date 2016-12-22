@@ -21,6 +21,7 @@
     <%--<script src="${pageContext.request.contextPath}/js/select_genres_ru.js"></script>--%>
     <%--&lt;%&ndash;<script src="${pageContext.request.contextPath}/js/add_input.js"></script>&ndash;%&gt;--%>
     <script src="${pageContext.request.contextPath}/js/validation.js"></script>
+    <script src="${pageContext.request.contextPath}/js/likes.js"></script>
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/star_rating.css" rel="stylesheet" />

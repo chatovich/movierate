@@ -45,11 +45,17 @@ public class Controller extends HttpServlet{
         CommandType commandType = CommandType.valueOf(commandName.toUpperCase());
         ICommand command  = commandType.getCommand();
         String pageName = command.execute(request);
+        if ("add_like".equalsIgnoreCase(commandName)){
+            System.out.println(pageName);
+            response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
+            response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
+            response.getWriter().write(pageName);
+        } else{
         if (commandName.equalsIgnoreCase("change_language")&&request.getSession(true).getAttribute("prev")!=null){
             response.sendRedirect((String)request.getSession(true).getAttribute("prev"));
         } else
 //        response.sendRedirect(QueryUtil.createHttpQueryString(request));
-        request.getRequestDispatcher(pageName).forward(request, response);
+        request.getRequestDispatcher(pageName).forward(request, response);}
     }
 
 }

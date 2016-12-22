@@ -26,20 +26,23 @@ import java.util.List;
  */
 public class FeedbackDAOImpl implements FeedbackDAO, DAO {
 
-    public static final Logger LOGGER = LogManager.getLogger(FeedbackDAOImpl.class);
-    public static final String SQL_UPDATE_FEEDBACK_STATUS = "UPDATE feedbacks SET status=? WHERE id_feedback=?";
-    public static final String SQL_FIND_FEEDBACKS_OF_USER = "SELECT id_feedback, text,mark, likes, creating_date, status," +
+    private static final Logger LOGGER = LogManager.getLogger(FeedbackDAOImpl.class);
+    private static final String SQL_UPDATE_FEEDBACK_STATUS = "UPDATE feedbacks SET status=? WHERE id_feedback=?";
+    private static final String SQL_FIND_LIKE = "SELECT user, feedback FROM likes WHERE user=? AND feedback=?";
+    private static final String SQL_ADD_USER_LIKES = "INSERT INTO likes (user, feedback) VALUES (?,?)";
+    private static final String SQL_FIND_FEEDBACKS_OF_USER = "SELECT id_feedback, text,mark, likes, creating_date, status," +
             "movies.id_movie, movies.title FROM feedbacks JOIN movies ON movies.id_movie=feedbacks.to_movie WHERE from_user=?";
-    public static final String SQL_FIND_MARKS_OF_USER = "SELECT id_feedback, mark, movies.id_movie, movies.title FROM feedbacks " +
+    private static final String SQL_FIND_MARKS_OF_USER = "SELECT id_feedback, mark, movies.id_movie, movies.title FROM feedbacks " +
             "JOIN movies ON movies.id_movie=feedbacks.to_movie WHERE from_user=?";
-    public static final String SQL_FIND_FEEDBACKS_OF_MOVIE = "SELECT id_feedback, text,mark, from_user, likes, creating_date, status," +
+    private static final String SQL_FIND_FEEDBACKS_OF_MOVIE = "SELECT id_feedback, text,mark, from_user, likes, creating_date, status," +
             " users.login, users.photo FROM feedbacks JOIN users ON from_user=id_user WHERE to_movie=?;";
-    public static final String SQL_FIND_FEEDBACK_BY_ID = "SELECT id_feedback, text, from_user, to_movie, likes, creating_date, status," +
+    private static final String SQL_FIND_FEEDBACK_BY_ID = "SELECT id_feedback, text, from_user, to_movie, likes, creating_date, status," +
             " users.login, movies.title, mark FROM feedbacks JOIN users ON from_user=id_user JOIN movies ON to_movie=id_movie WHERE id_feedback=?";
-    public static final String SQL_FIND_ALL_FEEDBACKS = "SELECT id_feedback, from_user, to_movie FROM feedbacks";
-    public static final String SQL_FIND_FEEDBACKS_BY_STATUS = "SELECT id_feedback, from_user, to_movie, movies.title, creating_date, users.login, " +
+    private static final String SQL_FIND_ALL_FEEDBACKS = "SELECT id_feedback, from_user, to_movie FROM feedbacks";
+    private static final String SQL_FIND_FEEDBACKS_BY_STATUS = "SELECT id_feedback, from_user, to_movie, movies.title, creating_date, users.login, " +
             "movies.title FROM feedbacks JOIN users ON from_user=id_user JOIN movies ON to_movie=id_movie WHERE status=?";
-    public static final String SQL_SAVE_FEEDBACK = "INSERT INTO feedbacks (text,from_user,to_movie, creating_date, mark) VALUES (?,?,?,?,?)";
+    private static final String SQL_UPDATE_LIKES_IN_FEEDBACKS = "UPDATE feedbacks SET likes=? WHERE id_feedback=?";
+    private static final String SQL_SAVE_FEEDBACK = "INSERT INTO feedbacks (text,from_user,to_movie, creating_date, mark) VALUES (?,?,?,?,?)";
 
 
     /**
@@ -247,5 +250,66 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
             connectionPool.releaseConnection(connection);
         }
         return feedbacksList;
+    }
+
+    @Override
+    public boolean checkLikeExists(long id_user, long id_feedback) throws DAOFailedException {
+        boolean likeExists = false;
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement st = null;
+        try  {
+            connection = connectionPool.takeConnection();
+            st = connection.prepareStatement(SQL_FIND_LIKE);
+            st.setLong(1, id_user);
+            st.setLong(2, id_feedback);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                likeExists = true;
+            }
+        } catch (SQLException e) {
+            throw new DAOFailedException("Impossible to check feedbacks' likes: "+e.getMessage());
+        } finally {
+            close(st);
+            connectionPool.releaseConnection(connection);
+        }
+        return likeExists;
+    }
+
+    @Override
+    public int updateLikes(long id_user, long id_feedback, int likes) throws DAOFailedException {
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement stFeedback = null;
+        PreparedStatement stLikes = null;
+        try{
+            connection = connectionPool.takeConnection();
+            connection.setAutoCommit(false);
+            try{
+                stFeedback = connection.prepareStatement(SQL_UPDATE_LIKES_IN_FEEDBACKS);
+                stFeedback.setInt(1,likes+1);
+                stFeedback.setLong(2,id_feedback);
+                stFeedback.executeUpdate();
+            } finally {
+                close(stFeedback);
+            }
+            try{
+                stLikes = connection.prepareStatement(SQL_ADD_USER_LIKES);
+                stLikes.setLong(1, id_user);
+                stLikes.setLong(2, id_feedback);
+                stLikes.executeUpdate();
+            } finally {
+                close(stLikes);
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                throw new DAOFailedException("Impossible to rollback: "+e.getMessage());
+            }
+            throw new DAOFailedException("Impossible to update likes: "+e.getMessage());
+        }
+        return likes+1;
     }
 }

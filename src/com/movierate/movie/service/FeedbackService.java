@@ -5,6 +5,7 @@ import com.movierate.movie.entity.Feedback;
 import com.movierate.movie.entity.Movie;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.ServiceException;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -47,5 +48,19 @@ public class FeedbackService {
     public void updateFeedbackStatus (boolean isAccepted, String id) throws DAOFailedException {
         FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
         feedbackDAO.updateFeedbackStatus(isAccepted, Long.parseLong(id));
+    }
+
+    public int addLike(long id_user, long id_feedback, int likes) throws ServiceException {
+        FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
+        int likesCount = 0;
+        try {
+            if (!feedbackDAO.checkLikeExists(id_user,id_feedback)){
+                likesCount = feedbackDAO.updateLikes(id_user,id_feedback, likes);
+
+            }
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e.getMessage());
+        }
+        return likesCount;
     }
 }

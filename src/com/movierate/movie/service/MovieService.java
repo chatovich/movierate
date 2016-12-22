@@ -134,7 +134,7 @@ public class MovieService {
     public List<Movie> filteredMovieSearch (Map <String, String[]> parameters, int start, int moviesPerPage) throws ServiceException {
 
         String query = QueryUtil.buildMovieSearchQuery(parameters);
-        System.out.println(query);
+//        System.out.println(query);
         MovieDAOImpl movieDAO = new MovieDAOImpl();
         List<Movie> movies = new ArrayList<>();
         try {
