@@ -20,5 +20,6 @@ public interface FeedbackDAO {
     List<Feedback> findUserMarks (long id) throws DAOFailedException;
     boolean checkLikeExists (long id_user, long id_feedback) throws DAOFailedException;
     int updateLikes(long id_user, long id_feedback, int likes) throws DAOFailedException;
+    int findFeedbackLikes(long id_feedback) throws DAOFailedException;
 
 }

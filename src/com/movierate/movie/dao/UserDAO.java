@@ -16,4 +16,5 @@ public interface UserDAO {
     void updateUser (String login, String email, String password, String path) throws DAOFailedException;
     void changeUserStatus (String login, boolean toBan) throws DAOFailedException;
     List<User> findAllUsers() throws DAOFailedException;
+    List<User> findBannedUsers() throws DAOFailedException;
 }

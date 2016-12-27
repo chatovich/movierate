@@ -18,6 +18,7 @@ public class User extends Entity{
     private String photo;
     private LocalDate registrDate;
     private boolean isBanned;
+    private LocalDate banStart;
     private double rating;
     private List<Feedback> userFeedbacks;
 
@@ -25,7 +26,7 @@ public class User extends Entity{
     }
 
     public User(long id, String login, String password, String email, Role role, int points, String photo,
-                LocalDate registrDate, boolean isBanned, double rating, List<Feedback> userFeedbacks) {
+                LocalDate registrDate, boolean isBanned, LocalDate banStart, double rating, List<Feedback> userFeedbacks) {
         super(id);
         this.login = login;
         this.password = password;
@@ -35,6 +36,7 @@ public class User extends Entity{
         this.photo = photo;
         this.registrDate = registrDate;
         this.isBanned = isBanned;
+        this.banStart = banStart;
         this.rating = rating;
         this.userFeedbacks = userFeedbacks;
     }
@@ -121,6 +123,14 @@ public class User extends Entity{
 
     public void setBanned(boolean banned) {
         isBanned = banned;
+    }
+
+    public LocalDate getBanStart() {
+        return banStart;
+    }
+
+    public void setBanStart(LocalDate banStart) {
+        this.banStart = banStart;
     }
 
     public void setRating(double rating) {

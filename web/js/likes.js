@@ -49,21 +49,19 @@ function addLike(id_user, id_feedback, likes) {
     // var handlerFunction = getReadyStateHandler(req, updateCart);
     // req.onreadystatechange = handlerFunction;
     req.onreadystatechange = function() {
-        if(this.readyState == 4 ){
-            if (this.status == 200){
-                    document.getElementById(name).innerHTML=this.responseText;
-                    alert("ok");
-            }else {
-                alert("fail"+this.status);
-            }}
-        // } else {
-        //     alert ("start fail"+this.readyState);
-        // }
-        // if (this.readyState == 4 && this.status == 200) {
-        //     alert(this.responseText);
-        //     alert("ok");
-        //     document.getElementById('like_count').innerHTML=this.responseText;
-        // }
+        // if(this.readyState == 4 ){
+        //     if (this.status == 200){
+        //             document.getElementById(name).innerHTML=this.responseText;
+        //     }else {
+        //         alert("fail"+this.status);
+        //     }}
+        // // } else {
+        // //     alert ("start fail"+this.readyState);
+        // // }
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById(name).innerHTML="";
+            document.getElementById(name).innerHTML=this.responseText;
+        }
     };
 
     // Открываем HTTP-соединение с помощью POST-метода к

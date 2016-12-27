@@ -2,11 +2,9 @@ package com.movierate.movie.service;
 
 import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.dao.impl.*;
-import com.movierate.movie.entity.Country;
-import com.movierate.movie.entity.Genre;
-import com.movierate.movie.entity.Movie;
-import com.movierate.movie.entity.Participant;
+import com.movierate.movie.entity.*;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.RollbackFailedException;
 import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.util.QueryUtil;
 
@@ -149,5 +147,13 @@ public class MovieService {
         MovieDAOImpl movieDAO = new MovieDAOImpl();
         System.out.println("service"+movieDAO.getMovieQuantity());
         return movieDAO.getMovieQuantity();
+    }
+
+    public void deleteMovie(long id_movie) throws DAOFailedException, RollbackFailedException {
+        MovieDAOImpl movieDAO = new MovieDAOImpl();
+        Movie movie = movieDAO.findEntityById(id_movie);
+        String poster = movie.getPoster();
+        movieDAO.deleteMovie(id_movie);
+
     }
 }

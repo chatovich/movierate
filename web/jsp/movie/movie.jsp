@@ -122,8 +122,8 @@
             <c:if test="${userSignedIn}">
             <c:if test="${signedUser.role.roleName eq 'user'}">
                 <c:if test="${!signedUser.isBanned}">
-                <button id="add_like" onclick="addLike(${signedUser.id}, ${feedback.id}, ${feedback.likes})">like</button>
-                <p id="like_count${feedback.id}"></p>
+                <button id="add_like" onclick="addLike(${signedUser.id}, ${feedback.id}, ${feedback.likes})"><img src="../../img/icon/like.jpg"> </button>
+                <b><span class="like" id="like_count${feedback.id}">${feedback.likes}</span></b>
                 </c:if>
                 </c:if>
             </c:if>

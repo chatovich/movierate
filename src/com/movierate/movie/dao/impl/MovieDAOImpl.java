@@ -6,6 +6,7 @@ import com.movierate.movie.dao.DAO;
 import com.movierate.movie.dao.MovieDAO;
 import com.movierate.movie.entity.*;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.RollbackFailedException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class that connects with database and operates with table "movies"
+ * Class that connects with database and operates with table "movies" and related to it (movies_genres, movies_countries, movies_participants)
  */
 public class MovieDAOImpl implements MovieDAO, DAO {
 
@@ -37,6 +38,12 @@ public class MovieDAOImpl implements MovieDAO, DAO {
     private static final String SQL_DELETE_MOVIES_GENRES = "DELETE FROM movies_genres WHERE id_movie=?";
     private static final String SQL_DELETE_MOVIES_COUNTRIES = "DELETE FROM movies_countries WHERE id_movie=?";
     private static final String SQL_DELETE_MOVIES_PARTICIPANTS = "DELETE FROM movies_participants WHERE id_movie=?";
+    private static final String SQL_DELETE_FEEDBACKS = "DELETE FROM feedbacks WHERE to_movie=?";
+    private static final String SQL_DELETE_MOVIE = "DELETE FROM movies WHERE id_movie=?";
+    private static final String SQL_DELETE_LIKES = "DELETE FROM likes WHERE feedback IN (SELECT id_feedback from feedbacks WHERE to_movie = ?)";
+    private static final String SELECT_MOVIE = "SELECT id_movie, title, rating FROM movies WHERE id_movie IN (";
+    private static final String DELETE_LIKE = "DELETE FROM likes WHERE feedback IN (";
+
 
     private static int movieQuantity;
 
@@ -183,6 +190,45 @@ public class MovieDAOImpl implements MovieDAO, DAO {
         }
     }
 
+    @Override
+    public void deleteMovie(long id) throws DAOFailedException, RollbackFailedException {
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement stCountryDel = null;
+        PreparedStatement stGenreDel = null;
+        PreparedStatement stParticipantDel = null;
+        PreparedStatement stDeleteLikes = null;
+        PreparedStatement stDeleteFeedbacks = null;
+        PreparedStatement stDeleteMovie = null;
+        try{
+            connection = connectionPool.takeConnection();
+            connection.setAutoCommit(false);
+            stCountryDel = connection.prepareStatement(SQL_DELETE_MOVIES_COUNTRIES);
+            deleteElementsBeforeUpdate(stCountryDel, id);
+            stGenreDel = connection.prepareStatement(SQL_DELETE_MOVIES_GENRES);
+            deleteElementsBeforeUpdate(stGenreDel, id);
+            stParticipantDel = connection.prepareStatement(SQL_DELETE_MOVIES_PARTICIPANTS);
+            deleteElementsBeforeUpdate(stParticipantDel, id);
+            stDeleteLikes = connection.prepareStatement(SQL_DELETE_LIKES);
+            deleteElementsBeforeUpdate(stDeleteLikes, id);
+            stDeleteFeedbacks = connection.prepareStatement(SQL_DELETE_FEEDBACKS);
+            deleteElementsBeforeUpdate(stDeleteFeedbacks,id);
+            stDeleteMovie = connection.prepareStatement(SQL_DELETE_MOVIE);
+            deleteElementsBeforeUpdate(stDeleteMovie,id);
+
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                throw new RollbackFailedException("Connection rollback failed while deleting a movie: "+e.getMessage());
+            }
+            throw new DAOFailedException("Impossible to delete movie: "+e.getMessage());
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+    }
+
     /**
      * finds all movies by given genre
      *
@@ -311,16 +357,6 @@ public class MovieDAOImpl implements MovieDAO, DAO {
         return movies;
     }
 
-    private void deleteElementsBeforeUpdate (PreparedStatement st, long id) throws SQLException {
-
-        try {
-            st.setLong(1,id);
-            st.executeUpdate();
-        } finally {
-            close(st);
-        }
-    }
-
     @Override
     public List<Movie> findMoviesByDynamicId(List<Feedback> feedbacks) throws DAOFailedException {
         List <Movie> movies = new ArrayList<>();
@@ -329,7 +365,7 @@ public class MovieDAOImpl implements MovieDAO, DAO {
         PreparedStatement st = null;
         try {
             connection = connectionPool.takeConnection();
-            st = connection.prepareStatement(buildQuery(feedbacks.size()));
+            st = connection.prepareStatement(buildQuery(feedbacks.size(), SELECT_MOVIE));
             for (int i = 0; i < feedbacks.size(); i++) {
                 st.setLong(i+1, feedbacks.get(i).getMovie().getId());
             }
@@ -388,8 +424,7 @@ public class MovieDAOImpl implements MovieDAO, DAO {
         return moviesList;
     }
 
-    private String buildQuery(int size){
-        String query = "SELECT id_movie, title, rating FROM movies WHERE id_movie IN (";
+    private String buildQuery(int size, String query){
         StringBuilder sb = new StringBuilder(query);
         for (int i = 0; i < size; i++) {
             sb.append("?");
@@ -399,5 +434,15 @@ public class MovieDAOImpl implements MovieDAO, DAO {
         }
         sb.append(")");
         return sb.toString();
+    }
+
+    private void deleteElementsBeforeUpdate (PreparedStatement st, long id) throws SQLException {
+
+        try {
+            st.setLong(1,id);
+            st.executeUpdate();
+        } finally {
+            close(st);
+        }
     }
 }

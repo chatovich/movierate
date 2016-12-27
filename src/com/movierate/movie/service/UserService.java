@@ -10,19 +10,22 @@ import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.type.Role;
 import com.movierate.movie.util.PasswordHash;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
-import java.util.List;
-import java.util.Map;
+import java.time.Period;
+import java.util.*;
 
 /**
  * Class that encapsulates logic connected with entity "user" and represents intermediate layer between database and client
  */
 public class UserService {
+
+    private static final Logger LOGGER = LogManager.getLogger(UserService.class);
 
     /**
      * creates a new Object "User" using tha data from inout form on registration page
@@ -156,6 +159,29 @@ public class UserService {
         } catch (DAOFailedException e) {
             throw new ServiceException(e.getMessage());
         }
+    }
+
+    public void controlBan(){
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                UserDAOImpl userDAO = new UserDAOImpl();
+                try {
+                    List<User> bannedUsers = userDAO.findBannedUsers();
+                    for (User user : bannedUsers) {
+                        int days = Period.between(user.getBanStart(),LocalDate.now()).getDays();
+                        if (days>10){
+                            userDAO.changeUserStatus(user.getLogin(),false);
+                        }
+                    }
+                } catch (DAOFailedException e) {
+                    LOGGER.log(Level.ERROR, e.getMessage());
+                }
+
+            }
+        };
+        new Timer(true).scheduleAtFixedRate(task, 0,60000);
+
     }
 
     private double calcSingleRating (double mark, double movieRating){

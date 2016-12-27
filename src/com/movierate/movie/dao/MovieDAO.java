@@ -3,6 +3,7 @@ package com.movierate.movie.dao;
 import com.movierate.movie.entity.Feedback;
 import com.movierate.movie.entity.Movie;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.RollbackFailedException;
 
 import java.util.List;
 
@@ -19,4 +20,5 @@ public interface MovieDAO {
     Movie findEntityById(long id) throws DAOFailedException;
     List<Movie> findMoviesByDynamicId(List<Feedback> feedbacks) throws DAOFailedException;
     List<Movie> findFilteredMovies (String query, int start, int moviesPerPage) throws DAOFailedException;
+    void deleteMovie(long id) throws DAOFailedException, RollbackFailedException;
 }

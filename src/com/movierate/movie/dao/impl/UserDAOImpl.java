@@ -22,14 +22,15 @@ import java.util.List;
 public class UserDAOImpl implements UserDAO, DAO {
 
     public static final Logger LOGGER = LogManager.getLogger(UserDAOImpl.class);
-    public static final String SQL_FIND_USER_BY_LOGIN = "SELECT id_user,login,password,e_mail,points,photo,rating,isBanned," +
-            "role, registr_date FROM users WHERE login=?";
+    public static final String SQL_FIND_USER_BY_LOGIN = "SELECT id_user,login,password,e_mail,points,photo,rating,is_banned," +
+            "role, registr_date, ban_start FROM users WHERE login=?";
     public static final String SQL_SAVE_USER = "INSERT into users (login, password, e_mail, registr_date, role, photo) " +
             "VALUES (?,?,?,?,?,?)";
     public static final String SQL_FIND_LOGIN_INFO = "SELECT id_user, login, password, role FROM users WHERE login=?";
     public static final String SQL_FIND_ALL_USERS = "SELECT id_user, login FROM users WHERE role='user'";
+    public static final String SQL_FIND_BANNED_USERS = "SELECT id_user, login, ban_start FROM users WHERE is_banned=1";
     public static final String SQL_UPDATE_USER = "UPDATE users SET e_mail=?,password=? WHERE login=?";
-    public static final String SQL_UPDATE_USER_STATUS = "UPDATE users SET isBanned=? WHERE login=?";
+    public static final String SQL_UPDATE_USER_STATUS = "UPDATE users SET is_banned=?, ban_start=? WHERE login=?";
     public static final String SQL_UPDATE_USER_WITH_PHOTO = "UPDATE users SET e_mail=?,password=?, photo=? WHERE login=?";
 
 
@@ -53,8 +54,9 @@ public class UserDAOImpl implements UserDAO, DAO {
                 user.setPhoto(rs.getString("photo"));
                 //change to double!!!
                 user.setRating(rs.getInt("rating"));
-                if (rs.getInt("isBanned")==1){
+                if (rs.getInt("is_banned")==1){
                     user.setBanned(true);
+                    user.setBanStart(LocalDate.parse(rs.getString("ban_start")));
                 } else {
                     user.setBanned(false);
                 }
@@ -167,11 +169,13 @@ public class UserDAOImpl implements UserDAO, DAO {
         try {
             connection = pool.takeConnection();
                 st = connection.prepareStatement(SQL_UPDATE_USER_STATUS);
-                st.setString(2,login);
+                st.setString(3,login);
             if (toBan){
                 st.setInt(1,1);
+                st.setString(2,LocalDate.now().toString());
             } else {
                 st.setInt(1,0);
+                st.setString(2,null);
             }
             st.executeUpdate();
         } catch (SQLException e) {
@@ -200,6 +204,32 @@ public class UserDAOImpl implements UserDAO, DAO {
             }
         } catch (SQLException e) {
             throw new DAOFailedException("Impossible to find all user in db: "+e.getMessage());
+        } finally {
+            close(st);
+            pool.releaseConnection(connection);
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> findBannedUsers() throws DAOFailedException {
+        List<User> users = new ArrayList<>();
+        ConnectionPool pool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        Statement st = null;
+        try {
+            connection = pool.takeConnection();
+            st = connection.createStatement();
+            ResultSet rs = st.executeQuery(SQL_FIND_BANNED_USERS);
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getLong("id_user"));
+                user.setLogin(rs.getString("login"));
+                user.setBanStart(LocalDate.parse(rs.getString("ban_start")));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            throw new DAOFailedException("Impossible to find banned user in db: "+e.getMessage());
         } finally {
             close(st);
             pool.releaseConnection(connection);

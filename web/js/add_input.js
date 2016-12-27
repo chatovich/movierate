@@ -121,4 +121,10 @@ function add_actor(obj)
             '<div class="form-group"><input type="submit" class="btn btn-primary" value="<fmt:message key="admin.add.movie.submit"/>" style="margin-top:10px"></input></div></form></div>';
     }
 
+    function sure_delete() {
+        document.getElementById('sure').innerHTML = 'Are you sure?';
+        document.getElementById('del').innerHTML = '';
+        document.getElementById('del').innerHTML = '<button class="btn btn-primary" name="action" value="delete"><fmt:message key="admin.add.movie.delete"/></button>';
+    }
+
 

@@ -7,6 +7,7 @@ import com.movierate.movie.entity.Genre;
 import com.movierate.movie.entity.Movie;
 import com.movierate.movie.entity.Participant;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.RollbackFailedException;
 import com.movierate.movie.service.CountryService;
 import com.movierate.movie.service.GenreService;
 import com.movierate.movie.service.MovieService;
@@ -31,8 +32,19 @@ public class GetMovieInfoForUpdateCommand implements ICommand {
     @Override
     public String execute(HttpServletRequest request) {
 
-        String id_movie = request.getParameter(Parameters.ID_MOVIE);
         MovieService movieService = new MovieService();
+        String id_movie = request.getParameter(Parameters.ID_MOVIE);
+        if (request.getParameter(Parameters.ACTION).equals(Parameters.DELETE)){
+            try {
+                movieService.deleteMovie(Long.parseLong(id_movie));
+                request.setAttribute(Parameters.MOVIE_DELETED, true);
+            } catch (DAOFailedException|RollbackFailedException e) {
+                LOGGER.log(Level.ERROR, e.getMessage());
+            }
+            return PagePath.USER_PAGE;
+
+        }
+
         Movie movie;
         try {
             movie = movieService.findMovieById(Integer.parseInt(id_movie));

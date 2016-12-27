@@ -51,4 +51,7 @@ public class Parameters {
     public static final String USERS = "users";
     public static final String CHOOSE_USER = "chooseUser";
     public static final String LIKES = "likes";
+    public static final String ACTION = "action";
+    public static final String DELETE = "delete";
+    public static final String MOVIE_DELETED = "movieDeleted";
 }

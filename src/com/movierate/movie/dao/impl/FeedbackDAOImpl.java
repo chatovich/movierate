@@ -30,6 +30,7 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
     private static final String SQL_UPDATE_FEEDBACK_STATUS = "UPDATE feedbacks SET status=? WHERE id_feedback=?";
     private static final String SQL_FIND_LIKE = "SELECT user, feedback FROM likes WHERE user=? AND feedback=?";
     private static final String SQL_ADD_USER_LIKES = "INSERT INTO likes (user, feedback) VALUES (?,?)";
+    private static final String SQL_FIND_FEEDBACK_LIKES = "SELECT likes FROM feedbacks WHERE id_feedback=?";
     private static final String SQL_FIND_FEEDBACKS_OF_USER = "SELECT id_feedback, text,mark, likes, creating_date, status," +
             "movies.id_movie, movies.title FROM feedbacks JOIN movies ON movies.id_movie=feedbacks.to_movie WHERE from_user=?";
     private static final String SQL_FIND_MARKS_OF_USER = "SELECT id_feedback, mark, movies.id_movie, movies.title FROM feedbacks " +
@@ -311,5 +312,29 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
             throw new DAOFailedException("Impossible to update likes: "+e.getMessage());
         }
         return likes+1;
+    }
+
+    @Override
+    public int findFeedbackLikes(long id_feedback) throws DAOFailedException {
+
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement st = null;
+        int likes = 0;
+        try  {
+            connection = connectionPool.takeConnection();
+            st = connection.prepareStatement(SQL_FIND_FEEDBACK_LIKES);
+            st.setLong(1, id_feedback);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                likes = rs.getInt("likes");
+            }
+        } catch (SQLException e) {
+            throw new DAOFailedException("Impossible to find feedbacks' likes: "+e.getMessage());
+        } finally {
+            close(st);
+            connectionPool.releaseConnection(connection);
+        }
+        return likes;
     }
 }

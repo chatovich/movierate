@@ -78,6 +78,9 @@
                     <c:if test="${genreAdded}">
                         <span class="admin-success"><fmt:message key="admin.genre.added"/> </span>
                     </c:if>
+                    <c:if test="${movieDeleted}">
+                        <span class="admin-success"><fmt:message key="admin.movie.deleted"/> </span>
+                    </c:if>
                     <c:if test="${movieAdded}">
                         <span class="admin-success"><fmt:message key="admin.movie.added"/> </span>
                     </c:if>
@@ -89,6 +92,9 @@
                     </c:if>
                     <c:if test="${movieExists}">
                         <span class="validation-msg"><fmt:message key="admin.movie.exists"/> </span>
+                    </c:if>
+                    <c:if test="${(signedUser.isBanned)&&(!showAnotherUser)}">
+                        <span class="validation-msg"><fmt:message key="user.banned"/> ${signedUser.banStart} </span>
                     </c:if>
                     <c:if test="${emptyField}">
                         <span class="validation-msg"><fmt:message key="admin.movie.empty.fields"/> </span>
@@ -111,8 +117,11 @@
                                     </c:forEach>
                                 </select>
                             </div>
+                            <div id="sure"></div>
                             <div>
-                                <button class="btn btn-primary"><fmt:message key="admin.add.movie.submit"/></button>
+                                <%--<input type="submit" class="btn btn-primary" name="action" value="<fmt:message key="admin.add.movie.update"/>">--%>
+                                <span id="del"><a href="#" type="button" class="btn btn-primary" onclick="sure_delete()"><fmt:message key="admin.add.movie.delete"/></a></span>
+                                <button class="btn btn-primary" name="action" value="update"><fmt:message key="admin.add.movie.update"/></button>
                             </div>
                         </form>
                     </c:if>
@@ -160,6 +169,7 @@
 <c:import url="../fragment/right_block.jsp"/>
 <script>
     <%@include file="../../js/validation.js"%>
+    <%@include file="../../js/add_input.js"%>
     <%--<c:import url="../../js/add_input.js"/>--%>
 </script>
 

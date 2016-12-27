@@ -56,7 +56,8 @@ public class FeedbackService {
         try {
             if (!feedbackDAO.checkLikeExists(id_user,id_feedback)){
                 likesCount = feedbackDAO.updateLikes(id_user,id_feedback, likes);
-
+            } else {
+                likesCount = feedbackDAO.findFeedbackLikes(id_feedback);
             }
         } catch (DAOFailedException e) {
             throw new ServiceException(e.getMessage());
