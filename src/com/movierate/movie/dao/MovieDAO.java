@@ -21,4 +21,6 @@ public interface MovieDAO {
     List<Movie> findMoviesByDynamicId(List<Feedback> feedbacks) throws DAOFailedException;
     List<Movie> findFilteredMovies (String query, int start, int moviesPerPage) throws DAOFailedException;
     void deleteMovie(long id) throws DAOFailedException, RollbackFailedException;
+    void updateMovieRating(double rating, long id_movie) throws DAOFailedException;
+    List<Movie> findTopMovies() throws DAOFailedException;
 }

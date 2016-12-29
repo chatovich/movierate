@@ -31,12 +31,14 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
     private static final String SQL_FIND_LIKE = "SELECT user, feedback FROM likes WHERE user=? AND feedback=?";
     private static final String SQL_ADD_USER_LIKES = "INSERT INTO likes (user, feedback) VALUES (?,?)";
     private static final String SQL_FIND_FEEDBACK_LIKES = "SELECT likes FROM feedbacks WHERE id_feedback=?";
+    private static final String SQL_FIND_LATEST_FEEDBACK = "SELECT id_feedback, text, to_movie, movies.title FROM feedbacks " +
+            "JOIN movies ON movies.id_movie=feedbacks.to_movie WHERE status='published' ORDER BY creating_date DESC LIMIT 5;";
     private static final String SQL_FIND_FEEDBACKS_OF_USER = "SELECT id_feedback, text,mark, likes, creating_date, status," +
-            "movies.id_movie, movies.title FROM feedbacks JOIN movies ON movies.id_movie=feedbacks.to_movie WHERE from_user=?";
+            "movies.id_movie, movies.title FROM feedbacks JOIN movies ON movies.id_movie=feedbacks.to_movie WHERE from_user=? ORDER BY creating_date DESC";
     private static final String SQL_FIND_MARKS_OF_USER = "SELECT id_feedback, mark, movies.id_movie, movies.title FROM feedbacks " +
             "JOIN movies ON movies.id_movie=feedbacks.to_movie WHERE from_user=?";
     private static final String SQL_FIND_FEEDBACKS_OF_MOVIE = "SELECT id_feedback, text,mark, from_user, likes, creating_date, status," +
-            " users.login, users.photo FROM feedbacks JOIN users ON from_user=id_user WHERE to_movie=?;";
+            " users.login, users.photo FROM feedbacks JOIN users ON from_user=id_user WHERE status='published' AND to_movie=? ORDER BY creating_date DESC;";
     private static final String SQL_FIND_FEEDBACK_BY_ID = "SELECT id_feedback, text, from_user, to_movie, likes, creating_date, status," +
             " users.login, movies.title, mark FROM feedbacks JOIN users ON from_user=id_user JOIN movies ON to_movie=id_movie WHERE id_feedback=?";
     private static final String SQL_FIND_ALL_FEEDBACKS = "SELECT id_feedback, from_user, to_movie FROM feedbacks";
@@ -52,7 +54,7 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
      * @return list containing feedbacks of the movie
      */
     @Override
-    public List <Feedback> findFeedbacksByMovieId(long id) {
+    public List <Feedback> findFeedbacksByMovieId(long id) throws DAOFailedException {
         List<Feedback> feedbacksList = new ArrayList<>();
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         ProxyConnection connection = null;
@@ -75,7 +77,7 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
                 feedbacksList.add(feedback);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
+            throw new DAOFailedException("Impossible to find feedbacks by movie id: "+e.getMessage());
         } finally {
             close(st);
             connectionPool.releaseConnection(connection);
@@ -336,5 +338,38 @@ public class FeedbackDAOImpl implements FeedbackDAO, DAO {
             connectionPool.releaseConnection(connection);
         }
         return likes;
+    }
+
+    /**
+     * Finds 5 latest feedbacks for main page
+     * @return list with feedbacks
+     * @throws DAOFailedException if method invokes DaoFailedException
+     */
+    @Override
+    public List<Feedback> findLatestFeedbacks() throws DAOFailedException {
+        List<Feedback> feedbacksList = new ArrayList<>();
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        Statement statement = null;
+
+        try  {
+            connection = connectionPool.takeConnection();
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(SQL_FIND_LATEST_FEEDBACK);
+            while (rs.next()){
+                Feedback feedback = new Feedback();
+                feedback.setId(rs.getLong("id_feedback"));
+                feedback.setMovie(new Movie(rs.getLong("to_movie"), rs.getString("movies.title")));
+                feedback.setText(rs.getString("text"));
+                feedbacksList.add(feedback);
+            }
+
+        } catch (SQLException e) {
+            throw new DAOFailedException("Impossible to find latest feedbacks: "+e.getMessage());
+        } finally {
+            close(statement);
+            connectionPool.releaseConnection(connection);
+        }
+        return feedbacksList;
     }
 }

@@ -154,6 +154,17 @@ public class MovieService {
         Movie movie = movieDAO.findEntityById(id_movie);
         String poster = movie.getPoster();
         movieDAO.deleteMovie(id_movie);
+    }
 
+    public List<Movie> findTopMovies() throws ServiceException {
+        MovieDAOImpl movieDAO = new MovieDAOImpl();
+        List<Movie> topMovies = new ArrayList<>();
+        try {
+            topMovies = movieDAO.findTopMovies();
+
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e.getMessage());
+        }
+        return topMovies;
     }
 }

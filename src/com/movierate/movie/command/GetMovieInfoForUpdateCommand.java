@@ -32,6 +32,7 @@ public class GetMovieInfoForUpdateCommand implements ICommand {
     @Override
     public String execute(HttpServletRequest request) {
 
+
         MovieService movieService = new MovieService();
         String id_movie = request.getParameter(Parameters.ID_MOVIE);
         if (request.getParameter(Parameters.ACTION).equals(Parameters.DELETE)){

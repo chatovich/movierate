@@ -28,7 +28,8 @@ public class Parameters {
     public static final String NO_FEEDBACK = "noFeedback";
     public static final String SHOW_FEEDBACK = "showFeedback";
     public static final String FEEDBACK_ACTION = "feedback_action";
-    public static final String STATUS_UPDATED = "statusUpdated";
+    public static final String FEEDBACK_ACCEPTED = "feedbackAccepted";
+    public static final String FEEDBACK_REJECTED = "feedbackRejected";
     public static final String NEW_PASSWORD = "new_password";
     public static final String USER_UPDATED = "userUpdated";
     public static final String LOGIN = "login";
@@ -54,4 +55,6 @@ public class Parameters {
     public static final String ACTION = "action";
     public static final String DELETE = "delete";
     public static final String MOVIE_DELETED = "movieDeleted";
+    public static final String LATEST_FEEDBACKS = "latestFeedbacks";
+    public static final String TOP_MOVIES = "topMovies";
 }

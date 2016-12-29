@@ -24,11 +24,13 @@ public class MovieDAOImpl implements MovieDAO, DAO {
     private static final Logger LOGGER = LogManager.getLogger(MovieDAOImpl.class);
     private static final String SQL_FIND_TITLE = "SELECT title FROM movies WHERE title=?";
     private static final String SQL_FIND_ALL_MOVIES = "SELECT id_movie, title FROM movies";
+    private static final String SQL_FIND_TOP_MOVIES = "SELECT id_movie, title, rating FROM movies ORDER BY rating DESC LIMIT 10";
     private static final String SQL_INSERT_MOVIES_GENRES = "INSERT INTO movies_genres (id_movie, id_genre) VALUES (?,?)";
     private static final String SQL_INSERT_MOVIES_COUNTRIES = "INSERT INTO movies_countries (id_movie, id_country) VALUES (?,?)";
     private static final String SQL_INSERT_MOVIES_PARTICIPANTS = "INSERT INTO movies_participants (id_movie, id_participant) VALUES (?,?)";
     private static final String SQL_FIND_MOVIES_BY_GENRE = "SELECT SQL_CALC_FOUND_ROWS * FROM movies WHERE id_movie IN (SELECT id_movie FROM movies_genres JOIN genres ON movies_genres.id_genre=genres.id_genre WHERE genre=?) LIMIT ?,?;";
     private static final String SQL_FOUND_ROWS = "SELECT FOUND_ROWS()";
+    private static final String SQL_UPDATE_MOVIE_RATING = "UPDATE movies SET rating=? WHERE id_movie=?";
     private static final String SQL_FIND_GENRES_OF_MOVIE = "SELECT genre FROM genres WHERE id_genre IN " +
             "(SELECT id_genre FROM movies_genres WHERE id_movie=?)";
     private static final String SQL_FIND_MOVIE_BY_ID = "SELECT id_movie, title, rating,year,plot,poster,trailer,duration,points, adding_date FROM movies WHERE id_movie=?";
@@ -348,7 +350,6 @@ public class MovieDAOImpl implements MovieDAO, DAO {
                 movies.add(movie);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Problem connecting with db " + e.getMessage());
             throw new DAOFailedException("Finding all movies failed: "+e.getMessage());
         } finally {
             close(st);
@@ -422,6 +423,51 @@ public class MovieDAOImpl implements MovieDAO, DAO {
             connectionPool.releaseConnection(connection);
         }
         return moviesList;
+    }
+
+    @Override
+    public void updateMovieRating(double rating, long id_movie) throws DAOFailedException {
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        PreparedStatement st = null;
+        try {
+            connection = connectionPool.takeConnection();
+            st = connection.prepareStatement(SQL_UPDATE_MOVIE_RATING);
+            st.setDouble(1, rating);
+            st.setLong(2, id_movie);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOFailedException("Updating movie rating failed: "+e.getMessage());
+        } finally {
+            close(st);
+            connectionPool.releaseConnection(connection);
+        }
+    }
+
+    @Override
+    public List<Movie> findTopMovies() throws DAOFailedException {
+        List <Movie> topMovies = new ArrayList<>();
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ProxyConnection connection = null;
+        Statement st = null;
+        try {
+            connection = connectionPool.takeConnection();
+            st = connection.createStatement();
+            ResultSet rs = st.executeQuery(SQL_FIND_TOP_MOVIES);
+            while (rs.next()) {
+                Movie movie = new Movie();
+                movie.setId(rs.getLong("id_movie"));
+                movie.setTitle(rs.getString("title"));
+                movie.setRating(rs.getDouble("rating"));
+                topMovies.add(movie);
+            }
+        } catch (SQLException e) {
+            throw new DAOFailedException("Finding top movies failed: "+e.getMessage());
+        } finally {
+            close(st);
+            connectionPool.releaseConnection(connection);
+        }
+        return topMovies;
     }
 
     private String buildQuery(int size, String query){

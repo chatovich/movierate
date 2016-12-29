@@ -1,0 +1,97 @@
+/*#radius select {*/
+.select-right {
+    padding:8px;
+    /*margin-top: 8px;*/
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius:4px;
+    box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    background: #f8f8f8;
+    color:#888;
+    border:none;
+    outline:none;
+    display: inline-block;
+    appearance:none;
+    cursor:pointer;
+    width: 200px;
+}
+label {
+    margin-bottom: 20px;
+    position:relative
+}
+
+h2 {
+    text-align: center;
+    font-family: Museo Cyrl;
+}
+
+.searchbutton {
+    background-color: #49abff;
+    width: 130px;
+    text-align: center;
+    padding: 7px 41px;
+    border: none;
+    border-radius: 4px;
+    font: 16px "MS Serif", "New York", serif;
+    font-weight: bold;
+    color: #f7f6ff;
+}
+
+.main-p {
+    color: #49abff;
+    font-size: 16px;
+}
+
+a {
+    font-family:Museo Cyrl;
+}
+
+.main-text {
+    text-align: justify;
+    color: white;
+    font-size: 12px;
+}
+
+.main-search {
+    background-color: #666;
+    margin-right: 90px;
+    margin-left: 90px;
+    margin-bottom: 30px;
+    padding: 15px 30px;
+    text-align: center;
+}
+
+.blocks {
+    background-color: #666;
+    width: 350px;
+    float: left;
+    padding: 15px 30px;
+    text-align: center;
+    margin: 30px;
+}
+
+#main-bottom {
+    justify-content: space-around;
+    display: flex;
+}
+
+#main-bottom a{
+    color: white;
+    text-decoration: underline;
+    text-align: left;
+}
+
+#main-bottom table {
+    border-collapse:separate;
+    border-spacing: 5px;
+}
+
+#main-bottom p {
+    margin-bottom: 0.1em;
+    margin-top: 0.1em;
+}
+
+#search-header {
+    color: #49abff;
+}

@@ -41,8 +41,11 @@
                     <c:if test="${noFeedback}">
                         <fmt:message key="admin.no.feedback"/>
                     </c:if>
-                    <c:if test="${statusUpdated}">
-                    <span class="admin-success"><fmt:message key="admin.feedback.status.updated"/></span>
+                    <c:if test="${feedbackAccepted}">
+                    <span class="admin-success"><fmt:message key="admin.feedback.accepted"/></span>
+                    </c:if>
+                    <c:if test="${feedbackRejected}">
+                        <span class="admin-success"><fmt:message key="admin.feedback.rejected"/></span>
                     </c:if>
                     <ul>
                         <c:forEach var="feedback" items="${newFeedbacks}">
