@@ -1,5 +1,9 @@
 package com.movierate.movie.connection;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.*;
 import java.util.Map;
 import java.util.Properties;
@@ -9,6 +13,8 @@ import java.util.concurrent.Executor;
  * Created by Yultos_ on 23.11.2016
  */
 public class ProxyConnection implements Connection{
+
+    private static final Logger LOGGER = LogManager.getLogger(ProxyConnection.class);
 
     private Connection connection;
 
@@ -28,12 +34,12 @@ public class ProxyConnection implements Connection{
 
     @Override
     public CallableStatement prepareCall(String sql) throws SQLException {
-        return null;
+        return connection.prepareCall(sql);
     }
 
     @Override
     public String nativeSQL(String sql) throws SQLException {
-        return null;
+        return connection.nativeSQL(sql);
     }
 
     @Override
@@ -61,9 +67,16 @@ public class ProxyConnection implements Connection{
 
     @Override
     public void close() throws SQLException {
-        connection.close();
-        //ConnectionPool.getInstance().releaseConnection(this);
+        ConnectionPool.getInstance().releaseConnection(this);
 
+    }
+
+    public void realClose(){
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR, "Impossible to close connection");
+        }
     }
 
     @Override
@@ -73,7 +86,7 @@ public class ProxyConnection implements Connection{
 
     @Override
     public DatabaseMetaData getMetaData() throws SQLException {
-        return null;
+        return connection.getMetaData();
     }
 
     @Override
@@ -83,7 +96,7 @@ public class ProxyConnection implements Connection{
 
     @Override
     public boolean isReadOnly() throws SQLException {
-        return false;
+        return connection.isReadOnly();
     }
 
     @Override
@@ -93,7 +106,7 @@ public class ProxyConnection implements Connection{
 
     @Override
     public String getCatalog() throws SQLException {
-        return null;
+        return connection.getCatalog();
     }
 
     @Override
@@ -103,12 +116,12 @@ public class ProxyConnection implements Connection{
 
     @Override
     public int getTransactionIsolation() throws SQLException {
-        return 0;
+        return connection.getTransactionIsolation();
     }
 
     @Override
     public SQLWarning getWarnings() throws SQLException {
-        return null;
+        return connection.getWarnings();
     }
 
     @Override
@@ -128,12 +141,12 @@ public class ProxyConnection implements Connection{
 
     @Override
     public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
-        return null;
+        return connection.prepareCall(sql, resultSetType, resultSetConcurrency);
     }
 
     @Override
     public Map<String, Class<?>> getTypeMap() throws SQLException {
-        return null;
+        return connection.getTypeMap();
     }
 
     @Override
@@ -148,17 +161,17 @@ public class ProxyConnection implements Connection{
 
     @Override
     public int getHoldability() throws SQLException {
-        return 0;
+        return connection.getHoldability();
     }
 
     @Override
     public Savepoint setSavepoint() throws SQLException {
-        return null;
+        return connection.setSavepoint();
     }
 
     @Override
     public Savepoint setSavepoint(String name) throws SQLException {
-        return null;
+        return connection.setSavepoint(name);
     }
 
     @Override
@@ -174,17 +187,17 @@ public class ProxyConnection implements Connection{
 
     @Override
     public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-        return null;
+        return connection.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability);
     }
 
     @Override
     public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-        return null;
+        return connection.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
     }
 
     @Override
     public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-        return null;
+        return connection.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
     }
 
     @Override
@@ -194,37 +207,37 @@ public class ProxyConnection implements Connection{
 
     @Override
     public PreparedStatement prepareStatement(String sql, int[] columnIndexes) throws SQLException {
-        return null;
+        return connection.prepareStatement(sql, columnIndexes);
     }
 
     @Override
     public PreparedStatement prepareStatement(String sql, String[] columnNames) throws SQLException {
-        return null;
+        return connection.prepareStatement(sql, columnNames);
     }
 
     @Override
     public Clob createClob() throws SQLException {
-        return null;
+        return connection.createClob();
     }
 
     @Override
     public Blob createBlob() throws SQLException {
-        return null;
+        return connection.createBlob();
     }
 
     @Override
     public NClob createNClob() throws SQLException {
-        return null;
+        return connection.createNClob();
     }
 
     @Override
     public SQLXML createSQLXML() throws SQLException {
-        return null;
+        return connection.createSQLXML();
     }
 
     @Override
     public boolean isValid(int timeout) throws SQLException {
-        return false;
+        return connection.isValid(timeout);
     }
 
     @Override
@@ -239,22 +252,22 @@ public class ProxyConnection implements Connection{
 
     @Override
     public String getClientInfo(String name) throws SQLException {
-        return null;
+        return connection.getClientInfo(name);
     }
 
     @Override
     public Properties getClientInfo() throws SQLException {
-        return null;
+        return connection.getClientInfo();
     }
 
     @Override
     public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
-        return null;
+        return connection.createArrayOf(typeName, elements);
     }
 
     @Override
     public Struct createStruct(String typeName, Object[] attributes) throws SQLException {
-        return null;
+        return connection.createStruct(typeName, attributes);
     }
 
     @Override
@@ -264,7 +277,7 @@ public class ProxyConnection implements Connection{
 
     @Override
     public String getSchema() throws SQLException {
-        return null;
+        return connection.getSchema();
     }
 
     @Override
@@ -279,16 +292,16 @@ public class ProxyConnection implements Connection{
 
     @Override
     public int getNetworkTimeout() throws SQLException {
-        return 0;
+        return connection.getNetworkTimeout();
     }
 
     @Override
     public <T> T unwrap(Class<T> iface) throws SQLException {
-        return null;
+        return connection.unwrap(iface);
     }
 
     @Override
     public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        return false;
+        return connection.isWrapperFor(iface);
     }
 }

@@ -8,6 +8,7 @@ import com.movierate.movie.entity.Movie;
 import com.movierate.movie.entity.Participant;
 import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.exception.RollbackFailedException;
+import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.service.CountryService;
 import com.movierate.movie.service.GenreService;
 import com.movierate.movie.service.MovieService;
@@ -32,18 +33,16 @@ public class GetMovieInfoForUpdateCommand implements ICommand {
     @Override
     public String execute(HttpServletRequest request) {
 
-
         MovieService movieService = new MovieService();
         String id_movie = request.getParameter(Parameters.ID_MOVIE);
         if (request.getParameter(Parameters.ACTION).equals(Parameters.DELETE)){
             try {
                 movieService.deleteMovie(Long.parseLong(id_movie));
                 request.setAttribute(Parameters.MOVIE_DELETED, true);
-            } catch (DAOFailedException|RollbackFailedException e) {
+            } catch (ServiceException e) {
                 LOGGER.log(Level.ERROR, e.getMessage());
             }
             return PagePath.USER_PAGE;
-
         }
 
         Movie movie;
@@ -59,24 +58,24 @@ public class GetMovieInfoForUpdateCommand implements ICommand {
             List<Participant> movieActors = new ArrayList<>();
             List<Participant> movieDirectors = new ArrayList<>();
             for (Participant participant : movie.getMovieParticipants()) {
-                if ("actor".equals(String.valueOf(participant.getProfession()).toLowerCase())) {
+                if (Parameters.ACTOR.equals(String.valueOf(participant.getProfession()).toLowerCase())) {
                     movieActors.add(participant);
                 } else {
                     movieDirectors.add(participant);
                 }
             }
-            request.setAttribute("movieActors", movieActors);
-            request.setAttribute("movieDirectors", movieDirectors);
-            request.setAttribute("actors", actors);
-            request.setAttribute("directors", directors);
-            request.setAttribute("genres", genres);
-            request.setAttribute("countries", countries);
-            request.setAttribute("movie",movie);
-        } catch (DAOFailedException e) {
-            LOGGER.log(Level.ERROR, "Impossible to get info for movie update: "+e.getMessage());
+            request.setAttribute(Parameters.MOVIE_ACTORS, movieActors);
+            request.setAttribute(Parameters.MOVIE_DIRECTORS, movieDirectors);
+            request.setAttribute(Parameters.ACTORS, actors);
+            request.setAttribute(Parameters.DIRECTORS, directors);
+            request.setAttribute(Parameters.GENRES, genres);
+            request.setAttribute(Parameters.COUNTRIES, countries);
+            request.setAttribute(Parameters.MOVIE,movie);
+        }  catch (ServiceException e) {
+            LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;
         }
-        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
+        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.UPDATE_MOVIE_PAGE;
     }
 }

@@ -10,8 +10,7 @@ import java.util.List;
  */
 public interface GenreDAO {
 
-    List<Genre> findGenresByMovieName(String name);
-    Genre findEntityByName (String name);
-    List<Genre> findAll();
-    void save(Genre genre) throws DAOFailedException;
+    Genre findEntityByName (String name) throws DAOFailedException;
+    List<Genre> findGenresByMovieId (long id) throws DAOFailedException;
+    List<Genre> findAll() throws DAOFailedException;
 }

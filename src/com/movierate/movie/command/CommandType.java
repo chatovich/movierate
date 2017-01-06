@@ -7,11 +7,9 @@ public enum CommandType {
 
     CHANGE_LANGUAGE (new ChangeLanguageCommand()),
     REGISTRATION (new RegistrationCommand()),
-    GET_MOVIES_BY_GENRE (new GetMoviesByGenreCommand()),
     GET_MOVIE_PAGE (new GetMoviePageCommand()),
     ADD_MOVIE (new AddMovieCommand()),
     ADD_FEEDBACK (new AddFeedbackCommand()),
-    ADD_GENRE (new AddGenreCommand()),
     ADD_PARTICIPANT (new AddParticipantCommand ()),
     GET_ALL_MOVIES (new GetAllMoviesCommand()),
     GET_MOVIE_INFO_FOR_UPDATE (new GetMovieInfoForUpdateCommand()),

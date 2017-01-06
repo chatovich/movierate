@@ -4,6 +4,7 @@ import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.service.UserService;
 import com.movierate.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
@@ -22,21 +23,18 @@ public class GetInfoForUserRatingCommand implements ICommand {
     public String execute(HttpServletRequest request) {
         String id = request.getParameter(Parameters.ID_USER);
         User signedUser = (User)request.getSession().getAttribute(Parameters.SIGNED_USER);
-        if (signedUser==null){
-            request.setAttribute(Parameters.SHOW_ANOTHER_USER, true);
-        }
-        else if (Long.parseLong(id)!=signedUser.getId()){
+        if (signedUser==null||Long.parseLong(id)!=signedUser.getId()){
             request.setAttribute(Parameters.SHOW_ANOTHER_USER, true);
         }
         UserService userService = new UserService();
         try {
             Double rating = userService.calcUserRating(id);
             request.setAttribute(Parameters.USER_RATING, rating);
-        } catch (DAOFailedException e) {
+        } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;
         }
-        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
+        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.USER_ACTIVITY_PAGE;
     }
 }

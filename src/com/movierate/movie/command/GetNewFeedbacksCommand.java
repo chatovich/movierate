@@ -4,6 +4,7 @@ import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.entity.Feedback;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.service.FeedbackService;
 import com.movierate.movie.type.FeedbackStatus;
 import com.movierate.movie.util.QueryUtil;
@@ -28,11 +29,11 @@ public class GetNewFeedbacksCommand implements ICommand {
         try {
             List<Feedback> feedbacks = feedbackService.getFeedbacksByStatus(FeedbackStatus.NEW.getStatus());
             request.setAttribute(Parameters.NEW_FEEDBACKS, feedbacks);
-        } catch (DAOFailedException e) {
+        } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;
         }
-        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
+        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.ADMIN_NEW_FEEDBACK_PAGE;
     }
 }

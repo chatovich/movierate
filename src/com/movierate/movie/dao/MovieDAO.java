@@ -12,13 +12,13 @@ import java.util.List;
  */
 public interface MovieDAO {
 
-    void save(Movie movie);
-    List<Movie> findMovieByGenre (String genre, int start, int pageQuantity);
-    int getIdByTitle (String title);
-    boolean checkMovieExists (String title);
+    void save(Movie movie) throws DAOFailedException, RollbackFailedException;
+//    List<Movie> findMovieByGenre (String genre, int start, int pageQuantity);
+//    long getIdByTitle (String title) throws DAOFailedException;
+    boolean checkMovieExists (String title) throws DAOFailedException;
     List<Movie> findAll() throws DAOFailedException;
     Movie findEntityById(long id) throws DAOFailedException;
-    List<Movie> findMoviesByDynamicId(List<Feedback> feedbacks) throws DAOFailedException;
+//    List<Movie> findMoviesByDynamicId(List<Feedback> feedbacks) throws DAOFailedException;
     List<Movie> findFilteredMovies (String query, int start, int moviesPerPage) throws DAOFailedException;
     void deleteMovie(long id) throws DAOFailedException, RollbackFailedException;
     void updateMovieRating(double rating, long id_movie) throws DAOFailedException;

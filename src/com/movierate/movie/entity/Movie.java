@@ -50,6 +50,12 @@ public class Movie extends Entity{
         this.title = title;
     }
 
+    public Movie(long id, String title, double rating) {
+        super(id);
+        this.title = title;
+        this.rating = rating;
+    }
+
     public String getTitle() {
         return title;
     }

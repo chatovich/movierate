@@ -5,6 +5,7 @@ import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.service.UserService;
+import com.movierate.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * bans user and restricts access to several funcyions on the web site
+ * bans user and restricts access to several functions on the web site
  */
 public class ChangeUserStatusCommand implements ICommand{
 
@@ -33,6 +34,7 @@ public class ChangeUserStatusCommand implements ICommand{
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;
         }
+        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.USER_PAGE;
     }
 }

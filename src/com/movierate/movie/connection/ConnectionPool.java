@@ -49,12 +49,6 @@ public class ConnectionPool {
             }
             connections = new ArrayBlockingQueue<ProxyConnection>(poolsize);
 
-//            for (int i = 0; i < poolsize; i++) {
-//                Connection connection = DriverManager.getConnection(url, properties);
-//
-//                ProxyConnection proxyConnection = new ProxyConnection(connection);
-//                connections.put(proxyConnection);
-//            }
             while (connections.size()<poolsize){
                 try {
                     Connection connection = DriverManager.getConnection(url, properties);
@@ -117,7 +111,7 @@ public class ConnectionPool {
             ProxyConnection proxyConnection = null;
             try {
                 proxyConnection = connections.take();
-                proxyConnection.close();
+                proxyConnection.realClose();
                 if (proxyConnection.isClosed()){
                     LOGGER.log(Level.DEBUG, " disconnected");
                 }

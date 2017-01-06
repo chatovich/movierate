@@ -1,8 +1,10 @@
 package com.movierate.movie.command;
 
 import com.movierate.movie.constant.PagePath;
+import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.entity.Participant;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.service.ParticipantService;
 import com.movierate.movie.util.QueryUtil;
 import org.apache.logging.log4j.LogManager;
@@ -24,12 +26,12 @@ public class GetAllParticipantsCommand implements ICommand {
         List<Participant> participants;
         try {
             participants = participantService.getParticipants("");
-            request.setAttribute("chooseParticipant", true);
-            request.setAttribute("participants", participants);
-        } catch (DAOFailedException e) {
+            request.setAttribute(Parameters.CHOOSE_PARTICIPANT, true);
+            request.setAttribute(Parameters.PARTICIPANTS, participants);
+        } catch (ServiceException e) {
             return PagePath.ERROR_PAGE;
         }
-        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
+        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.USER_PAGE;
     }
 }

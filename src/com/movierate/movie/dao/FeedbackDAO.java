@@ -3,6 +3,7 @@ package com.movierate.movie.dao;
 import com.movierate.movie.entity.Feedback;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.RollbackFailedException;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface FeedbackDAO {
     List <Feedback> findFeedbacksByUserId (long id) throws DAOFailedException;
     List<Feedback> findUserMarks (long id) throws DAOFailedException;
     boolean checkLikeExists (long id_user, long id_feedback) throws DAOFailedException;
-    int updateLikes(long id_user, long id_feedback, int likes) throws DAOFailedException;
+    int updateLikes(long id_user, long id_feedback, int likes) throws DAOFailedException, RollbackFailedException;
     int findFeedbackLikes(long id_feedback) throws DAOFailedException;
     List<Feedback> findLatestFeedbacks() throws DAOFailedException;
 

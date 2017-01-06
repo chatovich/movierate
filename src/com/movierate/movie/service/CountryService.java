@@ -2,6 +2,8 @@ package com.movierate.movie.service;
 
 import com.movierate.movie.dao.impl.CountryDAOImpl;
 import com.movierate.movie.entity.Country;
+import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.ServiceException;
 
 import java.util.List;
 
@@ -10,8 +12,19 @@ import java.util.List;
  */
 public class CountryService {
 
-    public List<Country> getCountries(){
+    /**
+     * gets all countries
+     * @return list of countries
+     * @throws ServiceException if DAOFailedException is thrown
+     */
+    public List<Country> getCountries() throws ServiceException {
         CountryDAOImpl countryDAO = new CountryDAOImpl();
-        return countryDAO.findAll();
+        List<Country> countries;
+        try {
+            countries = countryDAO.findAll();
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e);
+        }
+        return countries;
     }
 }

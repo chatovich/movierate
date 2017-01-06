@@ -3,7 +3,6 @@ package com.movierate.movie.command;
 import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.entity.User;
-import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.service.UserService;
 import com.movierate.movie.util.QueryUtil;
@@ -30,21 +29,17 @@ public class EditUserInfoCommand extends UploadPhoto implements ICommand {
         emptyFields.remove(Parameters.NEW_PASSWORD);
         emptyFields.remove(Parameters.PASSWORD_CONFIRM);
         if (!emptyFields.isEmpty()){
-            request.setAttribute(Parameters.ATTR_EMPTY_FIELDS, true);
-            for (String s : emptyFields) {
-                System.out.println(s);
-            }
+            request.setAttribute(Parameters.EMPTY_FIELDS, true);
             return PagePath.USER_PAGE;
         }
         UserService userService = new UserService();
         try {
             if (!Validation.loginInfoValid(userService.getLoginInfo(parameters),parameters)){
-                request.setAttribute(Parameters.ATTR_EMPTY_FIELDS, true);
+                request.setAttribute(Parameters.EMPTY_FIELDS, true);
                 return PagePath.USER_PAGE;
             }
             //get uploaded photo if there was one
             String path = uploadFile(request, Parameters.PHOTO_FILE_PATH, Parameters.PHOTO);
-            System.out.println(path);
             userService.updateUser(parameters, path);
             User user = userService.getUser(parameters.get(Parameters.LOGIN)[0]);
             request.setAttribute(Parameters.USER_UPDATED, true);
@@ -53,7 +48,7 @@ public class EditUserInfoCommand extends UploadPhoto implements ICommand {
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         }
-        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
+        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.USER_PAGE;
     }
 }

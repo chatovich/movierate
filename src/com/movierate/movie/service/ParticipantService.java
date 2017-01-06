@@ -3,8 +3,10 @@ package com.movierate.movie.service;
 import com.movierate.movie.dao.impl.ParticipantDAOImpl;
 import com.movierate.movie.entity.Participant;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.type.Profession;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,17 +15,29 @@ import java.util.Map;
  */
 public class ParticipantService {
 
-    public List<Participant> getParticipants (String profession) throws DAOFailedException {
+    /**
+     * gets all participants of specified profession
+     * @param profession actor or director, or empty line if all participants needed
+     * @return list of participants
+     * @throws ServiceException if DAOFailedException is thrown
+     */
+    public List<Participant> getParticipants (String profession) throws ServiceException {
         ParticipantDAOImpl participantDAO = new ParticipantDAOImpl();
-        return participantDAO.findAllByProfession(profession);
+        List<Participant> participants;
+        try {
+            participants = participantDAO.findAllByProfession(profession);
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e);
+        }
+        return  participants;
     }
 
     /**
      * creates a new object "participant" using parameters
      * @param parameters map with parameters' names and their values entered by admin
-     * @throws DAOFailedException if there is a problem connecting with db and SQLException is thrown
+     * @throws ServiceException if there is a problem connecting with db and DAOFailedException is thrown
      */
-    public void createParticipant (Map<String, String[]> parameters) throws DAOFailedException {
+    public void createParticipant (Map<String, String[]> parameters) throws ServiceException {
         Participant participant = new Participant();
         for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
             switch (entry.getKey()){
@@ -35,10 +49,20 @@ public class ParticipantService {
             }
         }
         ParticipantDAOImpl participantDAO = new ParticipantDAOImpl();
-        participantDAO.save(participant);
+        try {
+            participantDAO.save(participant);
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e.getMessage());
+        }
     }
 
-    public boolean checkParticipantExists(Map<String, String[]> parameters){
+    /**
+     * checks whether such participant already exists
+     * @param parameters name and profession entered by admin
+     * @return true if exists, otherwise - false
+     * @throws ServiceException if DAOFailedException is thrown
+     */
+    public boolean checkParticipantExists(Map<String, String[]> parameters) throws ServiceException {
 
         boolean participantExists = false;
         String name = "";
@@ -52,19 +76,38 @@ public class ParticipantService {
             }
         }
         ParticipantDAOImpl participantDAO = new ParticipantDAOImpl();
-        List<Participant>participants = participantDAO.findEntityByName(name);
-        for (Participant participant : participants) {
-            if (String.valueOf(participant.getProfession()).toLowerCase().equals(profession.toLowerCase())){
-                participantExists = true;
+        List<Participant> participants;
+        try {
+            participants = participantDAO.findEntityByName(name);
+            if (!participants.isEmpty()) {
+                for (Participant participant : participants) {
+                    if (String.valueOf(participant.getProfession()).toLowerCase().equals(profession.toLowerCase())){
+                        participantExists = true;
+                    }
+                }
             }
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e.getMessage());
         }
         return participantExists;
     }
 
-    public Participant getParticipantById(long id) throws DAOFailedException {
+    /**
+     * gets participant by id
+     * @param id participant id
+     * @return participant
+     * @throws ServiceException if DAOFailedException is thrown
+     */
+    public Participant getParticipantById(long id) throws ServiceException {
 
         ParticipantDAOImpl participantDAO = new ParticipantDAOImpl();
-        return participantDAO.findEntityById(id);
+        Participant participant;
+        try {
+            participant = participantDAO.findEntityById(id);
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e);
+        }
+        return participant;
     }
 
 }

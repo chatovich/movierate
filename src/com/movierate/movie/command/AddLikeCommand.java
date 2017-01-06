@@ -21,17 +21,10 @@ public class AddLikeCommand implements ICommand{
         String id_user = request.getParameter(Parameters.ID_USE);
         String id_feedback = request.getParameter(Parameters.ID_FEEDBACK);
         String likes = request.getParameter(Parameters.LIKES);
-        System.out.println(id_user);
-        System.out.println(id_feedback);
-        System.out.println(likes);
         int likesCount=0;
         FeedbackService feedbackService = new FeedbackService();
         try {
             likesCount = feedbackService.addLike(Long.parseLong(id_user),Long.parseLong(id_feedback),Integer.parseInt(likes));
-            if (likesCount!=0){
-                System.out.println("new likes"+likesCount);
-
-            }
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;

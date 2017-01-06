@@ -1,10 +1,9 @@
 package com.movierate.movie.service;
 
+import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.dao.impl.FeedbackDAOImpl;
-import com.movierate.movie.dao.impl.MovieDAOImpl;
 import com.movierate.movie.dao.impl.UserDAOImpl;
 import com.movierate.movie.entity.Feedback;
-import com.movierate.movie.entity.Movie;
 import com.movierate.movie.entity.User;
 import com.movierate.movie.exception.DAOFailedException;
 import com.movierate.movie.exception.ServiceException;
@@ -31,8 +30,9 @@ public class UserService {
      * creates a new Object "User" using tha data from inout form on registration page
      * @param parameters map with all the parameters of the input form, where key is a name of the parameter, value - data that was inserted by user
      * @param filePath absolute path to the photo uploaded by user
+     * @throws ServiceException if DAOFailedException is thrown
      */
-    public boolean createUser (Map<String, String[]> parameters, String filePath){
+    public void createUser (Map<String, String[]> parameters, String filePath) throws ServiceException {
         User user = new User();
         user.setPhoto(filePath);
         user.setRole(Role.USER);
@@ -48,43 +48,75 @@ public class UserService {
             }
         }
         UserDAOImpl userDAO = new UserDAOImpl();
-        return userDAO.save(user);
+        try {
+            userDAO.save(user);
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e.getMessage());
+        }
     }
 
-    public boolean loginAvailable (String login) throws DAOFailedException {
+    /**
+     * checks whether login entered by user during registration is available
+     * @param login login entered by user
+     * @return true if login available, otherwise - false
+     * @throws ServiceException if DAOFailedException is thrown
+     */
+    public boolean loginAvailable (String login) throws ServiceException {
         UserDAOImpl userDAOImpl = new UserDAOImpl();
-        User user = userDAOImpl.findUserByLogin(login);
+        User user = new User();
+        try {
+            user = userDAOImpl.findLoginInfo(login);
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e);
+        }
         return user.getLogin()==null;
     }
 
+    /**
+     * gets user using his login
+     * @param login user login
+     * @return user
+     * @throws ServiceException if DAOFailedException is thrown
+     */
     public User getUser(String login) throws ServiceException {
 
-//        String login = parameters.get("login")[0];
         UserDAOImpl userDAOImpl = new UserDAOImpl();
         FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
-        User user = null;
+        User user;
         try {
             user = userDAOImpl.findEntityByName(login);
             user.setUserFeedbacks(feedbackDAO.findFeedbacksByUserId(user.getId()));
         } catch (DAOFailedException e) {
-            throw  new ServiceException(e.getMessage());
+            throw  new ServiceException(e);
         }
         return user;
     }
 
+    /**
+     * gets login info (id, login, password, role)
+     * @param parameters parameters from http request
+     * @return user
+     * @throws ServiceException if DAOFailedException is thrown
+     */
     public User getLoginInfo (Map<String, String[]> parameters) throws ServiceException {
 
-        String login = parameters.get("login")[0];
+        String login = parameters.get(Parameters.LOGIN)[0];
         UserDAOImpl userDAOImpl = new UserDAOImpl();
-        User user = new User();
+        User user;
         try {
-            user = userDAOImpl.findUserByLogin(login);
+            user = userDAOImpl.findLoginInfo(login);
         } catch (DAOFailedException e) {
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException(e);
         }
         return user;
     }
 
+    /**
+     * updates user in the db
+     * @param parameters from http request
+     * @param path path to user photo
+     * @throws ServiceException if DAOFailedException is thrown
+     */
     public void updateUser (Map<String, String[]> parameters, String path) throws ServiceException {
 
         String email = "";
@@ -107,26 +139,37 @@ public class UserService {
         try {
             userDAO.updateUser(login, email, PasswordHash.getHashPassword(password), path);
         } catch (DAOFailedException e) {
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException(e);
         }
     }
 
-    public double calcUserRating(String id) throws DAOFailedException {
+    /**
+     * calculates user rating using his marks to movies and movies' rating
+     * @param id user id
+     * @return user rating
+     * @throws ServiceException if DAOFailedException is thrown
+     */
+    public double calcUserRating(String id) throws ServiceException {
         FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
-        MovieDAOImpl movieDAO = new MovieDAOImpl();
-        List<Feedback> userFeedbacks = feedbackDAO.findUserMarks(Long.parseLong(id));
+//        MovieDAOImpl movieDAO = new MovieDAOImpl();
+        List<Feedback> userFeedbacks = null;
+        try {
+            userFeedbacks = feedbackDAO.findUserMarks(Long.parseLong(id));
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e);
+        }
         if (!userFeedbacks.isEmpty()) {
-            List<Movie> movies = movieDAO.findMoviesByDynamicId(userFeedbacks);
+//            List<Movie> movies = movieDAO.findMoviesByDynamicId(userFeedbacks);
             List<Double> singleRatings = new ArrayList<>();
             double sum = 0;
             for (Feedback feedback : userFeedbacks) {
                 int mark = feedback.getMark();
-                double movieRating = 0.;
-                for (Movie movie : movies) {
-                    if (movie.getId() == feedback.getMovie().getId()) {
-                        movieRating = movie.getRating();
-                    }
-                }
+                double movieRating = feedback.getMovie().getRating();
+//                for (Movie movie : movies) {
+//                    if (movie.getId() == feedback.getMovie().getId()) {
+//                        movieRating = movie.getRating();
+//                    }
+//                }
                 double singleRating = calcSingleRating(mark, movieRating);
                 singleRatings.add(singleRating);
                 sum += singleRating;
@@ -135,19 +178,34 @@ public class UserService {
         } else {return 0.0;}
     }
 
-    public User updateUserFeedbacks (User user) throws DAOFailedException {
+    /**
+     * gets user with updated feedbacks' list
+     * @param user user whose feedbacks are updated
+     * @return user with updated feedbacks
+     * @throws ServiceException if DAOFailedException is thrown
+     */
+    public User updateUserFeedbacks (User user) throws ServiceException {
         FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
-        user.setUserFeedbacks(feedbackDAO.findFeedbacksByUserId(user.getId()));
+        try {
+            user.setUserFeedbacks(feedbackDAO.findFeedbacksByUserId(user.getId()));
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e);
+        }
         return user;
     }
 
+    /**
+     * gets all users
+     * @return list of users
+     * @throws ServiceException if DAOFailedException is thrown
+     */
     public List<User> getAllUsers() throws ServiceException {
         UserDAOImpl userDAO = new UserDAOImpl();
-        List <User> users = new ArrayList<>();
+        List <User> users;
         try {
             users = userDAO.findAllUsers();
         } catch (DAOFailedException e) {
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException(e);
         }
         return users;
     }
@@ -157,10 +215,13 @@ public class UserService {
         try {
             userDAO.changeUserStatus(login,toBan);
         } catch (DAOFailedException e) {
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException(e);
         }
     }
 
+    /**
+     * controls banned users every day and unban them if dan period is more than 10 days
+     */
     public void controlBan(){
         TimerTask task = new TimerTask() {
             @Override
@@ -184,6 +245,12 @@ public class UserService {
 
     }
 
+    /**
+     * calculates user rating using his mark to one movie and this movie rating
+     * @param mark left to movie by this user
+     * @param movieRating actual rating of the movie
+     * @return  user rating
+     */
     private double calcSingleRating (double mark, double movieRating){
         double rating = 0.;
         double delta = Math.abs(mark-movieRating);

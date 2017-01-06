@@ -3,6 +3,7 @@ package com.movierate.movie.command;
 import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.service.MovieService;
 import com.movierate.movie.util.QueryUtil;
 import com.movierate.movie.util.Validation;
@@ -25,7 +26,7 @@ public class UpdateMovieCommand extends UploadPhoto implements ICommand{
 
         Map<String, String[]> parameters = request.getParameterMap();
         if (!Validation.checkEmptyFields(parameters).isEmpty()){
-            request.setAttribute("emptyField", true);
+            request.setAttribute(Parameters.EMPTY_FIELDS, true);
             return PagePath.USER_PAGE;
         }
         MovieService movieService = new MovieService();
@@ -33,12 +34,12 @@ public class UpdateMovieCommand extends UploadPhoto implements ICommand{
         String path = uploadFile(request, Parameters.POSTER_FILE_PATH, Parameters.POSTER);
         try {
             movieService.createMovie(parameters,path);
-        } catch (DAOFailedException e) {
+        } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, "Impossible to add a movie"+e.getMessage());
             return PagePath.ERROR_PAGE;
         }
-        request.setAttribute("movieUpdated", true);
-        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
+        request.setAttribute(Parameters.MOVIE_UPDATED, true);
+        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.USER_PAGE;
     }
 }

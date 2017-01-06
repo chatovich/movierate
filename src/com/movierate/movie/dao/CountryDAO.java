@@ -1,6 +1,7 @@
 package com.movierate.movie.dao;
 
 import com.movierate.movie.entity.Country;
+import com.movierate.movie.exception.DAOFailedException;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * specifies methods for working with entity "country" that its implementations should realize
  */
 public interface CountryDAO {
-    List<Country> findCountriesByMovieId(int id);
-    Country findEntityByName (String name);
-    List<Country> findAll();
+    List<Country> findCountriesByMovieId(int id) throws DAOFailedException;
+    Country findEntityByName (String name) throws DAOFailedException;
+    List<Country> findAll() throws DAOFailedException;
 }

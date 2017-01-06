@@ -3,7 +3,9 @@ package com.movierate.movie.service;
 import com.movierate.movie.dao.impl.GenreDAOImpl;
 import com.movierate.movie.entity.Genre;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.ServiceException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,15 +13,19 @@ import java.util.List;
  */
 public class GenreService {
 
-    public List<Genre> getGenres(){
+    /**
+     * gets all genres
+     * @return list of genres
+     * @throws ServiceException if DAOFailedException is thrown
+     */
+    public List<Genre> getGenres() throws ServiceException {
         GenreDAOImpl genreDAO = new GenreDAOImpl();
-        return genreDAO.findAll();
-    }
-
-    public void createGenre (String genreName) throws DAOFailedException {
-        Genre genre = new Genre();
-        genre.setGenreName(genreName);
-        GenreDAOImpl genreDAO = new GenreDAOImpl();
-        genreDAO.save(genre);
+        List<Genre> genres;
+        try {
+            genres = genreDAO.findAll();
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e.getMessage());
+        }
+        return genres;
     }
 }

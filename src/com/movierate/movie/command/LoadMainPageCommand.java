@@ -9,6 +9,7 @@ import com.movierate.movie.service.FeedbackService;
 import com.movierate.movie.service.MovieService;
 import com.movierate.movie.service.UserService;
 import com.movierate.movie.util.QueryUtil;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,8 +24,7 @@ public class LoadMainPageCommand implements ICommand {
     private static final Logger LOGGER = LogManager.getLogger(LoadMainPageCommand.class);
     @Override
     public String execute(HttpServletRequest request) {
-        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
-        UserService userService = new UserService();
+        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         FeedbackService feedbackService = new FeedbackService();
         MovieService movieService = new MovieService();
         try {
@@ -33,9 +33,8 @@ public class LoadMainPageCommand implements ICommand {
             List<Movie> topMovies = movieService.findTopMovies();
             request.setAttribute(Parameters.TOP_MOVIES, topMovies);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.ERROR, e.getMessage());
         }
-        userService.controlBan();
         return PagePath.MAIN_PAGE;
     }
 }

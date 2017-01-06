@@ -1,6 +1,7 @@
 package com.movierate.movie.command;
 
 import com.movierate.movie.constant.PagePath;
+import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.util.QueryUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,7 @@ public class LogOutCommand implements ICommand {
     public String execute(HttpServletRequest request) {
 
         request.getSession().invalidate();
-        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
+        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.MAIN_PAGE;
     }
 }

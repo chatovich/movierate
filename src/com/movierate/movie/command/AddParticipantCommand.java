@@ -1,7 +1,9 @@
 package com.movierate.movie.command;
 
 import com.movierate.movie.constant.PagePath;
+import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.service.ParticipantService;
 import com.movierate.movie.util.QueryUtil;
 import com.movierate.movie.util.Validation;
@@ -25,24 +27,23 @@ public class AddParticipantCommand implements ICommand {
         ParticipantService participantService = new ParticipantService();
         Map<String, String[]> parameters = request.getParameterMap();
         if (!Validation.checkEmptyFields(parameters).isEmpty()){
-            request.setAttribute("emptyFields", true);
+            request.setAttribute(Parameters.EMPTY_FIELDS, true);
             return PagePath.USER_PAGE;
         }
-        if (participantService.checkParticipantExists(parameters)){
-            request.setAttribute("participantExists",true);
-            return PagePath.USER_PAGE;
-        }
-
         try{
+            if (participantService.checkParticipantExists(parameters)){
+                request.setAttribute(Parameters.PARTICIPANT_EXISTS,true);
+                return PagePath.USER_PAGE;
+            }
             participantService.createParticipant(parameters);
-            request.setAttribute("participantAdded", true);
+            request.setAttribute(Parameters.PARTICIPANT_ADDED, true);
 
-        } catch (DAOFailedException e) {
+        } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, "Participant adding failed: "+e.getMessage());
-            request.setAttribute("participantAdded", false);
+            request.setAttribute(Parameters.PARTICIPANT_ADDED, false);
             return PagePath.ERROR_PAGE;
         }
-        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
+        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.USER_PAGE;
     }
 }

@@ -5,6 +5,7 @@ import com.movierate.movie.connection.ProxyConnection;
 import com.movierate.movie.dao.CountryDAO;
 import com.movierate.movie.dao.DAO;
 import com.movierate.movie.entity.Country;
+import com.movierate.movie.exception.DAOFailedException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,13 +22,10 @@ import java.util.List;
  */
 public class CountryDAOImpl implements CountryDAO, DAO {
 
-    public static final Logger LOGGER = LogManager.getLogger(CountryDAOImpl.class);
-    public static final String SQL_FIND_COUNTRIES_OF_MOVIE = "SELECT * FROM countries WHERE id_country IN " +
+    private static final String SQL_FIND_COUNTRIES_OF_MOVIE = "SELECT * FROM countries WHERE id_country IN " +
             "(SELECT id_country FROM movies_countries WHERE id_movie=?)";
-    public static final String SQL_FIND_COUNTRY_BY_NAME = "SELECT id_country, country FROM countries WHERE country=?";
-    public static final String SQL_FIND_ALL_COUNTRIES = "SELECT id_country, country FROM countries";
-
-
+    private static final String SQL_FIND_COUNTRY_BY_NAME = "SELECT id_country, country FROM countries WHERE country=?";
+    private static final String SQL_FIND_ALL_COUNTRIES = "SELECT id_country, country FROM countries";
 
     /**
      * finds all countries of the movie by movie id
@@ -35,14 +33,12 @@ public class CountryDAOImpl implements CountryDAO, DAO {
      * @return list containing countries of the movie
      */
     @Override
-    public List<Country> findCountriesByMovieId(int id) {
+    public List<Country> findCountriesByMovieId(int id) throws DAOFailedException {
         List<Country> countriesList = new ArrayList<>();
         ConnectionPool connectionPool = ConnectionPool.getInstance();
-        ProxyConnection connection = null;
-        PreparedStatement st = null;
-        try  {
-            connection = connectionPool.takeConnection();
-            st = connection.prepareStatement(SQL_FIND_COUNTRIES_OF_MOVIE);
+
+        try  (ProxyConnection connection = connectionPool.takeConnection();
+              PreparedStatement st = connection.prepareStatement(SQL_FIND_COUNTRIES_OF_MOVIE)){
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -52,10 +48,7 @@ public class CountryDAOImpl implements CountryDAO, DAO {
                 countriesList.add(country);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
-        } finally {
-            close(st);
-            connectionPool.releaseConnection(connection);
+            throw new DAOFailedException("Impossible to find countries by movie id: "+e.getMessage());
         }
         return countriesList;
     }
@@ -66,14 +59,13 @@ public class CountryDAOImpl implements CountryDAO, DAO {
      * @return object "country" from database
      */
     @Override
-    public Country findEntityByName(String name) {
+    public Country findEntityByName(String name) throws DAOFailedException {
         Country country = new Country();
         ConnectionPool connectionPool = ConnectionPool.getInstance();
-        ProxyConnection connection = null;
-        PreparedStatement st = null;
-        try{
-            connection = connectionPool.takeConnection();
-            st = connection.prepareStatement(SQL_FIND_COUNTRY_BY_NAME);
+
+        try(
+            ProxyConnection connection = connectionPool.takeConnection();
+            PreparedStatement st = connection.prepareStatement(SQL_FIND_COUNTRY_BY_NAME)){
             st.setString(1, name);
             ResultSet rs = st.executeQuery();
             if (rs.next()){
@@ -81,10 +73,7 @@ public class CountryDAOImpl implements CountryDAO, DAO {
                 country.setCountryName(rs.getString("country"));
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
-        } finally {
-            close(st);
-            connectionPool.releaseConnection(connection);
+            throw new DAOFailedException("Impossible to find country: "+e.getMessage());
         }
         return country;
     }
@@ -94,14 +83,13 @@ public class CountryDAOImpl implements CountryDAO, DAO {
      * @return list with all countries
      */
     @Override
-    public List<Country> findAll() {
+    public List<Country> findAll() throws DAOFailedException {
         List<Country> countriesList = new ArrayList<>();
         ConnectionPool connectionPool = ConnectionPool.getInstance();
-        ProxyConnection connection = null;
-        Statement st = null;
-        try  {
-            connection = connectionPool.takeConnection();
-            st = connection.createStatement();
+
+        try  (
+            ProxyConnection connection = connectionPool.takeConnection();
+            Statement st = connection.createStatement()){
             ResultSet rs = st.executeQuery(SQL_FIND_ALL_COUNTRIES);
             while (rs.next()) {
                 Country country = new Country();
@@ -110,13 +98,8 @@ public class CountryDAOImpl implements CountryDAO, DAO {
                 countriesList.add(country);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
-        } finally {
-            close(st);
-            connectionPool.releaseConnection(connection);
+            throw new DAOFailedException("Impossible to find countries: "+e.getMessage());
         }
         return countriesList;
     }
-
-
 }

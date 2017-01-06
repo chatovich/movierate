@@ -1,6 +1,7 @@
 package com.movierate.movie.command;
 
 import com.movierate.movie.constant.PagePath;
+import com.movierate.movie.constant.Parameters;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,13 +14,12 @@ import java.io.IOException;
  */
 public class ChangeLanguageCommand implements ICommand {
 
-    private static final String PARAM_LANGUAGE = "language";
 
     @Override
     public String execute(HttpServletRequest request)  {
         HttpSession session = request.getSession(true);
-        String local = request.getParameter(PARAM_LANGUAGE);
-        session.setAttribute(PARAM_LANGUAGE, local);
+        String local = request.getParameter(Parameters.LANGUAGE);
+        session.setAttribute(Parameters.LANGUAGE, local);
         return PagePath.MAIN_PAGE;
     }
 }

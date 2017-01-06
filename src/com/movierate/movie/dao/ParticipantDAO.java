@@ -10,7 +10,8 @@ import java.util.List;
  */
 public interface ParticipantDAO {
 
-    List<Participant> findEntityByName (String name);
+    List<Participant> findParticipantsByMovieId(int id) throws DAOFailedException;
+    List<Participant> findEntityByName (String name) throws DAOFailedException;
     List<Participant> findAllByProfession (String profession) throws DAOFailedException;
     void save(Participant participant) throws DAOFailedException;
     Participant findEntityById (long id) throws DAOFailedException;

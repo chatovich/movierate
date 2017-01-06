@@ -23,15 +23,14 @@ import java.util.List;
  */
 public class ParticipantDAOImpl implements ParticipantDAO, DAO {
 
-    public static final Logger LOGGER = LogManager.getLogger(ParticipantDAOImpl.class);
-    public static final String SQL_FIND_ALL_PARTICIPANTS = "SELECT id_participant, name, profession FROM participants";
-    public static final String SQL_SAVE_PARTICIPANT = "INSERT INTO participants (name, profession) VALUES (?,?)";
-    public static final String SQL_UPDATE_PARTICIPANT = "UPDATE participants SET name=?, profession=? WHERE id_participant=?";
-    public static final String SQL_FIND_PARTICIPANTS_BY_PROFESSION = "SELECT id_participant, name, profession FROM participants WHERE profession=?";
-    public static final String SQL_FIND_PARTICIPANTS_OF_MOVIE = "SELECT * FROM participants WHERE id_participant IN " +
+    private static final String SQL_FIND_ALL_PARTICIPANTS = "SELECT id_participant, name, profession FROM participants";
+    private static final String SQL_SAVE_PARTICIPANT = "INSERT INTO participants (name, profession) VALUES (?,?)";
+    private static final String SQL_UPDATE_PARTICIPANT = "UPDATE participants SET name=?, profession=? WHERE id_participant=?";
+    private static final String SQL_FIND_PARTICIPANTS_BY_PROFESSION = "SELECT id_participant, name, profession FROM participants WHERE profession=?";
+    private static final String SQL_FIND_PARTICIPANTS_OF_MOVIE = "SELECT * FROM participants WHERE id_participant IN " +
             "(SELECT id_participant FROM movies_participants WHERE id_movie=?)";
-    public static final String SQL_FIND_PARTICIPANT_BY_NAME = "SELECT id_participant, name, profession FROM participants WHERE name=?";
-    public static final String SQL_FIND_PARTICIPANT_BY_ID = "SELECT id_participant, name, profession FROM participants WHERE id_participant=?";
+    private static final String SQL_FIND_PARTICIPANT_BY_NAME = "SELECT id_participant, name, profession FROM participants WHERE name=?";
+    private static final String SQL_FIND_PARTICIPANT_BY_ID = "SELECT id_participant, name, profession FROM participants WHERE id_participant=?";
 
 
     /**
@@ -39,16 +38,14 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
      * @param id id of the movie which participants we need to find
      * @return list of all participants of the movie
      */
-    public List<Participant> findParticipantsByMovieId(int id) {
+    @Override
+    public List<Participant> findParticipantsByMovieId(int id) throws DAOFailedException {
 
         List<Participant> participantsList = new ArrayList<>();
         ConnectionPool connectionPool = ConnectionPool.getInstance();
-        ProxyConnection connection = null;
-        PreparedStatement st = null;
-
-        try  {
-            connection = connectionPool.takeConnection();
-            st = connection.prepareStatement(SQL_FIND_PARTICIPANTS_OF_MOVIE);
+        try  (
+            ProxyConnection connection = connectionPool.takeConnection();
+            PreparedStatement st = connection.prepareStatement(SQL_FIND_PARTICIPANTS_OF_MOVIE)){
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -59,24 +56,24 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
                 participantsList.add(participant);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
-        } finally {
-            close(st);
-            connectionPool.releaseConnection(connection);
+            throw new DAOFailedException("Impossible to find participants by movie id: "+e.getMessage());
         }
         return participantsList;
     }
 
+    /**
+     * finds participant in the db using its name
+     * @param name participant name
+     * @return list of participants
+     */
     @Override
-    public List<Participant> findEntityByName(String name) {
+    public List<Participant> findEntityByName(String name) throws DAOFailedException {
         List<Participant> participants = new ArrayList<>();
         Participant participant = null;
         ConnectionPool connectionPool = ConnectionPool.getInstance();
-        ProxyConnection connection = null;
-        PreparedStatement st = null;
-        try{
-            connection = connectionPool.takeConnection();
-            st = connection.prepareStatement(SQL_FIND_PARTICIPANT_BY_NAME);
+        try(
+            ProxyConnection connection = connectionPool.takeConnection();
+            PreparedStatement st = connection.prepareStatement(SQL_FIND_PARTICIPANT_BY_NAME)){
             st.setString(1, name);
             ResultSet rs = st.executeQuery();
             while (rs.next()){
@@ -87,15 +84,18 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
                 participants.add(participant);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
-        } finally {
-            close(st);
-            connectionPool.releaseConnection(connection);
+            throw new DAOFailedException("Impossible to find participant by its name: "+e.getMessage());
         }
         return participants;
     }
 
 
+    /**
+     * finds all participants or those who profession is specified
+     * @param profession actor or director, or empty if all participants are needed
+     * @return list of participants
+     * @throws DAOFailedException if SQLException is thrown
+     */
     @Override
     public List<Participant> findAllByProfession(String profession) throws DAOFailedException {
         List<Participant> participants = new ArrayList<>();
@@ -122,7 +122,6 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
                 participants.add(participant);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
             throw new DAOFailedException("Impossible to get participants from the db: "+e.getMessage());
         } finally {
             close(statement);
@@ -132,6 +131,11 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
         return participants;
     }
 
+    /**
+     * saves new paricipant into the db
+     * @param participant new participant
+     * @throws DAOFailedException if SQLException is thrown
+     */
     @Override
     public void save(Participant participant) throws DAOFailedException {
 
@@ -158,16 +162,20 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
         }
     }
 
+    /**
+     * finds participant in the db using its id
+     * @param id participant id
+     * @return participant
+     * @throws DAOFailedException if SQLException is thrown
+     */
     @Override
     public Participant findEntityById(long id) throws DAOFailedException {
 
         Participant participant = null;
         ConnectionPool connectionPool = ConnectionPool.getInstance();
-        ProxyConnection connection = null;
-        PreparedStatement st = null;
-        try{
-            connection = connectionPool.takeConnection();
-            st = connection.prepareStatement(SQL_FIND_PARTICIPANT_BY_ID);
+        try(
+            ProxyConnection connection = connectionPool.takeConnection();
+            PreparedStatement st = connection.prepareStatement(SQL_FIND_PARTICIPANT_BY_ID)){
             st.setLong(1, id);
             ResultSet rs = st.executeQuery();
             while (rs.next()){
@@ -177,13 +185,8 @@ public class ParticipantDAOImpl implements ParticipantDAO, DAO {
                 participant.setProfession(Profession.valueOf(rs.getString("profession").toUpperCase()));
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Problem connecting with db "+e.getMessage());
-            throw new DAOFailedException("Impossible to get the participant: "+e.getMessage());
-        } finally {
-            close(st);
-            connectionPool.releaseConnection(connection);
+            throw new DAOFailedException("Impossible to find the participant by id: "+e.getMessage());
         }
-
         return participant;
     }
 }

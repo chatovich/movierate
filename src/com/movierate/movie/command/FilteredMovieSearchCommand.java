@@ -28,9 +28,6 @@ public class FilteredMovieSearchCommand implements ICommand {
         int page = 1;
         List<Movie> movies;
         Map<String, String[]> parameters = request.getParameterMap();
-//        for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
-//            System.out.println(entry.getKey()+" - "+entry.getValue()[0]);
-//        }
         if (request.getParameter(Parameters.PAGE)!=null){
             page = Integer.parseInt(request.getParameter(Parameters.PAGE));
         }
@@ -58,7 +55,10 @@ public class FilteredMovieSearchCommand implements ICommand {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;
         }
-        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
+        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
+        if (movies.isEmpty()){
+            request.setAttribute(Parameters.EMPTY_MOVIES_LIST, true);
+        }
         return PagePath.MOVIE_LIST_PAGE;
     }
 }

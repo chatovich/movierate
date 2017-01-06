@@ -1,8 +1,10 @@
 package com.movierate.movie.command;
 
 import com.movierate.movie.constant.PagePath;
+import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.entity.Movie;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.service.MovieService;
 import com.movierate.movie.util.QueryUtil;
 
@@ -21,14 +23,14 @@ public class GetAllMoviesCommand implements ICommand {
         List<Movie> movies;
         try {
             movies = movieService.getAllMovies();
-            request.setAttribute("chooseMovie", true);
-            request.setAttribute("movies", movies);
+            request.setAttribute(Parameters.CHOOSE_MOVIE, true);
+            request.setAttribute(Parameters.MOVIES, movies);
 
-        } catch (DAOFailedException e) {
+        } catch (ServiceException e) {
             return PagePath.ERROR_PAGE;
         }
 
-        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
+        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.USER_PAGE;
     }
 }

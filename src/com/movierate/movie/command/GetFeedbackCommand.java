@@ -4,6 +4,7 @@ import com.movierate.movie.constant.PagePath;
 import com.movierate.movie.constant.Parameters;
 import com.movierate.movie.entity.Feedback;
 import com.movierate.movie.exception.DAOFailedException;
+import com.movierate.movie.exception.ServiceException;
 import com.movierate.movie.service.FeedbackService;
 import com.movierate.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
@@ -21,7 +22,7 @@ public class GetFeedbackCommand implements ICommand {
     @Override
     public String execute(HttpServletRequest request) {
 
-        String id = request.getParameter("id_feedback");
+        String id = request.getParameter(Parameters.ID_FEEDBACK);
         FeedbackService feedbackService = new FeedbackService();
         try {
             Feedback feedback = feedbackService.getFeedback(id);
@@ -31,10 +32,10 @@ public class GetFeedbackCommand implements ICommand {
             } else {
                 request.setAttribute(Parameters.NO_FEEDBACK, true);
             }
-        } catch (DAOFailedException e) {
+        } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         }
-        request.getSession(true).setAttribute("prev", QueryUtil.createHttpQueryString(request));
+        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.ADMIN_NEW_FEEDBACK_PAGE;
     }
 }
