@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html;charset=utf-8"  pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--<jsp:include page = "${pageContext.request.contextPath}/jsp/header/header.jsp"/>--%>
-
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="resource.locale" />
@@ -10,7 +8,6 @@
 <!DOCTYPE html>
 <html>
 <c:import url="../fragment/header.jsp"/>
-<%--<jsp:include page = "${pageContext.request.contextPath}/jsp/header/header.jsp"/>--%>
 
 <body class="body">
 
@@ -49,18 +46,16 @@
     </p>
         <p><b><fmt:message key="movie.page.rating"/>:</b> ${movie.rating}</p>
 
-
-    <%--<c:forEach var="mark" items="${movie.movieMarks}">--%>
-        <%--${mark.mark} - ${mark.user.id}--%>
-    <%--</c:forEach>--%>
-    <%--<br>--%>
     <div style="clear:both;">
         <p>${movie.plot}</p>
+        <c:if test="${FeedbackAdded}">
+            <p style="color: #ff8900;"><fmt:message key="movie.feedback.added"/> </p>
+        </c:if>
         <c:if test="${userSignedIn}">
             <c:if test="${signedUser.role.roleName eq 'user'}">
                 <c:if test="${!signedUser.isBanned}">
 
-        <form action="/controller" method="post" name="add_feedback">
+        <form action="${pageContext.request.contextPath}/controller" method="post" name="add_feedback">
             <input type="hidden" name="command" value="add_feedback">
             <input type="hidden" name="id_movie" value=${movie.id}>
 
@@ -134,9 +129,7 @@
     </div>
 </div>
 
-
 <c:import url="../fragment/right_block.jsp"/>
-<%--<jsp:include page = "${pageContext.request.contextPath}/jsp/header/right_block.jsp"/>--%>
 
 </body>
 </html>

@@ -5,22 +5,13 @@
 		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <!--<servlet>-->
-        <!--<servlet-name>controller</servlet-name>-->
-        <!--<servlet-class>com.movierate.movie.controller.Controller</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>controller</servlet-name>-->
-        <!--<url-pattern>/controller</url-pattern>-->
-    <!--</servlet-mapping>-->
-
     <error-page>
         <error-code>404</error-code>
         <location>/jsp/main/error_page.jsp</location>
     </error-page>
-    <!--<error-page>-->
-        <!--<exception-type>java.lang.Exception</exception-type>-->
-        <!--<location>/jsp/main/error_page.jsp</location>-->
-    <!--</error-page>-->
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/jsp/main/error_page.jsp</location>
+    </error-page>
 
 </web-app>

@@ -2,8 +2,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="yul" uri="customtags" %>
-<%--<jsp:include page = "${pageContext.request.contextPath}/jsp/header/header.jsp"/>--%>
-
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="resource.locale" />
@@ -11,7 +9,6 @@
 <!DOCTYPE html>
 <html>
 <c:import url="../fragment/header.jsp"/>
-<%--<jsp:include page = "${pageContext.request.contextPath}/jsp/header/header.jsp"/>--%>
 
 <body class="body">
 
@@ -21,7 +18,6 @@
     <div class="card hovercard">
         <div class="card-background">
             <img class="card-bkimg" alt="" src="http://lorempixel.com/100/100/people/9/">
-            <!-- http://lorempixel.com/850/280/people/9/ -->
         </div>
         <c:if test="${showAnotherUser}">
             <div class="useravatar"><img alt="no photo" src="${pageContext.request.contextPath}${anotherUser.photo}"></div>
@@ -41,25 +37,6 @@
     <c:if test="${!showAnotherUser}">
     <jsp:include page="${pageContext.request.contextPath}/${includeMenu}"/>
     </c:if>
-    <%--<c:import url="../fragment/admin_menu.jsp"/>--%>
-
-    <%--<div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">--%>
-        <%--<div class="btn-group" role="group">--%>
-            <%--<button type="button" class="btn btn-primary" href="#add_movie" data-toggle="tab">--%>
-                <%--<div class="hidden-xs"><fmt:message key="admin.add.movie"/> </div>--%>
-            <%--</button>--%>
-        <%--</div>--%>
-        <%--<div class="btn-group" role="group">--%>
-            <%--<button type="button" class="btn btn-default" href="#tab2" data-toggle="tab">--%>
-                <%--<div class="hidden-xs"><fmt:message key="admin.update.movie"/> </div>--%>
-            <%--</button>--%>
-        <%--</div>--%>
-        <%--<div class="btn-group" role="group">--%>
-            <%--<button type="button" class="btn btn-default" href="#tab3" data-toggle="tab">--%>
-                <%--<div class="hidden-xs"><fmt:message key="admin.new.comments"/> </div>--%>
-            <%--</button>--%>
-        <%--</div>--%>
-    <%--</div>--%>
 
     <div class="well">
         <div class="tab-content">
@@ -107,7 +84,7 @@
                     </c:if>
 
                     <c:if test="${chooseMovie}">
-                        <form action="/controller" role="form" method="post" name="choose-film">
+                        <form action="${pageContext.request.contextPath}/controller" role="form" method="post" name="choose-film">
                             <input type="hidden" name="command" value="get_movie_info_for_update">
                             <div class="form-group">
                                 <select name="id_movie" class="form-control-static" style="width: 350px; color: black;" required>
@@ -119,7 +96,6 @@
                             </div>
                             <div id="sure"></div>
                             <div>
-                                <%--<input type="submit" class="btn btn-primary" name="action" value="<fmt:message key="admin.add.movie.update"/>">--%>
                                 <span id="del"><a href="#" type="button" class="btn btn-primary" onclick="sure_delete()"><fmt:message key="admin.add.movie.delete"/></a></span>
                                 <button class="btn btn-primary" name="action" value="update"><fmt:message key="admin.add.movie.update"/></button>
                             </div>
@@ -127,7 +103,7 @@
                     </c:if>
 
                     <c:if test="${chooseUser}">
-                        <form action="/controller" role="form" method="post" name="choose-user">
+                        <form action="${pageContext.request.contextPath}/controller" role="form" method="post" name="choose-user">
                             <input type="hidden" name="command" value="get_another_user_page">
                             <div class="form-group">
                                 <select name="login" class="form-control-static" style="width: 350px; color: black;" required>
@@ -144,7 +120,7 @@
                     </c:if>
 
                     <c:if test="${chooseParticipant}">
-                        <form action="/controller" role="form" method="post" name="choose-participant">
+                        <form action="${pageContext.request.contextPath}/controller" role="form" method="post" name="choose-participant">
                             <input type="hidden" name="command" value="get_participant_for_update">
                             <div class="form-group">
                                 <select name="id_participant" class="form-control-static" style="width: 350px; color: black;" required>
@@ -170,7 +146,6 @@
 <script>
     <%@include file="../../js/validation.js"%>
     <%@include file="../../js/add_input.js"%>
-    <%--<c:import url="../../js/add_input.js"/>--%>
 </script>
 
 </body>

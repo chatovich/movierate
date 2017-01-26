@@ -2,7 +2,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="yul" uri="customtags" %>
-<%--<jsp:include page = "${pageContext.request.contextPath}/jsp/header/header.jsp"/>--%>
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}" />
@@ -11,7 +10,6 @@
 <!DOCTYPE html>
 <html>
 <c:import url="../fragment/header.jsp"/>
-<%--<jsp:include page = "${pageContext.request.contextPath}/jsp/header/header.jsp"/>--%>
 
 <body class="body">
 
@@ -21,7 +19,6 @@
     <div class="card hovercard">
         <div class="card-background">
             <img class="card-bkimg" alt="" src="http://lorempixel.com/100/100/people/9/">
-            <!-- http://lorempixel.com/850/280/people/9/ -->
         </div>
         <c:if test="${showAnotherUser}">
             <div class="useravatar"><img alt="no photo" src="${pageContext.request.contextPath}${anotherUser.photo}"></div>
@@ -68,7 +65,6 @@
 <c:import url="../fragment/right_block.jsp"/>
 <script>
     <%@include file="../../js/validation.js"%>
-    <%--<c:import url="../../js/add_input.js"/>--%>
 </script>
 
 </body>

@@ -7,33 +7,17 @@
 
 <div id="radius" class="col-lg-2 col-sm-2" style="float:right;margin-right: 90px" >
 
-    <%--<div class="radius">--%>
-    <%--<h2>Movie Search</h2>--%>
-    <form action="/controller" name="filtered_search" method="post">
+    <form action="${pageContext.request.contextPath}/controller" name="filtered_search" method="post">
         <input type="hidden" name="command" value="filtered_movie_search">
-        <%--<div class="selects">--%>
         <label>
             <select id="genresRight" class="select-right" name="genre" >
                 <option disabled selected><fmt:message key="admin.add.movie.choosegenre"/> </option>
-                <%--<option>thriller</option>--%>
-                <%--<option>comedy</option>--%>
-                <%--<option>drams</option>--%>
-                <%--<option>action</option>--%>
-                <%--<option>documental</option>--%>
-                <%--<option>biography</option>--%>
-                <%--<option>detective</option>--%>
             </select>
 
         </label>
         <label>
             <select id="countriesRight"  class="select-right" name="country">
                 <option disabled selected><fmt:message key="admin.add.movie.choosecountry"/> </option>
-                <%--<option>USA</option>--%>
-                <%--<option>Russia</option>--%>
-                <%--<option>France</option>--%>
-                <%--<option>Italy</option>--%>
-                <%--<option>Great Britain</option>--%>
-                <%--<option>New Zealand</option>--%>
             </select>
         </label>
         <label>
@@ -50,30 +34,8 @@
         <%--</div>--%>
         <br>
         <div align="center">
-            <button class="searchbutton">Search</button>
-            <%--<button id="searchbutton" name="searchbutton">Search</button>--%>
+            <button class="searchbutton"><fmt:message key="movie.search"/></button>
         </div>
     </form>
 
 </div>
-
-<c:if test="${language eq 'en_EN'}">
-    <script type="text/javascript">
-        <jsp:include page="${pageContext.request.contextPath}/js/select_genres_en.js"/>
-    </script>
-</c:if>
-<c:if test="${language eq 'ru_RU'}">
-    <script type="text/javascript">
-        <jsp:include page="${pageContext.request.contextPath}/js/select_genres_ru.js"/>
-    </script>
-</c:if>
-
-<script type="text/javascript">
-    $(function(){
-        $.getJSON('../../json/countries.json', function(data) {
-            for(var i=0;i<data.countries.length;i++){
-                $('#countriesRight').append('<option>' + data.countries[i].name + '</option>');
-            }
-        });
-    });
-</script>

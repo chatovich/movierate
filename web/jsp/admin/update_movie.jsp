@@ -43,7 +43,7 @@
         <div id="add_movie" align="center">
             <h3><fmt:message key="admin.update.movie.heading"/></h3><br>
 
-            <form action="/controller" method="post" enctype="multipart/form-data" name="updatemovie_form">
+            <form action="${pageContext.request.contextPath}/controller" method="post" enctype="multipart/form-data" name="updatemovie_form">
 
                 <input type="hidden" name="command" value="update_movie">
                 <input type="hidden" name="id_movie" value="${movie.id}">

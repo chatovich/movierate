@@ -34,7 +34,7 @@
         <div class="tab-pane fade in active" id="add_movi" style="width: 600px" align="center">
     <div id="for-insert">
 
-        <form action="/controller" role="form" class="form-horizontal" method="post" name="update-participant">
+        <form action="${pageContext.request.contextPath}/controller" role="form" class="form-horizontal" method="post" name="update-participant">
 
             <input type="hidden" name="command" value="update_participant">
             <input type="hidden" name="id_participant" value="${participant.id}">

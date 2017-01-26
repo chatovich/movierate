@@ -13,22 +13,10 @@
     <ul id="navbar">
         <li><a  href="${pageContext.request.contextPath}/controller?command=load_main_page"><fmt:message key="nav.home"/></a></li>
         <li><a class="top-href" href="#"><fmt:message key="nav.genres"/></a>
-            <ul>
-                <%--pagecontext works at both tomcat configuration options (/ and /movierate), without - only with/--%>
-                <li><a style="padding: 5px 5px" href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=thriller"><fmt:message key="nav.thriller"/></a></li>
-                <li><a style="padding: 5px 5px" href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=comedy"><fmt:message key="nav.comedy"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=drama"><fmt:message key="nav.drama"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=action"><fmt:message key="nav.action"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=documental"><fmt:message key="nav.documental"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=detective"><fmt:message key="nav.detective"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=biography"><fmt:message key="nav.biography"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=historic"><fmt:message key="nav.historic"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=fantasy"><fmt:message key="nav.fantasy"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=get_movies_by_genre&genre=criminal"><fmt:message key="nav.criminal"/></a></li>
+            <ul id="topGenres">
             </ul>
         </li>
-        <li><a class="top-href" href="#"><fmt:message key="nav.new"/></a>
-        <li><a href="#"><fmt:message key="nav.cinema"/></a></li>
+        <li><a class="top-href" href="${pageContext.request.contextPath}/controller?command=filtered_movie_search"><fmt:message key="nav.new"/></a>
         <li  style="float: right;"><a href="#"><fmt:message key="nav.language"/> </a>
             <ul>
                 <li><a style="padding: 5px 5px" href="${pageContext.request.contextPath}/controller?command=change_language&language=en_EN"><fmt:message key="nav.language.en"/></a></li>
@@ -54,3 +42,21 @@
 
     </ul>
 </nav>
+<c:if test="${language eq 'en_EN'}">
+    <script type="text/javascript">
+        <%@include file="../../js/select_genres_en.js"%>
+
+    </script>
+</c:if>
+<c:if test="${language eq 'ru_RU'}">
+    <script type="text/javascript">
+        <%@include file="../../js/select_genres_ru.js"%>
+    </script>
+</c:if>
+
+<script type="text/javascript">
+    <%@include file="../../js/select_countries.js"%>
+</script>
+
+
+

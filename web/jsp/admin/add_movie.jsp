@@ -38,7 +38,7 @@
         <div id="add_movie" align="center">
             <h3><fmt:message key="admin.add.movie.heading"/></h3><br>
 
-            <form action="/controller" method="post" enctype="multipart/form-data" name="addmovie_form">
+            <form action="${pageContext.request.contextPath}/controller" method="post" enctype="multipart/form-data" name="addmovie_form">
 
                 <input type="hidden" name="command" value="add_movie">
                 <div style="display: inline">

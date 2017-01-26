@@ -71,7 +71,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <form action="/controller" method="get">
+                                    <form action="${pageContext.request.contextPath}/controller" method="get">
                                         <input type="hidden" name="command" value="accept_feedback">
                                         <input type="hidden" name="id_feedback" value="${feedback.id}">
                                         <input style="width:25px"  type="radio" name="feedback_action" value="false"><fmt:message key="admin.feedback.reject"/><br>

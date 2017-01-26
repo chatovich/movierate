@@ -9,7 +9,7 @@
     <uri>customtags</uri>
     <tag>
         <name>menu</name>
-        <tag-class>com.movierate.movie.tag.SwitchMenuTag</tag-class>
+        <tag-class>com.chatovich.movie.tag.SwitchMenuTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>role</name>
@@ -18,7 +18,7 @@
     </tag>
     <tag>
         <name>login</name>
-        <tag-class>com.movierate.movie.tag.LoginTag</tag-class>
+        <tag-class>com.chatovich.movie.tag.LoginTag</tag-class>
         <body-content>empty</body-content>
     </tag>
 </taglib>

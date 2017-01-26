@@ -44,7 +44,7 @@
     </c:if>
 
     <c:if test="${chooseMovie}">
-        <form action="/controller" role="form" method="post" name="choose-film">
+        <form action="${pageContext.request.contextPath}/controller" role="form" method="post" name="choose-film">
         <input type="hidden" name="command" value="get_movie_info_for_update">
         <div class="form-group">
             <select name="id_movie" class="form-control-static" style="width: 350px; color: black;" required>
@@ -61,7 +61,7 @@
     </c:if>
 
     <c:if test="${chooseParticipant}">
-        <form action="/controller" role="form" method="post" name="choose-participant">
+        <form action="${pageContext.request.contextPath}/controller" role="form" method="post" name="choose-participant">
             <input type="hidden" name="command" value="get_participant_for_update">
             <div class="form-group">
                 <select name="id_participant" class="form-control-static" style="width: 350px; color: black;" required>

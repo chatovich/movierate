@@ -9,7 +9,6 @@
 <!DOCTYPE html>
 <html>
 <c:import url="../fragment/header.jsp"/>
-<%--<jsp:include page = "${pageContext.request.contextPath}/jsp/header/header.jsp"/>--%>
 
 <body class="body">
 
@@ -18,7 +17,7 @@
 
 <div class = "container">
     <div class="wrapper">
-        <form onsubmit="return validateForm()" action="/controller" method="post" enctype="multipart/form-data" name="register_form" class="form-signin">
+        <form onsubmit="return validateForm()" action="${pageContext.request.contextPath}/controller" method="post" enctype="multipart/form-data" name="register_form" class="form-signin">
             <h3 class="form-signin-heading"><fmt:message key="login.please.register"/></h3>
             <hr class="colorgraph"><br>
 
@@ -50,7 +49,6 @@
             <input type="text" class="form-control" name="email" placeholder=<fmt:message key="login.email"/> title=<fmt:message key="reg.wrong.email"/>  />
             <span style="color: red" id="error_email"></span>
 
-            <%--<input type="file" name="photo" class="form-control" />--%>
             <div class="mask-wrapper">
                 <div class="mask">
                     <input style="float: left" class="fileInputText" type="text" disabled>
@@ -59,12 +57,9 @@
                 <input id="photo" class="custom-file-input" type="file" name="photo" style="width: 350px">
             </div>
 
-
             <div class="reg">
                 <input type="submit" class="btn btn-lg btn-success btn-block" value=<fmt:message key="login.register"/>>
             </div>
-
-            <%--<button class="btn btn-lg btn-primary btn-block"  name="Submit" value="Login" type="Submit">Login</button>--%>
         </form>
     </div>
 </div>
