@@ -38,7 +38,7 @@ public class RatingCalculatorTest {
         Feedback mockFeedback = mock(Feedback.class);
         List<Feedback> movieFeedbacks = new ArrayList<>();
         movieFeedbacks.add(mockFeedback);
-        when(mockFeedback.getMark()).thenReturn(10);
+        when(mockFeedback.getMark() ).thenReturn(10);
         double actualRating = ratingCalculator.calcMovieRating(movieFeedbacks);
         Assert.assertEquals(10, actualRating, 0.1);
     }

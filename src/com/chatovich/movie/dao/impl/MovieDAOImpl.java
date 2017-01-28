@@ -3,7 +3,7 @@ package com.chatovich.movie.dao.impl;
 import com.chatovich.movie.connection.ConnectionPool;
 import com.chatovich.movie.connection.ProxyConnection;
 import com.chatovich.movie.dao.DAO;
-import com.chatovich.movie.dao.MovieDAO;
+import com.chatovich.movie.dao.IMovieDAO;
 import com.chatovich.movie.entity.Country;
 import com.chatovich.movie.entity.Genre;
 import com.chatovich.movie.entity.Movie;
@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Class that connects with database and operates with table "movies" and related to it (movies_genres, movies_countries, movies_participants)
  */
-public class MovieDAOImpl implements MovieDAO, DAO {
+public class MovieDAOImpl implements IMovieDAO, DAO {
 
     private static final Logger LOGGER = LogManager.getLogger(MovieDAOImpl.class);
     private static final String SQL_FIND_TITLE = "SELECT title FROM movies WHERE title=?";

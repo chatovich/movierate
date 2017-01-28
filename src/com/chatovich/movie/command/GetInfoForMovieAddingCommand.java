@@ -1,15 +1,19 @@
 package com.chatovich.movie.command;
 
 import com.chatovich.movie.exception.ServiceException;
-import com.chatovich.movie.service.CountryService;
+import com.chatovich.movie.service.ICountryService;
+import com.chatovich.movie.service.IGenreService;
+import com.chatovich.movie.service.IParticipantService;
+import com.chatovich.movie.service.ServiceFactory;
+import com.chatovich.movie.service.impl.CountryServiceImpl;
 import com.chatovich.movie.type.Profession;
 import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.constant.Parameters;
 import com.chatovich.movie.entity.Country;
 import com.chatovich.movie.entity.Genre;
 import com.chatovich.movie.entity.Participant;
-import com.chatovich.movie.service.GenreService;
-import com.chatovich.movie.service.ParticipantService;
+import com.chatovich.movie.service.impl.GenreServiceImpl;
+import com.chatovich.movie.service.impl.ParticipantServiceImpl;
 import com.chatovich.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -28,14 +32,14 @@ public class GetInfoForMovieAddingCommand implements ICommand {
     @Override
     public String execute(HttpServletRequest request) {
 
-        ParticipantService participantService = new ParticipantService();
-        GenreService genreService = new GenreService();
-        CountryService countryService = new CountryService();
+        IParticipantService participantServiceImpl = ServiceFactory.getInstance().getParticipantService();
+        IGenreService genreServiceImpl = ServiceFactory.getInstance().getGenreService();
+        ICountryService countryServiceImpl = ServiceFactory.getInstance().getCountryService();
         try {
-            List<Participant> actors = participantService.getParticipants(String.valueOf(Profession.ACTOR).toLowerCase());
-            List<Participant> directors = participantService.getParticipants(String.valueOf(Profession.DIRECTOR).toLowerCase());
-            List<Genre> genres = genreService.getGenres();
-            List<Country> countries = countryService.getCountries();
+            List<Participant> actors = participantServiceImpl.getParticipants(String.valueOf(Profession.ACTOR).toLowerCase());
+            List<Participant> directors = participantServiceImpl.getParticipants(String.valueOf(Profession.DIRECTOR).toLowerCase());
+            List<Genre> genres = genreServiceImpl.getGenres();
+            List<Country> countries = countryServiceImpl.getCountries();
             request.setAttribute(Parameters.ACTORS, actors);
             request.setAttribute(Parameters.DIRECTORS, directors);
             request.setAttribute(Parameters.GENRES, genres);

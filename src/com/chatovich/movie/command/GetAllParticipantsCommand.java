@@ -1,7 +1,9 @@
 package com.chatovich.movie.command;
 
 import com.chatovich.movie.exception.ServiceException;
-import com.chatovich.movie.service.ParticipantService;
+import com.chatovich.movie.service.IParticipantService;
+import com.chatovich.movie.service.ServiceFactory;
+import com.chatovich.movie.service.impl.ParticipantServiceImpl;
 import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.constant.Parameters;
 import com.chatovich.movie.entity.Participant;
@@ -22,10 +24,10 @@ public class GetAllParticipantsCommand implements ICommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        ParticipantService participantService = new ParticipantService();
+        IParticipantService participantServiceImpl = ServiceFactory.getInstance().getParticipantService();
         List<Participant> participants;
         try {
-            participants = participantService.getParticipants("");
+            participants = participantServiceImpl.getParticipants("");
             request.setAttribute(Parameters.CHOOSE_PARTICIPANT, true);
             request.setAttribute(Parameters.PARTICIPANTS, participants);
         } catch (ServiceException e) {

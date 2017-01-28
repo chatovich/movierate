@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * specifies methods for working with entity "genre" that its implementations should realize
  */
-public interface GenreDAO {
+public interface IGenreDAO {
 
     Genre findEntityByName (String name) throws DAOFailedException;
     List<Genre> findGenresByMovieId (long id) throws DAOFailedException;

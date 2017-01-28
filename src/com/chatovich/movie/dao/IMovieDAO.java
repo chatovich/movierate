@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * specifies methods for working with entity "movie" that its implementations should realize
  */
-public interface MovieDAO {
+public interface IMovieDAO {
 
     void save(Movie movie) throws DAOFailedException, RollbackFailedException;
     boolean checkMovieExists (String title) throws DAOFailedException;
@@ -19,4 +19,5 @@ public interface MovieDAO {
     void deleteMovie(long id) throws DAOFailedException, RollbackFailedException;
     void updateMovieRating(double rating, long id_movie) throws DAOFailedException;
     List<Movie> findTopMovies() throws DAOFailedException;
+    int getMovieQuantity();
 }

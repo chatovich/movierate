@@ -2,7 +2,7 @@ package com.chatovich.movie.dao.impl;
 
 import com.chatovich.movie.connection.ConnectionPool;
 import com.chatovich.movie.connection.ProxyConnection;
-import com.chatovich.movie.dao.GenreDAO;
+import com.chatovich.movie.dao.IGenreDAO;
 import com.chatovich.movie.entity.Genre;
 import com.chatovich.movie.exception.DAOFailedException;
 import com.chatovich.movie.dao.DAO;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Class that connects with database and operates with table "genres"
  */
-public class GenreDAOImpl implements GenreDAO, DAO {
+public class GenreDAOImpl implements IGenreDAO, DAO {
 
     private static final String SQL_FIND_GENRES_OF_MOVIE = "SELECT * FROM genres WHERE id_genre IN " +
             "(SELECT id_genre FROM movies_genres WHERE id_movie=?)";

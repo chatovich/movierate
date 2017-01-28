@@ -2,7 +2,7 @@ package com.chatovich.movie.dao.impl;
 
 import com.chatovich.movie.connection.ConnectionPool;
 import com.chatovich.movie.connection.ProxyConnection;
-import com.chatovich.movie.dao.CountryDAO;
+import com.chatovich.movie.dao.ICountryDAO;
 import com.chatovich.movie.dao.DAO;
 import com.chatovich.movie.entity.Country;
 import com.chatovich.movie.exception.DAOFailedException;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Class that connects with database and operates with table "countries"
  */
-public class CountryDAOImpl implements CountryDAO, DAO {
+public class CountryDAOImpl implements ICountryDAO, DAO {
 
     private static final String SQL_FIND_COUNTRIES_OF_MOVIE = "SELECT * FROM countries WHERE id_country IN " +
             "(SELECT id_country FROM movies_countries WHERE id_movie=?)";

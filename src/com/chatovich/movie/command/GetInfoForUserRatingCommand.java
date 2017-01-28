@@ -4,7 +4,9 @@ import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.entity.User;
 import com.chatovich.movie.exception.ServiceException;
 import com.chatovich.movie.constant.Parameters;
-import com.chatovich.movie.service.UserService;
+import com.chatovich.movie.service.IUserService;
+import com.chatovich.movie.service.ServiceFactory;
+import com.chatovich.movie.service.impl.UserServiceImpl;
 import com.chatovich.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -25,9 +27,9 @@ public class GetInfoForUserRatingCommand implements ICommand {
         if (signedUser==null||Long.parseLong(id)!=signedUser.getId()){
             request.setAttribute(Parameters.SHOW_ANOTHER_USER, true);
         }
-        UserService userService = new UserService();
+        IUserService userServiceImpl = ServiceFactory.getInstance().getUserService();
         try {
-            Double rating = userService.defineUserRating(id);
+            Double rating = userServiceImpl.defineUserRating(id);
             request.setAttribute(Parameters.USER_RATING, rating);
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());

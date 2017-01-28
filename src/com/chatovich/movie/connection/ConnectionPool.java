@@ -64,7 +64,7 @@ public class ConnectionPool {
 
     }
     /**
-     * creates new Connection pool entity if it doesn't exist, and return link to existing if it already exist.
+     * creates new Connection pool entity if it doesn't exist, and return link to existing if it already exists.
      * @return ConnectionPool instance
      */
     public static ConnectionPool getInstance(){

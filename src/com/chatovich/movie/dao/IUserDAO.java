@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * specifies methods for working with entity "user" that its implementations should realize
  */
-public interface UserDAO {
+public interface IUserDAO {
 
     User findEntityByName(String name) throws DAOFailedException;
     void save(User user) throws DAOFailedException;

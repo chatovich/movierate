@@ -4,7 +4,9 @@ import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.constant.Parameters;
 import com.chatovich.movie.entity.Movie;
 import com.chatovich.movie.exception.ServiceException;
-import com.chatovich.movie.service.MovieService;
+import com.chatovich.movie.service.IMovieService;
+import com.chatovich.movie.service.ServiceFactory;
+import com.chatovich.movie.service.impl.MovieServiceImpl;
 import com.chatovich.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -30,10 +32,10 @@ public class FilteredMovieSearchCommand implements ICommand {
         if (request.getParameter(Parameters.PAGE)!=null){
             page = Integer.parseInt(request.getParameter(Parameters.PAGE));
         }
-        MovieService movieService = new MovieService();
+        IMovieService movieServiceImpl = ServiceFactory.getInstance().getMovieService();
         try {
-            movies = movieService.filteredMovieSearch(parameters, (page-1)*Parameters.MOVIES_PER_PAGE, Parameters.MOVIES_PER_PAGE);
-            pageQuantity = (int)Math.ceil(((double)movieService.getMovieQuantity())/Parameters.MOVIES_PER_PAGE);
+            movies = movieServiceImpl.filteredMovieSearch(parameters, (page-1)*Parameters.MOVIES_PER_PAGE, Parameters.MOVIES_PER_PAGE);
+            pageQuantity = (int)Math.ceil(((double) movieServiceImpl.getMovieQuantity())/Parameters.MOVIES_PER_PAGE);
             request.setAttribute(Parameters.MOVIES, movies);
             request.setAttribute(Parameters.PAGE_QUANTITY, pageQuantity);
             request.setAttribute(Parameters.CURRENT_PAGE, page);

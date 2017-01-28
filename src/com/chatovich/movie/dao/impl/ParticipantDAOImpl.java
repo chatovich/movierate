@@ -4,7 +4,7 @@ import com.chatovich.movie.type.Profession;
 import com.chatovich.movie.connection.ConnectionPool;
 import com.chatovich.movie.connection.ProxyConnection;
 import com.chatovich.movie.dao.DAO;
-import com.chatovich.movie.dao.ParticipantDAO;
+import com.chatovich.movie.dao.IParticipantDAO;
 import com.chatovich.movie.entity.Participant;
 import com.chatovich.movie.exception.DAOFailedException;
 
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Class that connects with database and operates with table "movies"
  */
-public class ParticipantDAOImpl implements ParticipantDAO, DAO {
+public class ParticipantDAOImpl implements IParticipantDAO, DAO {
 
     private static final String SQL_FIND_ALL_PARTICIPANTS = "SELECT id_participant, name, profession FROM participants";
     private static final String SQL_SAVE_PARTICIPANT = "INSERT INTO participants (name, profession) VALUES (?,?)";

@@ -3,7 +3,9 @@ package com.chatovich.movie.command;
 import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.constant.Parameters;
 import com.chatovich.movie.exception.ServiceException;
-import com.chatovich.movie.service.ParticipantService;
+import com.chatovich.movie.service.IParticipantService;
+import com.chatovich.movie.service.ServiceFactory;
+import com.chatovich.movie.service.impl.ParticipantServiceImpl;
 import com.chatovich.movie.util.QueryUtil;
 import com.chatovich.movie.util.Validation;
 import org.apache.logging.log4j.Level;
@@ -28,9 +30,9 @@ public class UpdateParticipantCommand implements ICommand {
             request.setAttribute(Parameters.EMPTY_FIELDS, true);
             return PagePath.USER_PAGE;
         }
-        ParticipantService participantService = new ParticipantService();
+        IParticipantService participantServiceImpl = ServiceFactory.getInstance().getParticipantService();
         try {
-            participantService.createParticipant(parameters);
+            participantServiceImpl.createParticipant(parameters);
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e);
             return PagePath.ERROR_PAGE;

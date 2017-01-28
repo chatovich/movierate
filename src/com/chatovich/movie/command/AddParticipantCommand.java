@@ -3,7 +3,9 @@ package com.chatovich.movie.command;
 import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.constant.Parameters;
 import com.chatovich.movie.exception.ServiceException;
-import com.chatovich.movie.service.ParticipantService;
+import com.chatovich.movie.service.IParticipantService;
+import com.chatovich.movie.service.ServiceFactory;
+import com.chatovich.movie.service.impl.ParticipantServiceImpl;
 import com.chatovich.movie.util.QueryUtil;
 import com.chatovich.movie.util.Validation;
 import org.apache.logging.log4j.Level;
@@ -23,18 +25,18 @@ public class AddParticipantCommand implements ICommand {
     @Override
     public String execute(HttpServletRequest request) {
 
-        ParticipantService participantService = new ParticipantService();
+        IParticipantService participantServiceImpl = ServiceFactory.getInstance().getParticipantService();
         Map<String, String[]> parameters = request.getParameterMap();
         if (!Validation.checkEmptyFields(parameters).isEmpty()){
             request.setAttribute(Parameters.EMPTY_FIELDS, true);
             return PagePath.USER_PAGE;
         }
         try{
-            if (participantService.checkParticipantExists(parameters)){
+            if (participantServiceImpl.checkParticipantExists(parameters)){
                 request.setAttribute(Parameters.PARTICIPANT_EXISTS,true);
                 return PagePath.USER_PAGE;
             }
-            participantService.createParticipant(parameters);
+            participantServiceImpl.createParticipant(parameters);
             request.setAttribute(Parameters.PARTICIPANT_ADDED, true);
 
         } catch (ServiceException e) {

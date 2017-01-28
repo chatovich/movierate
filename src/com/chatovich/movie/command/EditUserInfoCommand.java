@@ -5,7 +5,9 @@ import com.chatovich.movie.constant.Parameters;
 import com.chatovich.movie.entity.User;
 import com.chatovich.movie.exception.HashPasswordFailedException;
 import com.chatovich.movie.exception.ServiceException;
-import com.chatovich.movie.service.UserService;
+import com.chatovich.movie.service.IUserService;
+import com.chatovich.movie.service.ServiceFactory;
+import com.chatovich.movie.service.impl.UserServiceImpl;
 import com.chatovich.movie.util.QueryUtil;
 import com.chatovich.movie.util.Validation;
 import org.apache.logging.log4j.Level;
@@ -33,16 +35,16 @@ public class EditUserInfoCommand extends UploadPhoto implements ICommand {
             request.setAttribute(Parameters.EMPTY_FIELDS, true);
             return PagePath.USER_PAGE;
         }
-        UserService userService = new UserService();
+        IUserService userServiceImpl = ServiceFactory.getInstance().getUserService();
         try {
-            if (!Validation.loginInfoValid(userService.getLoginInfo(parameters),parameters)){
+            if (!Validation.loginInfoValid(userServiceImpl.getLoginInfo(parameters),parameters)){
                 request.setAttribute(Parameters.EMPTY_FIELDS, true);
                 return PagePath.USER_PAGE;
             }
             //get uploaded photo if there was one
             String path = uploadFile(request, Parameters.PHOTO_FILE_PATH, Parameters.PHOTO);
-            userService.updateUser(parameters, path);
-            User user = userService.getUser(parameters.get(Parameters.LOGIN)[0]);
+            userServiceImpl.updateUser(parameters, path);
+            User user = userServiceImpl.getUser(parameters.get(Parameters.LOGIN)[0]);
             request.setAttribute(Parameters.USER_UPDATED, true);
             request.getSession().setAttribute(Parameters.SIGNED_USER, user);
 

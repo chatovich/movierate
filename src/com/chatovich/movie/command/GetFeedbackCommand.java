@@ -4,7 +4,9 @@ import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.constant.Parameters;
 import com.chatovich.movie.entity.Feedback;
 import com.chatovich.movie.exception.ServiceException;
-import com.chatovich.movie.service.FeedbackService;
+import com.chatovich.movie.service.IFeedbackService;
+import com.chatovich.movie.service.ServiceFactory;
+import com.chatovich.movie.service.impl.FeedbackServiceImpl;
 import com.chatovich.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -22,9 +24,9 @@ public class GetFeedbackCommand implements ICommand {
     public String execute(HttpServletRequest request) {
 
         String id = request.getParameter(Parameters.ID_FEEDBACK);
-        FeedbackService feedbackService = new FeedbackService();
+        IFeedbackService feedbackServiceImpl = ServiceFactory.getInstance().getFeedbackService();
         try {
-            Feedback feedback = feedbackService.getFeedback(id);
+            Feedback feedback = feedbackServiceImpl.getFeedback(id);
             if (feedback.getId()>0){
                 request.setAttribute(Parameters.FEEDBACK, feedback);
                 request.setAttribute(Parameters.SHOW_FEEDBACK, true);

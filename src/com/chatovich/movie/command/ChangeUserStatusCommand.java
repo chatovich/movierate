@@ -4,7 +4,9 @@ import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.constant.Parameters;
 import com.chatovich.movie.entity.User;
 import com.chatovich.movie.exception.ServiceException;
-import com.chatovich.movie.service.UserService;
+import com.chatovich.movie.service.IUserService;
+import com.chatovich.movie.service.ServiceFactory;
+import com.chatovich.movie.service.impl.UserServiceImpl;
 import com.chatovich.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -22,12 +24,12 @@ public class ChangeUserStatusCommand implements ICommand{
     public String execute(HttpServletRequest request) {
         String login = request.getParameter(Parameters.ID_USER);
         String toBan = request.getParameter(Parameters.BAN);
-        UserService userService = new UserService();
+        IUserService userServiceImpl = ServiceFactory.getInstance().getUserService();
 
         try {
-            userService.changeUserStatus(login,Boolean.valueOf(toBan));
+            userServiceImpl.changeUserStatus(login,Boolean.valueOf(toBan));
             request.setAttribute(Parameters.SHOW_ANOTHER_USER, true);
-            User user = userService.getUser(login);
+            User user = userServiceImpl.getUser(login);
             request.getSession().setAttribute(Parameters.ANOTHER_USER, user);
             request.setAttribute(Parameters.SHOW_ANOTHER_USER, true);
         } catch (ServiceException e) {

@@ -1,7 +1,8 @@
 package com.chatovich.movie.command;
 
 import com.chatovich.movie.exception.ServiceException;
-import com.chatovich.movie.service.CountryService;
+import com.chatovich.movie.service.*;
+import com.chatovich.movie.service.impl.CountryServiceImpl;
 import com.chatovich.movie.type.Profession;
 import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.constant.Parameters;
@@ -9,9 +10,9 @@ import com.chatovich.movie.entity.Country;
 import com.chatovich.movie.entity.Genre;
 import com.chatovich.movie.entity.Movie;
 import com.chatovich.movie.entity.Participant;
-import com.chatovich.movie.service.GenreService;
-import com.chatovich.movie.service.MovieService;
-import com.chatovich.movie.service.ParticipantService;
+import com.chatovich.movie.service.impl.GenreServiceImpl;
+import com.chatovich.movie.service.impl.MovieServiceImpl;
+import com.chatovich.movie.service.impl.ParticipantServiceImpl;
 import com.chatovich.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -31,11 +32,11 @@ public class GetMovieInfoForUpdateCommand implements ICommand {
     @Override
     public String execute(HttpServletRequest request) {
 
-        MovieService movieService = new MovieService();
+        IMovieService movieServiceImpl = ServiceFactory.getInstance().getMovieService();
         String id_movie = request.getParameter(Parameters.ID_MOVIE);
         if (request.getParameter(Parameters.ACTION).equals(Parameters.DELETE)){
             try {
-                movieService.deleteMovie(Long.parseLong(id_movie));
+                movieServiceImpl.deleteMovie(Long.parseLong(id_movie));
                 request.setAttribute(Parameters.MOVIE_DELETED, true);
             } catch (ServiceException e) {
                 LOGGER.log(Level.ERROR, e.getMessage());
@@ -45,15 +46,15 @@ public class GetMovieInfoForUpdateCommand implements ICommand {
         }
 
         Movie movie;
+        IParticipantService participantServiceImpl = ServiceFactory.getInstance().getParticipantService();
+        IGenreService genreServiceImpl = ServiceFactory.getInstance().getGenreService();
+        ICountryService countryServiceImpl = ServiceFactory.getInstance().getCountryService();
         try {
-            movie = movieService.findMovieById(Integer.parseInt(id_movie));
-            ParticipantService participantService = new ParticipantService();
-            GenreService genreService = new GenreService();
-            CountryService countryService = new CountryService();
-            List<Participant> actors = participantService.getParticipants(String.valueOf(Profession.ACTOR).toLowerCase());
-            List<Participant> directors = participantService.getParticipants(String.valueOf(Profession.DIRECTOR).toLowerCase());
-            List<Genre> genres = genreService.getGenres();
-            List<Country> countries = countryService.getCountries();
+            movie = movieServiceImpl.findMovieById(Integer.parseInt(id_movie));
+            List<Participant> actors = participantServiceImpl.getParticipants(String.valueOf(Profession.ACTOR).toLowerCase());
+            List<Participant> directors = participantServiceImpl.getParticipants(String.valueOf(Profession.DIRECTOR).toLowerCase());
+            List<Genre> genres = genreServiceImpl.getGenres();
+            List<Country> countries = countryServiceImpl.getCountries();
             List<Participant> movieActors = new ArrayList<>();
             List<Participant> movieDirectors = new ArrayList<>();
             for (Participant participant : movie.getMovieParticipants()) {

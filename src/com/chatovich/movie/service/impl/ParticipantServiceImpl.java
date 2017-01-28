@@ -1,7 +1,10 @@
-package com.chatovich.movie.service;
+package com.chatovich.movie.service.impl;
 
+import com.chatovich.movie.dao.DAOFactory;
+import com.chatovich.movie.dao.IParticipantDAO;
 import com.chatovich.movie.dao.impl.ParticipantDAOImpl;
 import com.chatovich.movie.exception.ServiceException;
+import com.chatovich.movie.service.IParticipantService;
 import com.chatovich.movie.type.Profession;
 import com.chatovich.movie.entity.Participant;
 import com.chatovich.movie.exception.DAOFailedException;
@@ -12,7 +15,7 @@ import java.util.Map;
 /**
  * Class that encapsulates logic connected with entity "participant" and represents intermediate layer between database and client
  */
-public class ParticipantService {
+public class ParticipantServiceImpl implements IParticipantService {
 
     /**
      * gets all participants of specified profession
@@ -21,7 +24,7 @@ public class ParticipantService {
      * @throws ServiceException if DAOFailedException is thrown
      */
     public List<Participant> getParticipants (String profession) throws ServiceException {
-        ParticipantDAOImpl participantDAO = new ParticipantDAOImpl();
+        IParticipantDAO participantDAO = DAOFactory.getInstance().getParticipantDAO();
         List<Participant> participants;
         try {
             participants = participantDAO.findAllByProfession(profession);
@@ -47,7 +50,7 @@ public class ParticipantService {
                     break;
             }
         }
-        ParticipantDAOImpl participantDAO = new ParticipantDAOImpl();
+        IParticipantDAO participantDAO = DAOFactory.getInstance().getParticipantDAO();
         try {
             participantDAO.save(participant);
         } catch (DAOFailedException e) {
@@ -74,7 +77,7 @@ public class ParticipantService {
                     break;
             }
         }
-        ParticipantDAOImpl participantDAO = new ParticipantDAOImpl();
+        IParticipantDAO participantDAO = DAOFactory.getInstance().getParticipantDAO();
         List<Participant> participants;
         try {
             participants = participantDAO.findEntityByName(name);
@@ -99,7 +102,7 @@ public class ParticipantService {
      */
     public Participant getParticipantById(long id) throws ServiceException {
 
-        ParticipantDAOImpl participantDAO = new ParticipantDAOImpl();
+        IParticipantDAO participantDAO = DAOFactory.getInstance().getParticipantDAO();
         Participant participant;
         try {
             participant = participantDAO.findEntityById(id);

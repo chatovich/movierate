@@ -4,7 +4,9 @@ import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.constant.Parameters;
 import com.chatovich.movie.entity.Movie;
 import com.chatovich.movie.exception.ServiceException;
-import com.chatovich.movie.service.MovieService;
+import com.chatovich.movie.service.IMovieService;
+import com.chatovich.movie.service.ServiceFactory;
+import com.chatovich.movie.service.impl.MovieServiceImpl;
 import com.chatovich.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -24,10 +26,10 @@ public class GetAllMoviesCommand implements ICommand {
     @Override
     public String execute(HttpServletRequest request) {
 
-        MovieService movieService = new MovieService();
+        IMovieService movieServiceImpl = ServiceFactory.getInstance().getMovieService();
         List<Movie> movies;
         try {
-            movies = movieService.getAllMovies();
+            movies = movieServiceImpl.getAllMovies();
             request.setAttribute(Parameters.CHOOSE_MOVIE, true);
             request.setAttribute(Parameters.MOVIES, movies);
 

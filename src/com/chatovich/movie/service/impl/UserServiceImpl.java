@@ -1,6 +1,9 @@
-package com.chatovich.movie.service;
+package com.chatovich.movie.service.impl;
 
 import com.chatovich.movie.constant.Parameters;
+import com.chatovich.movie.dao.DAOFactory;
+import com.chatovich.movie.dao.IFeedbackDAO;
+import com.chatovich.movie.dao.IUserDAO;
 import com.chatovich.movie.dao.impl.FeedbackDAOImpl;
 import com.chatovich.movie.dao.impl.UserDAOImpl;
 import com.chatovich.movie.entity.Feedback;
@@ -8,6 +11,7 @@ import com.chatovich.movie.entity.User;
 import com.chatovich.movie.exception.DAOFailedException;
 import com.chatovich.movie.exception.HashPasswordFailedException;
 import com.chatovich.movie.exception.ServiceException;
+import com.chatovich.movie.service.IUserService;
 import com.chatovich.movie.type.Role;
 import com.chatovich.movie.util.PasswordHash;
 import com.chatovich.movie.util.RatingCalculator;
@@ -15,8 +19,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
@@ -24,9 +26,9 @@ import java.util.*;
 /**
  * Class that encapsulates logic connected with entity "user" and represents intermediate layer between database and client
  */
-public class UserService {
+public class UserServiceImpl implements IUserService{
 
-    private static final Logger LOGGER = LogManager.getLogger(UserService.class);
+    private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
 
     /**
      * creates a new Object "User" using tha data from inout form on registration page
@@ -39,7 +41,7 @@ public class UserService {
         user.setPhoto(filePath);
         user.setRole(Role.USER);
         user.setRegistrDate(LocalDate.now());
-        UserDAOImpl userDAO = new UserDAOImpl();
+        IUserDAO userDAO = DAOFactory.getInstance().getUserDAO();
         try {
             for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
                 switch (entry.getKey()){
@@ -64,7 +66,7 @@ public class UserService {
      * @throws ServiceException if DAOFailedException is thrown
      */
     public boolean loginAvailable (String login) throws ServiceException {
-        UserDAOImpl userDAOImpl = new UserDAOImpl();
+        IUserDAO userDAOImpl = DAOFactory.getInstance().getUserDAO();
         User user;
         try {
             user = userDAOImpl.findLoginInfo(login);
@@ -82,7 +84,7 @@ public class UserService {
      */
     public User getUser(String login) throws ServiceException {
 
-        UserDAOImpl userDAOImpl = new UserDAOImpl();
+        IUserDAO userDAOImpl = DAOFactory.getInstance().getUserDAO();
         FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
         User user;
         try {
@@ -103,7 +105,7 @@ public class UserService {
     public User getLoginInfo (Map<String, String[]> parameters) throws ServiceException {
 
         String login = parameters.get(Parameters.LOGIN)[0];
-        UserDAOImpl userDAOImpl = new UserDAOImpl();
+        IUserDAO userDAOImpl = DAOFactory.getInstance().getUserDAO();
         User user;
         try {
             user = userDAOImpl.findLoginInfo(login);
@@ -137,7 +139,7 @@ public class UserService {
                     break;
             }
         }
-        UserDAOImpl userDAO = new UserDAOImpl();
+        IUserDAO userDAO = DAOFactory.getInstance().getUserDAO();
         try {
             userDAO.updateUser(login, email, PasswordHash.getHashPassword(password), path);
         } catch (DAOFailedException|HashPasswordFailedException e) {
@@ -152,7 +154,7 @@ public class UserService {
      * @throws ServiceException if DAOFailedException is thrown
      */
     public double defineUserRating(String id) throws ServiceException {
-        FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
+        IFeedbackDAO feedbackDAO = DAOFactory.getInstance().getFeedbackDAO();
         List<Feedback> userFeedbacks = null;
         try {
             userFeedbacks = feedbackDAO.findUserMarks(Long.parseLong(id));
@@ -174,7 +176,7 @@ public class UserService {
      * @throws ServiceException if DAOFailedException is thrown
      */
     public User updateUserFeedbacks (User user) throws ServiceException {
-        FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
+        IFeedbackDAO feedbackDAO = DAOFactory.getInstance().getFeedbackDAO();
         try {
             user.setUserFeedbacks(feedbackDAO.findFeedbacksByUserId(user.getId()));
         } catch (DAOFailedException e) {
@@ -189,7 +191,7 @@ public class UserService {
      * @throws ServiceException if DAOFailedException is thrown
      */
     public List<User> getAllUsers() throws ServiceException {
-        UserDAOImpl userDAO = new UserDAOImpl();
+        IUserDAO userDAO = DAOFactory.getInstance().getUserDAO();
         List <User> users;
         try {
             users = userDAO.findAllUsers();
@@ -200,7 +202,7 @@ public class UserService {
     }
 
     public void changeUserStatus (String login, boolean toBan) throws ServiceException {
-        UserDAOImpl userDAO = new UserDAOImpl();
+        IUserDAO userDAO = DAOFactory.getInstance().getUserDAO();
         try {
             userDAO.changeUserStatus(login,toBan);
         } catch (DAOFailedException e) {
@@ -215,7 +217,7 @@ public class UserService {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                UserDAOImpl userDAO = new UserDAOImpl();
+                IUserDAO userDAO = DAOFactory.getInstance().getUserDAO();
                 try {
                     List<User> bannedUsers = userDAO.findBannedUsers();
                     for (User user : bannedUsers) {

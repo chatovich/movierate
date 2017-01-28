@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="movierate:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/movierate_war</output-path>
+    <root id="archive" name="movierate_war.war">
+      <element id="artifact" artifact-name="movierate:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="jstl-1.2" />
+          <element id="library" level="project" name="mysql-connector-java-5.1.38" />
+          <element id="library" level="project" name="log4j-api-2.5" />
+          <element id="library" level="project" name="junit-4.12" />
+          <element id="library" level="project" name="mockito-all-1.9.5" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

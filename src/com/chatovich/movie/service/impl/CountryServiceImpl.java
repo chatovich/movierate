@@ -1,16 +1,19 @@
-package com.chatovich.movie.service;
+package com.chatovich.movie.service.impl;
 
+import com.chatovich.movie.dao.DAOFactory;
+import com.chatovich.movie.dao.ICountryDAO;
 import com.chatovich.movie.dao.impl.CountryDAOImpl;
 import com.chatovich.movie.entity.Country;
 import com.chatovich.movie.exception.DAOFailedException;
 import com.chatovich.movie.exception.ServiceException;
+import com.chatovich.movie.service.ICountryService;
 
 import java.util.List;
 
 /**
  * Class that encapsulates logic connected with entity "country" and represents intermediate layer between database and client
  */
-public class CountryService {
+public class CountryServiceImpl implements ICountryService {
 
     /**
      * gets all countries
@@ -18,8 +21,9 @@ public class CountryService {
      * @throws ServiceException if DAOFailedException is thrown
      */
     public List<Country> getCountries() throws ServiceException {
-        CountryDAOImpl countryDAO = new CountryDAOImpl();
+        ICountryDAO countryDAO = DAOFactory.getInstance().getCountryDAO();
         List<Country> countries;
+
         try {
             countries = countryDAO.findAll();
         } catch (DAOFailedException e) {

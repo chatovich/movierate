@@ -6,12 +6,10 @@ import com.chatovich.movie.entity.User;
 import com.chatovich.movie.connection.ConnectionPool;
 import com.chatovich.movie.connection.ProxyConnection;
 import com.chatovich.movie.dao.DAO;
-import com.chatovich.movie.dao.FeedbackDAO;
+import com.chatovich.movie.dao.IFeedbackDAO;
 import com.chatovich.movie.exception.DAOFailedException;
 import com.chatovich.movie.exception.RollbackFailedException;
 import com.chatovich.movie.type.FeedbackStatus;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +22,7 @@ import java.util.List;
 /**
  * Class that connects with database and operates with table "feedbacks"
  */
-public class FeedbackDAOImpl implements FeedbackDAO, DAO {
+public class FeedbackDAOImpl implements IFeedbackDAO, DAO {
 
     private static final String SQL_UPDATE_FEEDBACK_STATUS = "UPDATE feedbacks SET status=? WHERE id_feedback=?";
     private static final String SQL_FIND_LIKE = "SELECT user, feedback FROM likes WHERE user=? AND feedback=?";

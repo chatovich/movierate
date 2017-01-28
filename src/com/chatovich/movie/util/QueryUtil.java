@@ -21,7 +21,7 @@ public class QueryUtil {
     private static final String WHERE = "WHERE ";
     private static final String ID_MOVIE = " id_movie ";
     private static final String LIMIT = " LIMIT ?,?;";
-    private static final String ORDER = " ORDER BY adding_date";
+    private static final String ORDER = " ORDER BY adding_date DESC";
     private static final String CLOSE_PARENTHESIS = "')";
     private static final String EQUAL = "=";
     private static final String LESS = "<";

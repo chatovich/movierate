@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * specifies methods for working with entity "feedback" that its implementations should realize
  */
-public interface FeedbackDAO {
+public interface IFeedbackDAO {
 
     void save(Feedback feedback) throws DAOFailedException;
     List <Feedback> findFeedbacksByMovieId (long id) throws DAOFailedException;

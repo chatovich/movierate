@@ -48,7 +48,7 @@
 
     <div style="clear:both;">
         <p>${movie.plot}</p>
-        <c:if test="${FeedbackAdded}">
+        <c:if test="${feedbackAdded}">
             <p style="color: #ff8900;"><fmt:message key="movie.feedback.added"/> </p>
         </c:if>
         <c:if test="${userSignedIn}">

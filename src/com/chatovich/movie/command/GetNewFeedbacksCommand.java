@@ -4,7 +4,9 @@ import com.chatovich.movie.exception.ServiceException;
 import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.constant.Parameters;
 import com.chatovich.movie.entity.Feedback;
-import com.chatovich.movie.service.FeedbackService;
+import com.chatovich.movie.service.IFeedbackService;
+import com.chatovich.movie.service.ServiceFactory;
+import com.chatovich.movie.service.impl.FeedbackServiceImpl;
 import com.chatovich.movie.type.FeedbackStatus;
 import com.chatovich.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
@@ -24,9 +26,9 @@ public class GetNewFeedbacksCommand implements ICommand {
     @Override
     public String execute(HttpServletRequest request) {
 
-        FeedbackService feedbackService = new FeedbackService();
+        IFeedbackService feedbackServiceImpl = ServiceFactory.getInstance().getFeedbackService();
         try {
-            List<Feedback> feedbacks = feedbackService.getFeedbacksByStatus(FeedbackStatus.NEW.getStatus());
+            List<Feedback> feedbacks = feedbackServiceImpl.getFeedbacksByStatus(FeedbackStatus.NEW.getStatus());
             request.setAttribute(Parameters.NEW_FEEDBACKS, feedbacks);
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());

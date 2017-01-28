@@ -4,7 +4,9 @@ import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.constant.Parameters;
 import com.chatovich.movie.entity.Participant;
 import com.chatovich.movie.exception.ServiceException;
-import com.chatovich.movie.service.ParticipantService;
+import com.chatovich.movie.service.IParticipantService;
+import com.chatovich.movie.service.ServiceFactory;
+import com.chatovich.movie.service.impl.ParticipantServiceImpl;
 import com.chatovich.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -23,10 +25,10 @@ public class GetParticipantForUpdateCommand implements ICommand{
     public String execute(HttpServletRequest request) {
 
         Long id = Long.parseLong(request.getParameter(Parameters.ID_PARTICIPANT));
-        ParticipantService participantService = new ParticipantService();
+        IParticipantService participantServiceImpl = ServiceFactory.getInstance().getParticipantService();
         Participant participant;
         try {
-            participant = participantService.getParticipantById(id);
+            participant = participantServiceImpl.getParticipantById(id);
             request.setAttribute(Parameters.PARTICIPANT, participant);
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());

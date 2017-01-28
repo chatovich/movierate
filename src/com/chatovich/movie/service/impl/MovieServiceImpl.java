@@ -1,5 +1,6 @@
-package com.chatovich.movie.service;
+package com.chatovich.movie.service.impl;
 
+import com.chatovich.movie.dao.*;
 import com.chatovich.movie.dao.impl.*;
 import com.chatovich.movie.entity.Country;
 import com.chatovich.movie.entity.Genre;
@@ -8,6 +9,7 @@ import com.chatovich.movie.entity.Participant;
 import com.chatovich.movie.exception.DAOFailedException;
 import com.chatovich.movie.exception.RollbackFailedException;
 import com.chatovich.movie.exception.ServiceException;
+import com.chatovich.movie.service.IMovieService;
 import com.chatovich.movie.util.QueryUtil;
 
 import java.time.LocalDate;
@@ -16,7 +18,7 @@ import java.util.*;
 /**
  * Class that encapsulates logic connected with entity "movie" and represents intermediate layer between database and client
  */
-public class MovieService {
+public class MovieServiceImpl implements IMovieService {
 
     /**
      * creates a new object Movie using data gotten by dao
@@ -26,11 +28,11 @@ public class MovieService {
      */
     public Movie findMovieById(long id) throws ServiceException {
         Movie movie;
-        MovieDAOImpl movieDAOImpl = new MovieDAOImpl();
-        GenreDAOImpl genreDAOImpl = new GenreDAOImpl();
-        CountryDAOImpl countryDAOImpl = new CountryDAOImpl();
-        ParticipantDAOImpl participantDAOImpl = new ParticipantDAOImpl();
-        FeedbackDAOImpl feedbackDAOImpl = new FeedbackDAOImpl();
+        IMovieDAO movieDAOImpl = DAOFactory.getInstance().getMovieDAO();
+        IGenreDAO genreDAOImpl = DAOFactory.getInstance().getGenreDAO();
+        ICountryDAO countryDAOImpl = DAOFactory.getInstance().getCountryDAO();
+        IParticipantDAO participantDAOImpl = DAOFactory.getInstance().getParticipantDAO();
+        IFeedbackDAO feedbackDAOImpl = DAOFactory.getInstance().getFeedbackDAO();
         try {
                 movie = movieDAOImpl.findEntityById(id);
                 movie.setMovieGenres(genreDAOImpl.findGenresByMovieId(id));
@@ -57,9 +59,9 @@ public class MovieService {
         List<Genre> genres = new ArrayList<>();
         List<Country> countries = new ArrayList<>();
         List<Participant> participants = new ArrayList<>();
-        GenreDAOImpl genreDAO = new GenreDAOImpl();
-        CountryDAOImpl countryDAO = new CountryDAOImpl();
-        ParticipantDAOImpl participantDAO = new ParticipantDAOImpl();
+        IGenreDAO genreDAO = DAOFactory.getInstance().getGenreDAO();
+        ICountryDAO countryDAO = DAOFactory.getInstance().getCountryDAO();
+        IParticipantDAO participantDAO = DAOFactory.getInstance().getParticipantDAO();
 
         try {
             for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
@@ -107,7 +109,7 @@ public class MovieService {
             movie.setMovieGenres(genres);
             movie.setMovieCountries(countries);
             movie.setMovieParticipants(participants);
-            MovieDAOImpl movieDAO = new MovieDAOImpl();
+            IMovieDAO movieDAO = DAOFactory.getInstance().getMovieDAO();
 
             if (movie.getId()==0){
                 movie.setPoster(path);
@@ -134,7 +136,7 @@ public class MovieService {
      * @throws ServiceException if DAOFailedException is thrown
      */
     public boolean movieExists (String title) throws ServiceException {
-        MovieDAOImpl movieDAO = new MovieDAOImpl();
+        IMovieDAO movieDAO = DAOFactory.getInstance().getMovieDAO();
         boolean movieExists;
         try {
             movieExists = movieDAO.checkMovieExists(title);
@@ -150,7 +152,7 @@ public class MovieService {
      * @throws ServiceException if DAOFailedException is thrown
      */
     public List<Movie> getAllMovies () throws ServiceException {
-        MovieDAOImpl movieDAO = new MovieDAOImpl();
+        IMovieDAO movieDAO = DAOFactory.getInstance().getMovieDAO();
         List<Movie> movies;
         try {
             movies = movieDAO.findAll();
@@ -171,7 +173,7 @@ public class MovieService {
     public List<Movie> filteredMovieSearch (Map <String, String[]> parameters, int start, int moviesPerPage) throws ServiceException {
 
         String query = QueryUtil.buildMovieSearchQuery(parameters);
-        MovieDAOImpl movieDAO = new MovieDAOImpl();
+        IMovieDAO movieDAO = DAOFactory.getInstance().getMovieDAO();
         List<Movie> movies;
         try {
             movies = movieDAO.findFilteredMovies(query, start, moviesPerPage);
@@ -186,7 +188,7 @@ public class MovieService {
      * @return movies' quantity
      */
     public int getMovieQuantity (){
-        MovieDAOImpl movieDAO = new MovieDAOImpl();
+        IMovieDAO movieDAO = DAOFactory.getInstance().getMovieDAO();
         return movieDAO.getMovieQuantity();
     }
 
@@ -196,7 +198,7 @@ public class MovieService {
      * @throws ServiceException if DAOFailedException is thrown
      */
     public void deleteMovie(long id_movie) throws ServiceException {
-        MovieDAOImpl movieDAO = new MovieDAOImpl();
+        IMovieDAO movieDAO = DAOFactory.getInstance().getMovieDAO();
         try {
             movieDAO.deleteMovie(id_movie);
         } catch (DAOFailedException | RollbackFailedException e) {
@@ -210,7 +212,7 @@ public class MovieService {
      * @throws ServiceException if DAOFailedException is thrown
      */
     public List<Movie> findTopMovies() throws ServiceException {
-        MovieDAOImpl movieDAO = new MovieDAOImpl();
+        IMovieDAO movieDAO = DAOFactory.getInstance().getMovieDAO();
         List<Movie> topMovies;
         try {
             topMovies = movieDAO.findTopMovies();

@@ -3,9 +3,11 @@ package com.chatovich.movie.command;
 import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.constant.Parameters;
 import com.chatovich.movie.exception.ServiceException;
+import com.chatovich.movie.service.IMovieService;
+import com.chatovich.movie.service.ServiceFactory;
 import com.chatovich.movie.util.QueryUtil;
 import com.chatovich.movie.util.Validation;
-import com.chatovich.movie.service.MovieService;
+import com.chatovich.movie.service.impl.MovieServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,11 +30,11 @@ public class UpdateMovieCommand extends UploadPhoto implements ICommand{
             request.setAttribute(Parameters.EMPTY_FIELDS, true);
             return PagePath.USER_PAGE;
         }
-        MovieService movieService = new MovieService();
+        IMovieService movieServiceImpl = ServiceFactory.getInstance().getMovieService();
         //get uploaded photo if there was one
         String path = uploadFile(request, Parameters.POSTER_FILE_PATH, Parameters.POSTER);
         try {
-            movieService.createMovie(parameters,path);
+            movieServiceImpl.createMovie(parameters,path);
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e);
             return PagePath.ERROR_PAGE;

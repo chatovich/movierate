@@ -48,7 +48,6 @@ public abstract class UploadPhoto {
     }
 
     private static String getFileName(final Part part) {
-        final String partHeader = part.getHeader("content-disposition");
 
         for (String content : part.getHeader("content-disposition").split(";")) {
             if (content.trim().startsWith("filename")) {

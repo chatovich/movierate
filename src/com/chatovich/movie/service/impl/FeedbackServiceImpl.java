@@ -1,5 +1,7 @@
-package com.chatovich.movie.service;
+package com.chatovich.movie.service.impl;
 
+import com.chatovich.movie.dao.DAOFactory;
+import com.chatovich.movie.dao.IFeedbackDAO;
 import com.chatovich.movie.dao.impl.FeedbackDAOImpl;
 import com.chatovich.movie.dao.impl.MovieDAOImpl;
 import com.chatovich.movie.entity.Feedback;
@@ -8,10 +10,9 @@ import com.chatovich.movie.entity.User;
 import com.chatovich.movie.exception.DAOFailedException;
 import com.chatovich.movie.exception.RollbackFailedException;
 import com.chatovich.movie.exception.ServiceException;
+import com.chatovich.movie.service.IFeedbackService;
 import com.chatovich.movie.util.RatingCalculator;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +21,7 @@ import java.util.List;
 /**
  * Class that encapsulates logic connected with entity "feedback" and represents intermediate layer between database and client
  */
-public class FeedbackService {
+public class FeedbackServiceImpl implements IFeedbackService {
 
     /**
      * creates new object 'feedback'
@@ -40,9 +41,9 @@ public class FeedbackService {
         feedback.setText(text);
         feedback.setMark(mark);
         feedback.setCreatingDate(LocalDate.now());
-        FeedbackDAOImpl feedbackDAOImpl = new FeedbackDAOImpl();
+        IFeedbackDAO feedbackDAO = DAOFactory.getInstance().getFeedbackDAO();
         try {
-            feedbackDAOImpl.save(feedback);
+            feedbackDAO.save(feedback);
         } catch (DAOFailedException e) {
             throw new ServiceException(e);
         }
@@ -56,8 +57,8 @@ public class FeedbackService {
      */
     public List<Feedback> getFeedbacksByStatus(String status) throws ServiceException {
 
-        FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
-        List<Feedback> feedbacks = new ArrayList<>();
+        IFeedbackDAO feedbackDAO = DAOFactory.getInstance().getFeedbackDAO();
+        List<Feedback> feedbacks;
         try {
             feedbacks = feedbackDAO.findFeedbacksByStatus(status);
         } catch (DAOFailedException e) {
@@ -75,7 +76,7 @@ public class FeedbackService {
      */
     public Feedback getFeedback (String id) throws ServiceException {
 
-        FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
+        IFeedbackDAO feedbackDAO = DAOFactory.getInstance().getFeedbackDAO();
         Feedback feedback;
         try {
             feedback = feedbackDAO.findEntityById(Long.parseLong(id));
@@ -93,7 +94,7 @@ public class FeedbackService {
      * @throws ServiceException if method invokes DaoFailedException
      */
     public void updateFeedbackStatus (boolean isAccepted, String id) throws ServiceException {
-        FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
+        IFeedbackDAO feedbackDAO = DAOFactory.getInstance().getFeedbackDAO();
         long id_feedback = Long.parseLong(id);
         try {
             feedbackDAO.updateFeedbackStatus(isAccepted, id_feedback);
@@ -120,7 +121,7 @@ public class FeedbackService {
      * @throws ServiceException if DAOFailedException is thrown
      */
     public int addLike(long id_user, long id_feedback, int likes) throws ServiceException {
-        FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
+        IFeedbackDAO feedbackDAO = DAOFactory.getInstance().getFeedbackDAO();
         int likesCount = 0;
         try {
             if ((!feedbackDAO.checkLikeExists(id_user,id_feedback))&&(id_user!=feedbackDAO.findFeedbackOwner(id_feedback))){
@@ -140,7 +141,7 @@ public class FeedbackService {
      * @throws ServiceException if DAOFailedException is thrown
      */
     public List<Feedback> findLatestFeedbacks() throws ServiceException {
-        FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
+        IFeedbackDAO feedbackDAO = DAOFactory.getInstance().getFeedbackDAO();
         List<Feedback> feedbacks;
         try {
             feedbacks = feedbackDAO.findLatestFeedbacks();

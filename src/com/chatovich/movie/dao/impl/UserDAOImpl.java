@@ -5,7 +5,7 @@ import com.chatovich.movie.type.Role;
 import com.chatovich.movie.connection.ConnectionPool;
 import com.chatovich.movie.connection.ProxyConnection;
 import com.chatovich.movie.dao.DAO;
-import com.chatovich.movie.dao.UserDAO;
+import com.chatovich.movie.dao.IUserDAO;
 import com.chatovich.movie.exception.DAOFailedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Class that connects to database and operate with table "users"
  */
-public class UserDAOImpl implements UserDAO, DAO {
+public class UserDAOImpl implements IUserDAO, DAO {
 
     private static final Logger LOGGER = LogManager.getLogger(UserDAOImpl.class);
     private static final String SQL_FIND_USER_BY_LOGIN = "SELECT id_user,login,password,e_mail,points,photo,rating,is_banned," +

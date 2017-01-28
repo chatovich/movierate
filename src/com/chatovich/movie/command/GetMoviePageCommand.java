@@ -4,7 +4,9 @@ import com.chatovich.movie.entity.Movie;
 import com.chatovich.movie.exception.ServiceException;
 import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.constant.Parameters;
-import com.chatovich.movie.service.MovieService;
+import com.chatovich.movie.service.IMovieService;
+import com.chatovich.movie.service.ServiceFactory;
+import com.chatovich.movie.service.impl.MovieServiceImpl;
 import com.chatovich.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -23,10 +25,10 @@ public class GetMoviePageCommand implements ICommand {
     public String execute(HttpServletRequest request) {
 
         int id_movie = Integer.parseInt(request.getParameter(Parameters.ID_MOVIE));
-        MovieService movieService = new MovieService();
-        Movie movie = null;
+        IMovieService movieServiceImpl = ServiceFactory.getInstance().getMovieService();
+        Movie movie;
         try {
-            movie = movieService.findMovieById(id_movie);
+            movie = movieServiceImpl.findMovieById(id_movie);
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;

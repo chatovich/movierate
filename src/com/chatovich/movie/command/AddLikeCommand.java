@@ -3,7 +3,9 @@ package com.chatovich.movie.command;
 import com.chatovich.movie.exception.ServiceException;
 import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.constant.Parameters;
-import com.chatovich.movie.service.FeedbackService;
+import com.chatovich.movie.service.IFeedbackService;
+import com.chatovich.movie.service.ServiceFactory;
+import com.chatovich.movie.service.impl.FeedbackServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,9 +24,9 @@ public class AddLikeCommand implements ICommand{
         String id_feedback = request.getParameter(Parameters.ID_FEEDBACK);
         String likes = request.getParameter(Parameters.LIKES);
         int likesCount=0;
-        FeedbackService feedbackService = new FeedbackService();
+        IFeedbackService feedbackServiceImpl = ServiceFactory.getInstance().getFeedbackService();
         try {
-            likesCount = feedbackService.addLike(Long.parseLong(id_user),Long.parseLong(id_feedback),Integer.parseInt(likes));
+            likesCount = feedbackServiceImpl.addLike(Long.parseLong(id_user),Long.parseLong(id_feedback),Integer.parseInt(likes));
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;

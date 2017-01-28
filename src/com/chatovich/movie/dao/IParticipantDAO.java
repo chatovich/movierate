@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * specifies methods for working with entity "participant" that its implementations should realize
  */
-public interface ParticipantDAO {
+public interface IParticipantDAO {
 
     List<Participant> findParticipantsByMovieId(long id) throws DAOFailedException;
     List<Participant> findEntityByName (String name) throws DAOFailedException;
