@@ -12,6 +12,9 @@ import java.security.NoSuchAlgorithmException;
  * class for hashing a user password
  */
 public class PasswordHash {
+    public static void main(String[] args) throws HashPasswordFailedException {
+        System.out.println(getHashPassword("marina"));
+    }
 
     public static final Logger LOGGER = LogManager.getLogger(PasswordHash.class);
 

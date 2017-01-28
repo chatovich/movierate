@@ -26,7 +26,7 @@ public class UserDAOImpl implements IUserDAO, DAO {
     private static final String SQL_SAVE_USER = "INSERT into users (login, password, e_mail, registr_date, role, photo) " +
             "VALUES (?,?,?,?,?,?)";
     private static final String SQL_FIND_LOGIN_INFO = "SELECT id_user, login, password, role FROM users WHERE login=?";
-    private static final String SQL_FIND_ALL_USERS = "SELECT id_user, login FROM users WHERE role='user'";
+    private static final String SQL_FIND_ALL_USERS = "SELECT id_user, login FROM users WHERE role='user' ORDER BY login";
     private static final String SQL_FIND_BANNED_USERS = "SELECT id_user, login, ban_start FROM users WHERE is_banned=1";
     private static final String SQL_UPDATE_USER = "UPDATE users SET e_mail=?,password=? WHERE login=?";
     private static final String SQL_UPDATE_USER_STATUS = "UPDATE users SET is_banned=?, ban_start=? WHERE login=?";

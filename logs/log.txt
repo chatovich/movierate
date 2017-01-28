@@ -1,7 +1,13 @@
-28.01.2017 16:00:37 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
-28.01.2017 16:00:37 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
-28.01.2017 16:00:37 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
-28.01.2017 16:00:37 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
-28.01.2017 16:00:37 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
-28.01.2017 16:00:37 [localhost-startStop-2] INFO  com.chatovich.movie.listener.ServletContextListenerImpl - ServletContextListenerImpl Movierate application stopped working.
-28.01.2017 16:03:26 [RMI TCP Connection(3)-127.0.0.1] INFO  com.chatovich.movie.listener.ServletContextListenerImpl - ServletContextListenerImpl Movierate application is deployed, starts working...
+29.01.2017 00:01:42 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+29.01.2017 00:01:42 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+29.01.2017 00:01:42 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+29.01.2017 00:01:42 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+29.01.2017 00:01:42 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+29.01.2017 00:01:42 [localhost-startStop-2] INFO  com.chatovich.movie.listener.ServletContextListenerImpl - ServletContextListenerImpl Movierate application stopped working.
+29.01.2017 00:02:14 [RMI TCP Connection(3)-127.0.0.1] INFO  com.chatovich.movie.listener.ServletContextListenerImpl - ServletContextListenerImpl Movierate application is deployed, starts working...
+29.01.2017 00:28:03 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+29.01.2017 00:28:03 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+29.01.2017 00:28:03 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+29.01.2017 00:28:03 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+29.01.2017 00:28:03 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+29.01.2017 00:28:03 [localhost-startStop-2] INFO  com.chatovich.movie.listener.ServletContextListenerImpl - ServletContextListenerImpl Movierate application stopped working.

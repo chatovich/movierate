@@ -52,7 +52,7 @@ public class RegistrationCommand extends UploadPhoto implements ICommand {
         //get uploaded photo if there was one
         String path = uploadFile(request, Parameters.PHOTO_FILE_PATH, Parameters.PHOTO);
         try {
-            if (!userServiceImpl.loginAvailable(Parameters.USERNAME)){
+            if (!userServiceImpl.loginAvailable(request.getParameter(Parameters.USERNAME))){
                 request.setAttribute(Parameters.LOGIN_EXISTS, true);
                 return PagePath.REGISTR_PAGE;
             }

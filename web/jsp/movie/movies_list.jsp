@@ -18,7 +18,7 @@
 
     <div style="display:inline-block;text-align: justify">
     <c:forEach var="movie" items="${movies}">
-        <div style="float: left; margin-left: 10px; margin-top: 10px;">
+        <div style="float: left; margin-left: 50px; margin-top: 10px;">
             <a href="${pageContext.request.contextPath}/controller?command=get_movie_page&id_movie=${movie.id}"><img src="${pageContext.request.contextPath}${movie.poster}" alt="img" border="0" height="314" width="220"></a>
         </div>
     </c:forEach>

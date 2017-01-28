@@ -22,7 +22,6 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ConnectionPool {
 
     private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
-    private static final String DEFAULT_POOLSIZE = "10";
     private BlockingQueue<ProxyConnection> connections;
     private static ConnectionPool instance;
     private static AtomicBoolean poolExists = new AtomicBoolean(false);
@@ -33,17 +32,17 @@ public class ConnectionPool {
             ResourceBundle bundle = ResourceBundle.getBundle(DataBaseInfo.DB_PROPERTY);
             Properties properties = new Properties();
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            String url = bundle.getString("db.url");
-            properties.setProperty("url", bundle.getString("db.url"));
-            properties.setProperty("user", bundle.getString("db.user"));
-            properties.setProperty("password", bundle.getString("db.password"));
+            String url = bundle.getString(DataBaseInfo.DB_URL);
+            properties.setProperty(DataBaseInfo.URL, url);
+            properties.setProperty(DataBaseInfo.USER, bundle.getString(DataBaseInfo.DB_USER));
+            properties.setProperty(DataBaseInfo.PASSWORD, bundle.getString(DataBaseInfo.DB_PASSWORD));
             int poolsize=0;
-            if (!bundle.getString("db.poolsize").isEmpty()) {
-                properties.setProperty("poolsize", bundle.getString("db.poolsize"));
-                poolsize = Integer.parseInt(bundle.getString("db.poolsize"));
+            if (!bundle.getString(DataBaseInfo.DB_POOLSIZE).isEmpty()) {
+                properties.setProperty(DataBaseInfo.POOLSIZE, bundle.getString(DataBaseInfo.DB_POOLSIZE));
+                poolsize = Integer.parseInt(bundle.getString(DataBaseInfo.DB_POOLSIZE));
             } else {
-                properties.setProperty("poolsize", DEFAULT_POOLSIZE);
-                poolsize = Integer.parseInt(DEFAULT_POOLSIZE);
+                properties.setProperty(DataBaseInfo.POOLSIZE, DataBaseInfo.DEFAULT_POOLSIZE);
+                poolsize = Integer.parseInt(DataBaseInfo.DEFAULT_POOLSIZE);
             }
             connections = new ArrayBlockingQueue<ProxyConnection>(poolsize);
 

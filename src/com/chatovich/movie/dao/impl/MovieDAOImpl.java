@@ -23,18 +23,15 @@ import java.util.List;
  */
 public class MovieDAOImpl implements IMovieDAO, DAO {
 
-    private static final Logger LOGGER = LogManager.getLogger(MovieDAOImpl.class);
     private static final String SQL_FIND_TITLE = "SELECT title FROM movies WHERE title=?";
-    private static final String SQL_FIND_ALL_MOVIES = "SELECT id_movie, title FROM movies";
+    private static final String SQL_FIND_ALL_MOVIES = "SELECT id_movie, title FROM movies ORDER BY title";
     private static final String SQL_FIND_TOP_MOVIES = "SELECT id_movie, title, rating FROM movies ORDER BY rating DESC LIMIT 10";
     private static final String SQL_INSERT_MOVIES_GENRES = "INSERT INTO movies_genres (id_movie, id_genre) VALUES (?,?)";
     private static final String SQL_INSERT_MOVIES_COUNTRIES = "INSERT INTO movies_countries (id_movie, id_country) VALUES (?,?)";
     private static final String SQL_INSERT_MOVIES_PARTICIPANTS = "INSERT INTO movies_participants (id_movie, id_participant) VALUES (?,?)";
-    private static final String SQL_FIND_MOVIES_BY_GENRE = "SELECT SQL_CALC_FOUND_ROWS * FROM movies WHERE id_movie IN (SELECT id_movie FROM movies_genres JOIN genres ON movies_genres.id_genre=genres.id_genre WHERE genre=?) LIMIT ?,?;";
     private static final String SQL_FOUND_ROWS = "SELECT FOUND_ROWS()";
     private static final String SQL_UPDATE_MOVIE_RATING = "UPDATE movies SET rating=? WHERE id_movie=?";
     private static final String SQL_FIND_MOVIE_BY_ID = "SELECT id_movie, title, rating,year,plot,poster,trailer,duration,points, adding_date FROM movies WHERE id_movie=?";
-    private static final String SQL_GET_ID_BY_TITLE = "SELECT id_movie FROM movies WHERE title=?";
     private static final String SQL_SAVE_MOVIE = "INSERT INTO movies (title, year, plot, poster, duration, adding_date) VALUES (?,?,?,?,?,?)";
     private static final String SQL_UPDATE_MOVIE = "UPDATE movies SET title=?,year=?,plot=?,poster=?,duration=?,adding_date=? WHERE id_movie=?";
     private static final String SQL_DELETE_MOVIES_GENRES = "DELETE FROM movies_genres WHERE id_movie=?";
@@ -43,7 +40,6 @@ public class MovieDAOImpl implements IMovieDAO, DAO {
     private static final String SQL_DELETE_FEEDBACKS = "DELETE FROM feedbacks WHERE to_movie=?";
     private static final String SQL_DELETE_MOVIE = "DELETE FROM movies WHERE id_movie=?";
     private static final String SQL_DELETE_LIKES = "DELETE FROM likes WHERE feedback IN (SELECT id_feedback from feedbacks WHERE to_movie = ?)";
-    private static final String SELECT_MOVIE = "SELECT id_movie, title, rating FROM movies WHERE id_movie IN (";
 
 
     private static int movieQuantity;

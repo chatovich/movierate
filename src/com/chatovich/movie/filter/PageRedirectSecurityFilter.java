@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * redirects to main page defending from unauthorized access
  */
-@WebFilter(filterName = "PageRedirectSecurityFilter", urlPatterns = { "/jsp/*" },
+@WebFilter(filterName = "PageRedirectSecurityFilter", urlPatterns = { "/jsp/fragment/*", "/jsp/admin/*", "/jsp/user/*" },
 initParams = { @WebInitParam(name = "INDEX_PATH", value = "/index.jsp") })
 public class PageRedirectSecurityFilter implements Filter {
     private String indexPath;
