@@ -155,6 +155,8 @@ public class UserServiceImpl implements IUserService{
      */
     public double defineUserRating(String id) throws ServiceException {
         IFeedbackDAO feedbackDAO = DAOFactory.getInstance().getFeedbackDAO();
+
+
         List<Feedback> userFeedbacks = null;
         try {
             userFeedbacks = feedbackDAO.findUserMarks(Long.parseLong(id));
@@ -163,8 +165,7 @@ public class UserServiceImpl implements IUserService{
         }
         double userRating = 0.;
         if (!userFeedbacks.isEmpty()) {
-            RatingCalculator ratingCalculator = new RatingCalculator();
-            userRating = ratingCalculator.calcUserRating(userFeedbacks);
+            userRating = RatingCalculator.getRatingCalculator().calcUserRating(userFeedbacks);
         }
         return userRating;
     }
@@ -176,7 +177,7 @@ public class UserServiceImpl implements IUserService{
      * @throws ServiceException if DAOFailedException is thrown
      */
     public User updateUserFeedbacks (User user) throws ServiceException {
-        IFeedbackDAO feedbackDAO = DAOFactory.getInstance().getFeedbackDAO();
+        FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
         try {
             user.setUserFeedbacks(feedbackDAO.findFeedbacksByUserId(user.getId()));
         } catch (DAOFailedException e) {
@@ -191,7 +192,7 @@ public class UserServiceImpl implements IUserService{
      * @throws ServiceException if DAOFailedException is thrown
      */
     public List<User> getAllUsers() throws ServiceException {
-        IUserDAO userDAO = DAOFactory.getInstance().getUserDAO();
+        UserDAOImpl userDAO = new UserDAOImpl();
         List <User> users;
         try {
             users = userDAO.findAllUsers();
@@ -202,7 +203,7 @@ public class UserServiceImpl implements IUserService{
     }
 
     public void changeUserStatus (String login, boolean toBan) throws ServiceException {
-        IUserDAO userDAO = DAOFactory.getInstance().getUserDAO();
+        UserDAOImpl userDAO = new UserDAOImpl();
         try {
             userDAO.changeUserStatus(login,toBan);
         } catch (DAOFailedException e) {
@@ -217,7 +218,7 @@ public class UserServiceImpl implements IUserService{
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                IUserDAO userDAO = DAOFactory.getInstance().getUserDAO();
+                UserDAOImpl userDAO = new UserDAOImpl();
                 try {
                     List<User> bannedUsers = userDAO.findBannedUsers();
                     for (User user : bannedUsers) {

@@ -2,6 +2,8 @@ package com.chatovich.movie.entity;
 
 import com.chatovich.movie.type.Profession;
 
+import java.util.Objects;
+
 /**
  * Class that represents entity "participant" (actors and directors)
  */
@@ -35,7 +37,25 @@ public class Participant extends Entity {
     }
 
     @Override
-    public String toString(){
-        return name+" - "+profession;
+    public String toString() {
+        return "Participant{" +
+                "id=" + super.getId() +
+                "name='" + name + '\'' +
+                ", profession=" + profession +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (this.getClass()!=o.getClass()) return false;
+        Participant that = (Participant) o;
+        return Objects.equals(name, that.name) &&
+                profession == that.profession;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.getId(), name, profession);
     }
 }

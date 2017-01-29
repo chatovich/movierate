@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class that represents entity "movie"
@@ -161,7 +162,48 @@ public class Movie extends Entity{
     }
 
     @Override
-    public String toString(){
-        return super.getId()+" "+title+" "+year+"year ("+plot+") "+adding_date+" duration - "+duration+" "+movieGenres+" "+movieCountries+" "+movieParticipants+" "+poster;
+    public String toString() {
+        return "Movie{" +
+                "id=" + super.getId() +
+                "title='" + title + '\'' +
+                ", rating=" + rating +
+                ", year=" + year +
+                ", plot='" + plot + '\'' +
+                ", trailer='" + trailer + '\'' +
+                ", poster='" + poster + '\'' +
+                ", duration=" + duration +
+                ", points=" + points +
+                ", adding_date=" + adding_date +
+                ", movieGenres=" + movieGenres +
+                ", movieCountries=" + movieCountries +
+                ", movieParticipants=" + movieParticipants +
+                ", movieFeedbacks=" + movieFeedbacks +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (this.getClass()!=o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return Double.compare(movie.rating, rating) == 0 &&
+                super.getId() == movie.getId() &&
+                year == movie.year &&
+                duration == movie.duration &&
+                points == movie.points &&
+                Objects.equals(title, movie.title) &&
+                Objects.equals(plot, movie.plot) &&
+                Objects.equals(trailer, movie.trailer) &&
+                Objects.equals(poster, movie.poster) &&
+                Objects.equals(adding_date, movie.adding_date) &&
+                Objects.equals(movieGenres, movie.movieGenres) &&
+                Objects.equals(movieCountries, movie.movieCountries) &&
+                Objects.equals(movieParticipants, movie.movieParticipants) &&
+                Objects.equals(movieFeedbacks, movie.movieFeedbacks);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.getId(), title, rating, year, plot, trailer, poster, duration, points, adding_date, movieGenres, movieCountries, movieParticipants, movieFeedbacks);
     }
 }

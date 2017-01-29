@@ -4,6 +4,7 @@ import com.chatovich.movie.type.FeedbackStatus;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.Objects;
 
 /**
  * Class that represents entity "feedback", that was given to a movie by a user
@@ -91,7 +92,36 @@ public class Feedback extends Entity{
     }
 
     @Override
-    public String toString(){
-        return text;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (this.getClass()!=o.getClass()) return false;
+        Feedback feedback = (Feedback) o;
+        return super.getId() == feedback.getId() &&
+                likes == feedback.likes &&
+                mark == feedback.mark &&
+                Objects.equals(movie, feedback.movie) &&
+                Objects.equals(user, feedback.user) &&
+                Objects.equals(text, feedback.text) &&
+                Objects.equals(creatingDate, feedback.creatingDate) &&
+                status == feedback.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.getId(), movie, user, text, likes, creatingDate, status, mark);
+    }
+
+    @Override
+    public String toString() {
+        return "Feedback{" +
+                "id=" + super.getId() +
+                "movie=" + movie +
+                ", user=" + user +
+                ", text='" + text + '\'' +
+                ", likes=" + likes +
+                ", creatingDate=" + creatingDate +
+                ", status=" + status +
+                ", mark=" + mark +
+                '}';
     }
 }

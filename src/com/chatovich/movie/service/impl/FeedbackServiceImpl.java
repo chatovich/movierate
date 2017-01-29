@@ -101,8 +101,7 @@ public class FeedbackServiceImpl implements IFeedbackService {
             if (isAccepted) {
                 Feedback feedback = feedbackDAO.findEntityById(id_feedback);
                 List<Feedback> movieFeedbacks = feedbackDAO.findFeedbacksByMovieId(feedback.getMovie().getId());
-                RatingCalculator ratingCalculator = new RatingCalculator();
-                double movieRating = ratingCalculator.calcMovieRating(movieFeedbacks);
+                double movieRating = RatingCalculator.getRatingCalculator().calcMovieRating(movieFeedbacks);
                 MovieDAOImpl movieDao = new MovieDAOImpl();
                 movieDao.updateMovieRating(movieRating, feedback.getMovie().getId());
             }

@@ -4,6 +4,7 @@ import com.chatovich.movie.type.Role;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class that represents entity "user"
@@ -147,8 +148,43 @@ public class User extends Entity{
 
     @Override
     public String toString() {
-        return "User [id=" + super.getId() + ", login=" + login + ", password=" + password + ", email=" + email + ", points="
-                + points + ", photo=" + photo + ", isBanned=" + isBanned + ", rating=" + rating + "]";
+        return "User{" +
+                "id=" + super.getId() +
+                "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                ", points=" + points +
+                ", photo='" + photo + '\'' +
+                ", registrDate=" + registrDate +
+                ", isBanned=" + isBanned +
+                ", banStart=" + banStart +
+                ", rating=" + rating +
+                ", userFeedbacks=" + userFeedbacks +
+                '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (this.getClass()!=o.getClass()) return false;
+        User user = (User) o;
+        return points == user.points &&
+                super.getId() == user.getId() &&
+                isBanned == user.isBanned &&
+                Double.compare(user.rating, rating) == 0 &&
+                Objects.equals(login, user.login) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(email, user.email) &&
+                role == user.role &&
+                Objects.equals(photo, user.photo) &&
+                Objects.equals(registrDate, user.registrDate) &&
+                Objects.equals(banStart, user.banStart) &&
+                Objects.equals(userFeedbacks, user.userFeedbacks);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.getId(), login, password, email, role, points, photo, registrDate, isBanned, banStart, rating, userFeedbacks);
+    }
 }

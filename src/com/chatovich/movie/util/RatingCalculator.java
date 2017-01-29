@@ -11,6 +11,10 @@ import java.util.List;
  */
 public class RatingCalculator {
 
+    private static RatingCalculator instance = new RatingCalculator();
+
+    public static RatingCalculator getRatingCalculator(){ return instance;}
+
     /**
      * calculates user rating based on the marks left to movies
      * @param userFeedbacks all feedbacks left by the user
