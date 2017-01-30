@@ -222,4 +222,16 @@ public class MovieServiceImpl implements IMovieService {
         }
         return topMovies;
     }
+
+    @Override
+    public List<Movie> findMovieByTitle(String title, int start, int moviesPerPage) throws ServiceException {
+        IMovieDAO movieDAO = DAOFactory.getInstance().getMovieDAO();
+        List<Movie> movies;
+        try {
+            movies = movieDAO.findMovieByTitle(title.trim(), start, moviesPerPage);
+        } catch (DAOFailedException e) {
+            throw new ServiceException(e);
+        }
+        return movies;
+    }
 }

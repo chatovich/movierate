@@ -38,7 +38,7 @@ public class EditUserInfoCommand extends UploadPhoto implements ICommand {
         IUserService userServiceImpl = ServiceFactory.getInstance().getUserService();
         try {
             if (!Validation.loginInfoValid(userServiceImpl.getLoginInfo(parameters),parameters)){
-                request.setAttribute(Parameters.EMPTY_FIELDS, true);
+                request.setAttribute(Parameters.LOGIN_FAILED, true);
                 return PagePath.USER_PAGE;
             }
             //get uploaded photo if there was one

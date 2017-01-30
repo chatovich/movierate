@@ -15,7 +15,7 @@
 
 <div id="radius" class="col-lg-8 col-sm-8" style="float: left;margin-left: 90px">
     <div style="margin: 10px">
-    <img id="poster" src="${pageContext.request.contextPath}${movie.poster}" alt="No poster available" border="0" >
+    <img id="poster" src="${pageContext.request.contextPath}${movie.poster}" alt="No poster available" width="350px" height="500px" border="0" >
     <p id="title" style="color: #ff8900"><strong>${movie.title}</strong></p>
     <p><b><fmt:message key="movie.page.year"/>: </b>
         <a href="${pageContext.request.contextPath}/controller?command=filtered_movie_search&year=${movie.year}">${movie.year}</a></p>

@@ -23,10 +23,6 @@ function validateForm() {
     err_pass2.innerHTML = "";
     err_email.innerHTML = "";
 
-//        if (!login){
-//            err_login.innerHTML = "not valid";
-//            result = false;
-//        }
     if (!pattern_login.test(login)){
         result = false;
         err_login.innerHTML = PATTERN_LOGIN;

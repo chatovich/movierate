@@ -1,21 +1,13 @@
-
-    // Теперь эта функция будет принимать указатель на объект, после которого нужно осуществить вставку
-    function add_genre(obj)
+function add_genre(obj)
     {
         var new_input=document.createElement('div');
         new_input.innerHTML='<span id="star">*</span><select name="genre" class="form-control" required><option value="" disabled selected>' +
             '<fmt:message key="admin.add.movie.choosegenre"/></option><c:forEach var="genre" items="${genres}">' +
             '<option>${genre.genreName}</option></c:forEach></select>';
-        // new_input.innerHTML='<select name="genre" class="form-control"><option>thriller</option><option>comedy</option><option>drama</option></select>';
-// Дописываем рядом с input-ом кнопку, она будет добовлять элемент именно под input, рядом с которым она находится
-//        new_input.innerHTML=new_input.innerHTML+'<input type="button" value="+" onclick="add_input(this.parentNode)">';
-// И еще одна кнопочка для его удаления.
+
         new_input.innerHTML=new_input.innerHTML+' <button type="button" onclick="del_genre(this.parentNode)"><img src="../../img/icon/delete.png"></button>';
-//Ищем присутствует ли следующий узел в структуре DOM-а
         if (obj.nextSibling)
-        // если да - то создаем после него
             document.getElementById('genres').insertBefore(new_input,obj.nextSibling);
-//если такого не нашлось то просто добавляем в конец
         else document.getElementById('genres').appendChild(new_input);
     }
 function del_genre(obj)
@@ -73,14 +65,14 @@ function add_actor(obj)
     }
 
     function add_new_genre(){
-        document.getElementById('for-insert').innerHTML='<form action="/controller" role="form" method="post" name="add-genre">' +
+        document.getElementById('for-insert').innerHTML='<form action="${pageContext.request.contextPath}/controller" role="form" method="post" name="add-genre">' +
             '<input type="hidden" name="command" value="add_genre">' +
             '<div class="form-group"><input type="text" name="genre" class="form-control-static" style="width: 300px; color: black;" required placeholder="<fmt:message key="admin.add.genre"/>"></div>' +
             '<div><button class="btn btn-primary"><fmt:message key="admin.add.movie.submit"/></button></div></form>';
     }
 
     function add_new_participant(){
-        document.getElementById('for-insert').innerHTML='<form action="/controller" role="form" method="post" name="add-participant">' +
+        document.getElementById('for-insert').innerHTML='<form action="${pageContext.request.contextPath}/controller" role="form" method="post" name="add-participant">' +
             '<input type="hidden" name="command" value="add_participant">' +
             '<div class="form-group"><select name="profession" class="form-control-static" style="width: 300px; color: black;" required placeholder="<fmt:message key="admin.add.participant"/>">' +
             '<option>Actor</option><option>Director</option></select>'+
@@ -103,7 +95,7 @@ function add_actor(obj)
 
     function edit_user_info(){
         document.getElementById('for-insert').innerHTML='<div style="text-align:center">' +
-            '<form onsubmit="return validateEditForm()" action="/controller" enctype="multipart/form-data" role="form" method="post" name="edit_user_info">' +
+            '<form onsubmit="return validateEditForm()" action="${pageContext.request.contextPath}/controller" enctype="multipart/form-data" role="form" method="post" name="edit_user_info">' +
             '<input type="hidden" name="command" value="edit_user_info">' +
             '<input type="hidden" name="login" value="${signedUser.login}">' +
 

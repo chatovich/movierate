@@ -10,7 +10,6 @@
 <!DOCTYPE html>
 <html>
 <c:import url="../fragment/header.jsp"/>
-<%--<jsp:include page = "${pageContext.request.contextPath}/jsp/header/header.jsp"/>--%>
 
 <body class="body">
 <c:import url="../fragment/top_menu.jsp"/>
@@ -19,7 +18,6 @@
     <div class="card hovercard">
         <div class="card-background">
             <img class="card-bkimg" alt="" src="http://lorempixel.com/100/100/people/9/">
-            <!-- http://lorempixel.com/850/280/people/9/ -->
         </div>
         <div class="useravatar">
             <img alt="" src="http://lorempixel.com/100/100/people/9/">
@@ -29,7 +27,6 @@
         </div>
     </div>
 
-<%--<div id="radius" class="col-lg-8 col-sm-8" style="float: left;margin-left: 90px">--%>
     <c:import url="../fragment/admin_menu.jsp"/>
     <div class="well" align="center" >
         <div class="tab-pane fade in active" id="add_movi" style="width: 600px" align="center">
@@ -124,11 +121,59 @@
         </div>
 </div>
     </div>
+<%--<jsp:include page = "${pageContext.request.contextPath}/js/add_input.js"/>--%>
+<%--<%@include file="../../js/add_input.js"%>--%>
 
 <c:import url="../fragment/right_block.jsp"/>
-<script>
-    <%@include file="../../js/add_input.js"%>
-    <%--<c:import url="../../js/add_input.js"/>--%>
+<script type="text/javascript">
+
+    function add_actor(obj)
+    {
+        var new_input=document.createElement('div');
+        new_input.innerHTML='<span id="star">*</span><select name="actor" class="form-control" required><option value="" disabled selected>' +
+                '<fmt:message key="admin.add.movie.chooseactor"/> </option> <c:forEach var="actor" items="${actors}">' +
+                '<option>${actor.name}</option> </c:forEach>';
+        new_input.innerHTML=new_input.innerHTML+' <button type="button" onclick="del_actor(this.parentNode)"><img src="../../img/icon/delete.png"></button>';
+        if (obj.nextSibling)
+            document.getElementById('actors').insertBefore(new_input,obj.nextSibling);
+        else document.getElementById('actors').appendChild(new_input);
+    }
+    function del_actor(obj)
+    {
+        document.getElementById('actors').removeChild(obj)
+    }
+    function add_director(obj)
+    {
+        var new_input=document.createElement('div');
+        new_input.innerHTML='<span id="star">*</span><select name="director" class="form-control" required><option value="" disabled selected>' +
+                '<fmt:message key="admin.add.movie.choosedirector"/></option><c:forEach var="director" items="${directors}">' +
+                '<option>${director.name}</option> </c:forEach>';
+        new_input.innerHTML=new_input.innerHTML+' <button type="button" onclick="del_director(this.parentNode)"><img src="../../img/icon/delete.png"></button>';
+        if (obj.nextSibling)
+            document.getElementById('directors').insertBefore(new_input,obj.nextSibling);
+        else document.getElementById('directors').appendChild(new_input);
+    }
+    function del_director(obj)
+    {
+        document.getElementById('directors').removeChild(obj)
+    }
+    function add_genre(obj)
+    {
+        var new_input=document.createElement('div');
+        new_input.innerHTML='<span id="star">*</span><select name="genre" class="form-control" required><option value="" disabled selected>' +
+                '<fmt:message key="admin.add.movie.choosegenre"/></option><c:forEach var="genre" items="${genres}">' +
+                '<option>${genre.genreName}</option></c:forEach></select>';
+        new_input.innerHTML=new_input.innerHTML+' <button type="button" onclick="del_genre(this.parentNode)"><img src="../../img/icon/delete.png"></button>';
+        if (obj.nextSibling)
+            document.getElementById('genres').insertBefore(new_input,obj.nextSibling);
+        else document.getElementById('genres').appendChild(new_input);
+    }
+    function del_genre(obj)
+    {
+        document.getElementById('genres').removeChild(obj)
+    }
+
 </script>
+
 </body>
 </html>

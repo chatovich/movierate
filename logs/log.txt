@@ -1,13 +1,14 @@
-29.01.2017 00:01:42 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
-29.01.2017 00:01:42 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
-29.01.2017 00:01:42 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
-29.01.2017 00:01:42 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
-29.01.2017 00:01:42 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
-29.01.2017 00:01:42 [localhost-startStop-2] INFO  com.chatovich.movie.listener.ServletContextListenerImpl - ServletContextListenerImpl Movierate application stopped working.
-29.01.2017 00:02:14 [RMI TCP Connection(3)-127.0.0.1] INFO  com.chatovich.movie.listener.ServletContextListenerImpl - ServletContextListenerImpl Movierate application is deployed, starts working...
-29.01.2017 00:28:03 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
-29.01.2017 00:28:03 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
-29.01.2017 00:28:03 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
-29.01.2017 00:28:03 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
-29.01.2017 00:28:03 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
-29.01.2017 00:28:03 [localhost-startStop-2] INFO  com.chatovich.movie.listener.ServletContextListenerImpl - ServletContextListenerImpl Movierate application stopped working.
+30.01.2017 13:30:00 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+30.01.2017 13:30:00 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+30.01.2017 13:30:00 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+30.01.2017 13:30:00 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+30.01.2017 13:30:00 [localhost-startStop-2] INFO  com.chatovich.movie.listener.ServletContextListenerImpl - ServletContextListenerImpl Movierate application stopped working.
+30.01.2017 13:30:41 [RMI TCP Connection(3)-127.0.0.1] INFO  com.chatovich.movie.listener.ServletContextListenerImpl - ServletContextListenerImpl Movierate application is deployed, starts working...
+30.01.2017 13:32:19 [http-nio-8080-exec-9] ERROR com.chatovich.movie.command.FilteredMovieSearchCommand - FilteredMovieSearchCommand com.chatovich.movie.exception.DAOFailedException: Impossible to get filtered movies: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-6,3' at line 1
+30.01.2017 13:41:42 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+30.01.2017 13:41:42 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+30.01.2017 13:41:42 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+30.01.2017 13:41:42 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+30.01.2017 13:41:42 [localhost-startStop-2] DEBUG com.chatovich.movie.connection.ConnectionPool - ConnectionPool  disconnected
+30.01.2017 13:41:42 [localhost-startStop-2] INFO  com.chatovich.movie.listener.ServletContextListenerImpl - ServletContextListenerImpl Movierate application stopped working.
+30.01.2017 13:42:14 [RMI TCP Connection(5)-127.0.0.1] INFO  com.chatovich.movie.listener.ServletContextListenerImpl - ServletContextListenerImpl Movierate application is deployed, starts working...

@@ -19,5 +19,6 @@ public interface IMovieService {
     int getMovieQuantity ();
     void deleteMovie(long id_movie) throws ServiceException;
     List<Movie> findTopMovies() throws ServiceException;
+    List<Movie> findMovieByTitle (String title, int start, int moviesPerPage) throws ServiceException;
 
 }

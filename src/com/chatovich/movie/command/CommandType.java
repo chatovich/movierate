@@ -1,45 +1,35 @@
 package com.chatovich.movie.command;
 
 /**
- * Created by Yultos_ on 20.11.2016
+ * class with command types
  */
 public enum CommandType {
 
-    CHANGE_LANGUAGE (new ChangeLanguageCommand()),
-    REGISTRATION (new RegistrationCommand()),
-    GET_MOVIE_PAGE (new GetMoviePageCommand()),
-    ADD_MOVIE (new AddMovieCommand()),
-    ADD_FEEDBACK (new AddFeedbackCommand()),
-    ADD_PARTICIPANT (new AddParticipantCommand ()),
-    GET_ALL_MOVIES (new GetAllMoviesCommand()),
-    GET_MOVIE_INFO_FOR_UPDATE (new GetMovieInfoForUpdateCommand()),
-    UPDATE_MOVIE (new UpdateMovieCommand()),
-    GET_ALL_PARTICIPANTS (new GetAllParticipantsCommand()),
-    GET_PARTICIPANT_FOR_UPDATE (new GetParticipantForUpdateCommand()),
-    UPDATE_PARTICIPANT (new UpdateParticipantCommand()),
-    LOGIN (new LoginCommand()),
-    LOGOUT (new LogOutCommand()),
-    GET_NEW_FEEDBACKS (new GetNewFeedbacksCommand()),
-    GET_FEEDBACK (new GetFeedbackCommand()),
-    ACCEPT_FEEDBACK (new AcceptFeedbackCommand()),
-    EDIT_USER_INFO (new EditUserInfoCommand()),
-    GET_INFO_FOR_USER_RATING (new GetInfoForUserRatingCommand()),
-    GET_ANOTHER_USER_PAGE (new GetAnotherUserPageCommand()),
-    FILTERED_MOVIE_SEARCH (new FilteredMovieSearchCommand()),
-    LOAD_MAIN_PAGE (new LoadMainPageCommand()),
-    GET_ALL_USERS (new GetAllUsersCommand()),
-    ADD_LIKE( new AddLikeCommand()),
-    CHANGE_USER_STATUS (new ChangeUserStatusCommand()),
-    GET_INFO_FOR_MOVIE_ADDING(new GetInfoForMovieAddingCommand());
-
-    private ICommand command;
-
-    CommandType (ICommand command){
-        this.command = command;
-    }
-
-    public ICommand getCommand(){
-        return command;
-    }
-
+    ACCEPT_FEEDBACK (),
+    ADD_LIKE(),
+    ADD_MOVIE (),
+    ADD_FEEDBACK (),
+    ADD_PARTICIPANT (),
+    CHANGE_LANGUAGE (),
+    CHANGE_USER_STATUS (),
+    EDIT_USER_INFO (),
+    FILTERED_MOVIE_SEARCH (),
+    GET_MOVIE_PAGE (),
+    GET_ALL_MOVIES (),
+    GET_MOVIE_INFO_FOR_UPDATE (),
+    GET_INFO_FOR_USER_RATING (),
+    GET_INFO_FOR_MOVIE_ADDING(),
+    GET_NEW_FEEDBACKS (),
+    GET_FEEDBACK (),
+    GET_ANOTHER_USER_PAGE (),
+    GET_ALL_USERS (),
+    GET_ALL_PARTICIPANTS (),
+    GET_PARTICIPANT_FOR_UPDATE (),
+    LOGIN (),
+    LOGOUT (),
+    LOAD_MAIN_PAGE (),
+    MOVIE_TITLE_SEARCH(),
+    REGISTRATION (),
+    UPDATE_MOVIE (),
+    UPDATE_PARTICIPANT ();
 }

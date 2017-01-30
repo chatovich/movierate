@@ -25,6 +25,7 @@ public class MovieDAOImpl implements IMovieDAO, DAO {
 
     private static final String SQL_FIND_TITLE = "SELECT title FROM movies WHERE title=?";
     private static final String SQL_FIND_ALL_MOVIES = "SELECT id_movie, title FROM movies ORDER BY title";
+    private static final String SQL_FIND_MOVIE_BY_TITLE = "SELECT SQL_CALC_FOUND_ROWS id_movie, poster FROM movies WHERE title=? LIMIT ?,?";
     private static final String SQL_FIND_TOP_MOVIES = "SELECT id_movie, title, rating FROM movies ORDER BY rating DESC LIMIT 10";
     private static final String SQL_INSERT_MOVIES_GENRES = "INSERT INTO movies_genres (id_movie, id_genre) VALUES (?,?)";
     private static final String SQL_INSERT_MOVIES_COUNTRIES = "INSERT INTO movies_countries (id_movie, id_country) VALUES (?,?)";
@@ -364,6 +365,42 @@ public class MovieDAOImpl implements IMovieDAO, DAO {
             throw new DAOFailedException("Finding top movies failed: "+e.getMessage());
         }
         return topMovies;
+    }
+
+    /**
+     * finds all movies with specified title
+     * @param title of the movie
+     * @return list with movies
+     * @throws DAOFailedException if SQLException is thrown
+     */
+    @Override
+    public List<Movie> findMovieByTitle(String title, int start, int moviesPerPage) throws DAOFailedException {
+        List<Movie> movies = new ArrayList<>();
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        try (
+                ProxyConnection connection = connectionPool.takeConnection();
+                PreparedStatement st = connection.prepareStatement(SQL_FIND_MOVIE_BY_TITLE)){
+            st.setString(1, title);
+            st.setInt(2, start);
+            st.setInt(3, moviesPerPage);
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Movie movie = new Movie();
+                movie.setId(rs.getInt("id_movie"));
+                movie.setPoster(rs.getString("poster"));
+                movies.add(movie);
+            }
+            rs.close();
+
+            rs = st.executeQuery(SQL_FOUND_ROWS);
+            if (rs.next()) {
+                movieQuantity = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new DAOFailedException("Impossible to find movie by its title: "+e.getMessage());
+        }
+        return movies;
     }
 
     /**

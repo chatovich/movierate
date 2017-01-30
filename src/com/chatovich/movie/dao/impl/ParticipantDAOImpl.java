@@ -20,10 +20,10 @@ import java.util.List;
  */
 public class ParticipantDAOImpl implements IParticipantDAO, DAO {
 
-    private static final String SQL_FIND_ALL_PARTICIPANTS = "SELECT id_participant, name, profession FROM participants";
+    private static final String SQL_FIND_ALL_PARTICIPANTS = "SELECT id_participant, name, profession FROM participants ORDER BY name";
     private static final String SQL_SAVE_PARTICIPANT = "INSERT INTO participants (name, profession) VALUES (?,?)";
     private static final String SQL_UPDATE_PARTICIPANT = "UPDATE participants SET name=?, profession=? WHERE id_participant=?";
-    private static final String SQL_FIND_PARTICIPANTS_BY_PROFESSION = "SELECT id_participant, name, profession FROM participants WHERE profession=?";
+    private static final String SQL_FIND_PARTICIPANTS_BY_PROFESSION = "SELECT id_participant, name, profession FROM participants WHERE profession=? ORDER BY name";
     private static final String SQL_FIND_PARTICIPANTS_OF_MOVIE = "SELECT * FROM participants WHERE id_participant IN " +
             "(SELECT id_participant FROM movies_participants WHERE id_movie=?)";
     private static final String SQL_FIND_PARTICIPANT_BY_NAME = "SELECT id_participant, name, profession FROM participants WHERE name=?";

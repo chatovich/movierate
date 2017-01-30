@@ -45,6 +45,7 @@
 <c:if test="${language eq 'en_EN'}">
     <script type="text/javascript">
         <%@include file="../../js/select_genres_en.js"%>
+
     </script>
 </c:if>
 <c:if test="${language eq 'ru_RU'}">

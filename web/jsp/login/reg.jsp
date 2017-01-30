@@ -78,7 +78,6 @@
         email = document.forms[0]["email"].value;
         pattern_login = new RegExp("[A-z0-9_]{5,}");
         pattern_email = new RegExp("[0-9a-z_]+@[0-9a-z_]+\.[a-z]{2,5}");
-//        var pattern = new RegExp("\w+");
         //specify error variables
         var err_login = document.getElementById("error_login");
         err_pass1 = document.getElementById("error_password1");
@@ -90,10 +89,6 @@
         err_pass2.innerHTML = "";
         err_email.innerHTML = "";
 
-//        if (!login){
-//            err_login.innerHTML = "not valid";
-//            result = false;
-//        }
         if (!pattern_login.test(login)){
             result = false;
             err_login.innerHTML = PATTERN_LOGIN;
@@ -113,7 +108,6 @@
             document.forms[0]["confirm_password"].value = "";
             result = false;
         }
-
         return result;
     }
 </script>

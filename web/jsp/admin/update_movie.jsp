@@ -182,9 +182,53 @@
     </div>
 
 <c:import url="../fragment/right_block.jsp"/>
-<script>
-    <%@include file="../../js/add_input.js"%>
-    <%--<c:import url="../../js/add_input.js"/>--%>
+<script type="text/javascript">
+
+    function add_actor(obj)
+    {
+        var new_input=document.createElement('div');
+        new_input.innerHTML='<span id="star">*</span><select name="actor" class="form-control" required><option value="" disabled selected>' +
+                '<fmt:message key="admin.add.movie.chooseactor"/> </option> <c:forEach var="actor" items="${actors}">' +
+                '<option>${actor.name}</option> </c:forEach>';
+        new_input.innerHTML=new_input.innerHTML+' <button type="button" onclick="del_actor(this.parentNode)"><img src="../../img/icon/delete.png"></button>';
+        if (obj.nextSibling)
+            document.getElementById('actors').insertBefore(new_input,obj.nextSibling);
+        else document.getElementById('actors').appendChild(new_input);
+    }
+    function del_actor(obj)
+    {
+        document.getElementById('actors').removeChild(obj)
+    }
+    function add_director(obj)
+    {
+        var new_input=document.createElement('div');
+        new_input.innerHTML='<span id="star">*</span><select name="director" class="form-control" required><option value="" disabled selected>' +
+                '<fmt:message key="admin.add.movie.choosedirector"/></option><c:forEach var="director" items="${directors}">' +
+                '<option>${director.name}</option> </c:forEach>';
+        new_input.innerHTML=new_input.innerHTML+' <button type="button" onclick="del_director(this.parentNode)"><img src="../../img/icon/delete.png"></button>';
+        if (obj.nextSibling)
+            document.getElementById('directors').insertBefore(new_input,obj.nextSibling);
+        else document.getElementById('directors').appendChild(new_input);
+    }
+    function del_director(obj)
+    {
+        document.getElementById('directors').removeChild(obj)
+    }
+    function add_genre(obj)
+    {
+        var new_input=document.createElement('div');
+        new_input.innerHTML='<span id="star">*</span><select name="genre" class="form-control" required><option value="" disabled selected>' +
+                '<fmt:message key="admin.add.movie.choosegenre"/></option><c:forEach var="genre" items="${genres}">' +
+                '<option>${genre.genreName}</option></c:forEach></select>';
+        new_input.innerHTML=new_input.innerHTML+' <button type="button" onclick="del_genre(this.parentNode)"><img src="../../img/icon/delete.png"></button>';
+        if (obj.nextSibling)
+            document.getElementById('genres').insertBefore(new_input,obj.nextSibling);
+        else document.getElementById('genres').appendChild(new_input);
+    }
+    function del_genre(obj)
+    {
+        document.getElementById('genres').removeChild(obj)
+    }
 </script>
 </body>
 </html>

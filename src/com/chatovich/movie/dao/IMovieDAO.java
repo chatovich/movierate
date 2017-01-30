@@ -20,4 +20,5 @@ public interface IMovieDAO {
     void updateMovieRating(double rating, long id_movie) throws DAOFailedException;
     List<Movie> findTopMovies() throws DAOFailedException;
     int getMovieQuantity();
+    List<Movie> findMovieByTitle(String title, int start, int moviesPerPage) throws DAOFailedException;
 }

@@ -144,8 +144,50 @@
 
 <c:import url="../fragment/right_block.jsp"/>
 <script>
-    <%@include file="../../js/validation.js"%>
+    <%--<%@include file="../../js/validation.js"%>--%>
     <%@include file="../../js/add_input.js"%>
+
+    function validateEditForm() {
+        PASSWORDS_NOMATCH = <fmt:message key="reg.passwords.nomatch"/>;
+        PATTERN_PASSWORD = <fmt:message key="login.pattern"/>;
+        PATTERN_EMAIL = <fmt:message key="reg.wrong.email"/>;
+        var result = true;
+        //get variables from the form
+        password1 = document.forms[0]["new_password"].value;
+        password2 = document.forms[0]["confirm_password"].value;
+        email = document.forms[0]["email"].value;
+        pattern_password = new RegExp("[A-z0-9_]{5,}");
+        pattern_email = new RegExp("[0-9a-z_]+@[0-9a-z_]+\.[a-z]{2,5}");
+        //specify error variables
+        err_pass1 = document.getElementById("error_password1");
+        err_pass2 = document.getElementById("error_password2");
+        err_email = document.getElementById("error_email");
+        //clear error messages
+        err_pass1.innerHTML = "";
+
+        err_email.innerHTML = "";
+
+        if (!pattern_email.test(email)) {
+            result = false;
+            err_email.innerHTML = PATTERN_EMAIL;
+        }
+        if (password1 !== password2) {
+            err_pass1.innerHTML = PASSWORDS_NOMATCH;
+            err_pass2.innerHTML = PASSWORDS_NOMATCH;
+            document.forms[0]["new_password"].value = "";
+            document.forms[0]["confirm_password"].value = "";
+            result = false;
+        }
+        if (password1!==""){
+            if (password2!=="") {
+                if (!pattern_password.test(password1)) {
+                    result = false;
+                    err_pass1.innerHTML = PATTERN_PASSWORD;
+                    err_pass2.innerHTML = "";
+                }
+            }
+        }
+        return result;}
 </script>
 
 </body>

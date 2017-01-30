@@ -10,5 +10,5 @@ import java.io.IOException;
  */
 public interface ICommand {
 
-    public String execute (HttpServletRequest request) ;
+    public String execute (HttpServletRequest request);
 }

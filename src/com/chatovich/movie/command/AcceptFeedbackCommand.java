@@ -11,7 +11,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * command that picks the data entered by admin to accept or reject a new feedback to a movie
@@ -33,7 +36,6 @@ public class AcceptFeedbackCommand implements ICommand {
             } else {
                 request.setAttribute(Parameters.FEEDBACK_REJECTED, true);
             }
-
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;
