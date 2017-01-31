@@ -1,6 +1,8 @@
 package com.chatovich.movie.listener;
 
 import com.chatovich.movie.connection.ConnectionPool;
+import com.chatovich.movie.service.IUserService;
+import com.chatovich.movie.service.ServiceFactory;
 import com.chatovich.movie.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -16,8 +18,8 @@ public class ServletContextListenerImpl implements ServletContextListener {
     public static final Logger LOGGER = LogManager.getLogger(ServletContextListenerImpl.class);
 
     public void contextInitialized(ServletContextEvent sce) {
-        UserServiceImpl userServiceImpl = new UserServiceImpl();
-        userServiceImpl.controlBan();
+        IUserService userService = ServiceFactory.getInstance().getUserService();
+        userService.controlBan();
       LOGGER.log(Level.INFO, "Movierate application is deployed, starts working...");
     }
 

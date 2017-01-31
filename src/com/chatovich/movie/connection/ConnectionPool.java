@@ -23,11 +23,10 @@ public class ConnectionPool {
 
     private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
     private BlockingQueue<ProxyConnection> connections;
-    private static ConnectionPool instance;
-    private static AtomicBoolean poolExists = new AtomicBoolean(false);
+    private static volatile ConnectionPool instance;
     private static ReentrantLock lock = new ReentrantLock();
 
-    public ConnectionPool (){
+    private ConnectionPool (){
         try {
             ResourceBundle bundle = ResourceBundle.getBundle(DataBaseInfo.DB_PROPERTY);
             Properties properties = new Properties();
@@ -67,17 +66,14 @@ public class ConnectionPool {
      * @return ConnectionPool instance
      */
     public static ConnectionPool getInstance(){
-        if (!poolExists.get()){
             lock.lock();
             try{
                 if (instance==null){
                     instance = new ConnectionPool();
-                    poolExists.getAndSet(true);
                 }
             } finally {
                 lock.unlock();
             }
-        }
         return instance;
     }
 

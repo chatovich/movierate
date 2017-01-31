@@ -17,7 +17,7 @@
 <div class="col-lg-8 col-sm-8" style="margin-top: 80px;margin-left: 70px">
     <div class="card hovercard">
         <div class="card-background">
-            <img class="card-bkimg" alt="" src="http://lorempixel.com/100/100/people/9/">
+            <img class="card-bkimg" alt="no photo" src="http://lorempixel.com/100/100/people/9/">
         </div>
         <c:if test="${showAnotherUser}">
             <div class="useravatar"><img alt="no photo" src="${pageContext.request.contextPath}${anotherUser.photo}"></div>

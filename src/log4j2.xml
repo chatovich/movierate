@@ -10,11 +10,11 @@
             <PatternLayout pattern = "${pattern}"/>
         </Console>
         <RollingFile name = "File" fileName = "d:/mine/movierate/logs/log.txt" append = "true"
-                     filePattern = "logs/$${dd.MM.yyyy}/log-%d{dd.MM.yyyy-HH}.txt">
+                     filePattern = "d:/mine/movierate/logs/$${dd.MM.yyyy}/log-%d{dd.MM.yyyy-HH}.txt">
             <PatternLayout pattern = "${pattern}"/>
             <Policies>
                 <TimeBasedTriggeringPolicy />
-                <SizeBasedTriggeringPolicy size="20KB"/>
+                <SizeBasedTriggeringPolicy size="50KB"/>
             </Policies>
         </RollingFile>
     </Appenders>

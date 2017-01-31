@@ -106,7 +106,7 @@
             <button class="searchbutton"><fmt:message key="main.search"/> </button>
         </div>
     </form>
-<br><br>
+<br><p style="color: #49abff;font-size: 18px" ><b><fmt:message key="main.search.or"/></b></p>
     <form action="${pageContext.request.contextPath}/controller" name="movie_title_search" method="get">
         <input type="hidden" name="command" value="movie_title_search">
         <label><input type="text" name="title" class="form-control input-md" placeholder="<fmt:message key="main.search.title"/>" ></label>

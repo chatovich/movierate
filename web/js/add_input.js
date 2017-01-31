@@ -75,7 +75,7 @@ function add_actor(obj)
         document.getElementById('for-insert').innerHTML='<form action="${pageContext.request.contextPath}/controller" role="form" method="post" name="add-participant">' +
             '<input type="hidden" name="command" value="add_participant">' +
             '<div class="form-group"><select name="profession" class="form-control-static" style="width: 300px; color: black;" required placeholder="<fmt:message key="admin.add.participant"/>">' +
-            '<option>Actor</option><option>Director</option></select>'+
+            '<option value="actor"><fmt:message key="admin.actor"/> </option><option value="director"><fmt:message key="admin.director"/> </option></select>'+
             '<div class="form-group" style="margin-top: 10px"><input type="text" name="name" class="form-control-static" style="width: 300px; color: black;" required placeholder="<fmt:message key="admin.add.name"/>"></div>' +
 
             '<div><button class="btn btn-primary"><fmt:message key="admin.add.movie.submit"/></button></div></form>';
