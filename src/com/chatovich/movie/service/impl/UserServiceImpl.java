@@ -235,5 +235,9 @@ public class UserServiceImpl implements IUserService{
 
     }
 
+    public static void main (String [] args){
+        System.out.println("qq");
+    }
+
 
 }
