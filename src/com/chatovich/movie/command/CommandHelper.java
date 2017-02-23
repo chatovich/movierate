@@ -60,4 +60,16 @@ public class CommandHelper {
             return null;
         }
     }
+
+    public CommandType getCommandName(String name) {
+        if(name == null || name.isEmpty()){
+            return null;
+        }
+        try {
+            return CommandType.valueOf(name.toUpperCase());
+        }
+        catch (IllegalArgumentException e){
+            return null;
+        }
+    }
 }

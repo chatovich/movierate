@@ -38,4 +38,9 @@ public class PasswordHash {
         }
         return hashedPassword;
     }
+
+    public static void main (String[]args) throws HashPasswordFailedException {
+        System.out.println(getHashPassword("vasiliy"));
+    }
+
 }

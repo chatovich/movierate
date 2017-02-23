@@ -23,6 +23,8 @@
         </li>
         <li><a href="${pageContext.request.contextPath}/controller?command=get_all_users"><fmt:message key="admin.menu.users"/></a>
         </li>
+        <li><a href="#" type="button" onclick="signed_user_info()"><fmt:message key="user.menu.info"/></a></li>
+
     </ul>
 </nav>
 

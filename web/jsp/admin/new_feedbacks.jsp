@@ -21,12 +21,11 @@
     <div class="card hovercard">
         <div class="card-background">
             <img class="card-bkimg" alt="" src="http://lorempixel.com/100/100/people/9/">
-            <!-- http://lorempixel.com/850/280/people/9/ -->
         </div>
         <div class="useravatar">
-            <img alt="" src="http://lorempixel.com/100/100/people/9/">
+            <img alt="no photo" src="${pageContext.request.contextPath}${signedUser.photo}">
         </div>
-        <div class="card-info"> <span class="card-title">admin</span>
+        <div class="card-info"> <span class="card-title">${signedUser.login}</span>
 
         </div>
     </div>
