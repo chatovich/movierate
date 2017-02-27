@@ -61,7 +61,6 @@ public class LoginCommand implements ICommand {
             LOGGER.log(Level.ERROR, e);
             return PagePath.ERROR_PAGE;
         }
-        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.MAIN_PAGE;
     }
 }

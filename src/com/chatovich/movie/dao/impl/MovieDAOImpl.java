@@ -10,8 +10,6 @@ import com.chatovich.movie.entity.Movie;
 import com.chatovich.movie.entity.Participant;
 import com.chatovich.movie.exception.DAOFailedException;
 import com.chatovich.movie.exception.RollbackFailedException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -71,7 +69,7 @@ public class MovieDAOImpl implements IMovieDAO, DAO {
                 movie.setTrailer(rs.getString("trailer"));
                 movie.setDuration(rs.getInt("duration"));
                 movie.setPoints(rs.getInt("points"));
-                movie.setAdding_date(LocalDate.parse(rs.getString("adding_date")));
+                movie.setAddingDate(LocalDate.parse(rs.getString("adding_date")));
             }
         } catch (SQLException e) {
             throw new DAOFailedException("Problem finding movie in db: "+e.getMessage());
@@ -118,7 +116,7 @@ public class MovieDAOImpl implements IMovieDAO, DAO {
                 stMovie.setString(3, movie.getPlot());
                 stMovie.setString(4, movie.getPoster());
                 stMovie.setInt(5, movie.getDuration());
-                stMovie.setDate(6, Date.valueOf(movie.getAdding_date()));
+                stMovie.setDate(6, Date.valueOf(movie.getAddingDate()));
                 stMovie.executeUpdate();
                 if (movie.getId()==0) {
                     ResultSet rs = stMovie.getGeneratedKeys();
@@ -295,7 +293,7 @@ public class MovieDAOImpl implements IMovieDAO, DAO {
                 movie.setId(rs.getInt("id_movie"));
                 movie.setTitle(rs.getString("title"));
                 movie.setPoster(rs.getString("poster"));
-                movie.setAdding_date(LocalDate.parse(rs.getString("adding_date")));
+                movie.setAddingDate(LocalDate.parse(rs.getString("adding_date")));
                 movie.setYear(rs.getInt("year"));
                 moviesList.add(movie);
             }
@@ -324,17 +322,17 @@ public class MovieDAOImpl implements IMovieDAO, DAO {
     /**
      * updates movie rating when user leaves feedback and mark to movie
      * @param rating new movie rating
-     * @param id_movie movie id
+     * @param idMovie movie id
      * @throws DAOFailedException if SQLException is thrown
      */
     @Override
-    public void updateMovieRating(double rating, long id_movie) throws DAOFailedException {
+    public void updateMovieRating(double rating, long idMovie) throws DAOFailedException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         try (
             ProxyConnection connection = connectionPool.takeConnection();
             PreparedStatement st = connection.prepareStatement(SQL_UPDATE_MOVIE_RATING)){
             st.setDouble(1, rating);
-            st.setLong(2, id_movie);
+            st.setLong(2, idMovie);
             st.executeUpdate();
         } catch (SQLException e) {
             throw new DAOFailedException("Updating movie rating failed: "+e.getMessage());

@@ -38,7 +38,6 @@ public class GetAllMoviesCommand implements ICommand {
             return PagePath.ERROR_PAGE;
         }
 
-        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.USER_PAGE;
     }
 }

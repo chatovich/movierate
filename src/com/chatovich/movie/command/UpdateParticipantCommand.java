@@ -38,7 +38,6 @@ public class UpdateParticipantCommand implements ICommand {
             return PagePath.ERROR_PAGE;
         }
         request.setAttribute(Parameters.PARTICIPANT_UPDATED, true);
-        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.USER_PAGE;
     }
 }

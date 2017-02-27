@@ -20,13 +20,13 @@ public class AddLikeCommand implements ICommand{
     private static final Logger LOGGER = LogManager.getLogger(AddLikeCommand.class);
     @Override
     public String execute(HttpServletRequest request) {
-        String id_user = request.getParameter(Parameters.ID_USE);
-        String id_feedback = request.getParameter(Parameters.ID_FEEDBACK);
+        String idUser = request.getParameter(Parameters.ID_USE);
+        String idFeedback = request.getParameter(Parameters.ID_FEEDBACK);
         String likes = request.getParameter(Parameters.LIKES);
         int likesCount=0;
         IFeedbackService feedbackServiceImpl = ServiceFactory.getInstance().getFeedbackService();
         try {
-            likesCount = feedbackServiceImpl.addLike(Long.parseLong(id_user),Long.parseLong(id_feedback),Integer.parseInt(likes));
+            likesCount = feedbackServiceImpl.addLike(Long.parseLong(idUser),Long.parseLong(idFeedback),Integer.parseInt(likes));
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;

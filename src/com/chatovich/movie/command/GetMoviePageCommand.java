@@ -24,17 +24,16 @@ public class GetMoviePageCommand implements ICommand {
     @Override
     public String execute(HttpServletRequest request) {
 
-        int id_movie = Integer.parseInt(request.getParameter(Parameters.ID_MOVIE));
+        int idMovie = Integer.parseInt(request.getParameter(Parameters.ID_MOVIE));
         IMovieService movieServiceImpl = ServiceFactory.getInstance().getMovieService();
         Movie movie;
         try {
-            movie = movieServiceImpl.findMovieById(id_movie);
+            movie = movieServiceImpl.findMovieById(idMovie);
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;
         }
         request.setAttribute(Parameters.MOVIE, movie);
-        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.MOVIE_PAGE;
     }
 }

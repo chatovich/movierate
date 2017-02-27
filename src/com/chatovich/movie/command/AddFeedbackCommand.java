@@ -33,7 +33,7 @@ public class AddFeedbackCommand implements ICommand {
     @Override
     public String execute(HttpServletRequest request) {
         String text = request.getParameter(Parameters.FEEDBACK);
-        long id_movie = Long.parseLong(request.getParameter(Parameters.ID_MOVIE));
+        long idMovie = Long.parseLong(request.getParameter(Parameters.ID_MOVIE));
         int mark = Integer.parseInt(request.getParameter(Parameters.MOVIE_MARK));
         HttpSession session = request.getSession(true);
         User user = (User)session.getAttribute(Parameters.SIGNED_USER);
@@ -42,8 +42,8 @@ public class AddFeedbackCommand implements ICommand {
         IMovieService movieServiceImpl = ServiceFactory.getInstance().getMovieService();
         Movie movie;
         try {
-            feedbackServiceImpl.createFeedback(user, id_movie, text, mark);
-            movie = movieServiceImpl.findMovieById(id_movie);
+            feedbackServiceImpl.createFeedback(user, idMovie, text, mark);
+            movie = movieServiceImpl.findMovieById(idMovie);
             request.setAttribute(Parameters.MOVIE, movie);
             request.setAttribute(Parameters.FEEDBACK_ADDED, true);
             session.setAttribute(Parameters.SIGNED_USER, userServiceImpl.updateUserFeedbacks(user));
@@ -51,7 +51,6 @@ public class AddFeedbackCommand implements ICommand {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;
         }
-        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.MOVIE_PAGE;
     }
 }

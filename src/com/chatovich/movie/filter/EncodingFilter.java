@@ -1,8 +1,12 @@
 package com.chatovich.movie.filter;
 
+import com.chatovich.movie.constant.Parameters;
+import com.chatovich.movie.util.QueryUtil;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -30,6 +34,7 @@ public class EncodingFilter implements Filter {
         if (code != null && !code.equalsIgnoreCase(codeRequest)) {
             request.setCharacterEncoding(code);
         }
+
         chain.doFilter(request, response);
     }
 

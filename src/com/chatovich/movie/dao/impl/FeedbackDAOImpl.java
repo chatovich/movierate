@@ -250,20 +250,20 @@ public class FeedbackDAOImpl implements IFeedbackDAO, DAO {
 
     /**
      * checks whether this user has already liked this feedback
-     * @param id_user user id
-     * @param id_feedback feedback id
+     * @param idUser user id
+     * @param idFeedback feedback id
      * @return true if user has already liked this feedback, otherwise - false
      * @throws DAOFailedException if SQLException is thrown
      */
     @Override
-    public boolean checkLikeExists(long id_user, long id_feedback) throws DAOFailedException {
+    public boolean checkLikeExists(long idUser, long idFeedback) throws DAOFailedException {
         boolean likeExists = false;
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         try  (
             ProxyConnection connection = connectionPool.takeConnection();
             PreparedStatement st = connection.prepareStatement(SQL_FIND_LIKE)){
-            st.setLong(1, id_user);
-            st.setLong(2, id_feedback);
+            st.setLong(1, idUser);
+            st.setLong(2, idFeedback);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 likeExists = true;
@@ -276,14 +276,14 @@ public class FeedbackDAOImpl implements IFeedbackDAO, DAO {
 
     /**
      * increments likes' quantity in feedbacks table and in likes table
-     * @param id_user user id
-     * @param id_feedback feedback id
+     * @param idUser user id
+     * @param idFeedback feedback id
      * @param likes previous value of likes quantity
      * @return new value of likes quantity
      * @throws DAOFailedException if SQLException is thrown
      */
     @Override
-    public int updateLikes(long id_user, long id_feedback, int likes) throws DAOFailedException, RollbackFailedException {
+    public int updateLikes(long idUser, long idFeedback, int likes) throws DAOFailedException, RollbackFailedException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         ProxyConnection connection = null;
         PreparedStatement stFeedback = null;
@@ -294,15 +294,15 @@ public class FeedbackDAOImpl implements IFeedbackDAO, DAO {
             try{
                 stFeedback = connection.prepareStatement(SQL_UPDATE_LIKES_IN_FEEDBACKS);
                 stFeedback.setInt(1,likes+1);
-                stFeedback.setLong(2,id_feedback);
+                stFeedback.setLong(2,idFeedback);
                 stFeedback.executeUpdate();
             } finally {
                 close(stFeedback);
             }
             try{
                 stLikes = connection.prepareStatement(SQL_ADD_USER_LIKES);
-                stLikes.setLong(1, id_user);
-                stLikes.setLong(2, id_feedback);
+                stLikes.setLong(1, idUser);
+                stLikes.setLong(2, idFeedback);
                 stLikes.executeUpdate();
             } finally {
                 close(stLikes);
@@ -321,19 +321,19 @@ public class FeedbackDAOImpl implements IFeedbackDAO, DAO {
 
     /**
      * finds the quantity of feedback's likes
-     * @param id_feedback feedback id
+     * @param idFeedback feedback id
      * @return feedback's likes' quantity
      * @throws DAOFailedException if SQLException is thrown
      */
     @Override
-    public int findFeedbackLikes(long id_feedback) throws DAOFailedException {
+    public int findFeedbackLikes(long idFeedback) throws DAOFailedException {
 
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         int likes = 0;
         try  (
             ProxyConnection connection = connectionPool.takeConnection();
             PreparedStatement st = connection.prepareStatement(SQL_FIND_FEEDBACK_LIKES)){
-            st.setLong(1, id_feedback);
+            st.setLong(1, idFeedback);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 likes = rs.getInt("likes");
@@ -373,25 +373,25 @@ public class FeedbackDAOImpl implements IFeedbackDAO, DAO {
 
     /**
      * finds id of the user who left the feedback
-     * @param id_feedback id of the feedback which owner is needed
+     * @param idFeedback id of the feedback which owner is needed
      * @return id of the user who left the feedback
      * @throws DAOFailedException if SQLException is thrown
      */
     @Override
-    public long findFeedbackOwner(long id_feedback) throws DAOFailedException {
+    public long findFeedbackOwner(long idFeedback) throws DAOFailedException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
-        long id_owner = 0;
+        long idOwner = 0;
         try  (
                 ProxyConnection connection = connectionPool.takeConnection();
                 PreparedStatement st = connection.prepareStatement(SQL_FIND_FEEDBACK_OWNER)){
-            st.setLong(1, id_feedback);
+            st.setLong(1, idFeedback);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                id_owner = rs.getLong("from_user");
+                idOwner = rs.getLong("from_user");
             }
         } catch (SQLException e) {
             throw new DAOFailedException("Impossible to find feedback's owner: "+e.getMessage());
         }
-        return id_owner;
+        return idOwner;
     }
 }

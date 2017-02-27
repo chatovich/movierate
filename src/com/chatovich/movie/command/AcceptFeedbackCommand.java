@@ -40,7 +40,6 @@ public class AcceptFeedbackCommand implements ICommand {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;
         }
-        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.ADMIN_NEW_FEEDBACK_PAGE;
     }
 }

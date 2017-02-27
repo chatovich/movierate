@@ -34,7 +34,6 @@ public class GetParticipantForUpdateCommand implements ICommand{
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;
         }
-        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.UPDATE_PARTICIPANT_PAGE;
     }
 }

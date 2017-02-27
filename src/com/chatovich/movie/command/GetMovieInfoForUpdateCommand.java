@@ -33,10 +33,10 @@ public class GetMovieInfoForUpdateCommand implements ICommand {
     public String execute(HttpServletRequest request) {
 
         IMovieService movieServiceImpl = ServiceFactory.getInstance().getMovieService();
-        String id_movie = request.getParameter(Parameters.ID_MOVIE);
+        String idMovie = request.getParameter(Parameters.ID_MOVIE);
         if (request.getParameter(Parameters.ACTION).equals(Parameters.DELETE)){
             try {
-                movieServiceImpl.deleteMovie(Long.parseLong(id_movie));
+                movieServiceImpl.deleteMovie(Long.parseLong(idMovie));
                 request.setAttribute(Parameters.MOVIE_DELETED, true);
             } catch (ServiceException e) {
                 LOGGER.log(Level.ERROR, e.getMessage());
@@ -50,7 +50,7 @@ public class GetMovieInfoForUpdateCommand implements ICommand {
         IGenreService genreServiceImpl = ServiceFactory.getInstance().getGenreService();
         ICountryService countryServiceImpl = ServiceFactory.getInstance().getCountryService();
         try {
-            movie = movieServiceImpl.findMovieById(Integer.parseInt(id_movie));
+            movie = movieServiceImpl.findMovieById(Integer.parseInt(idMovie));
             List<Participant> actors = participantServiceImpl.getParticipants(String.valueOf(Profession.ACTOR).toLowerCase());
             List<Participant> directors = participantServiceImpl.getParticipants(String.valueOf(Profession.DIRECTOR).toLowerCase());
             List<Genre> genres = genreServiceImpl.getGenres();
@@ -75,7 +75,6 @@ public class GetMovieInfoForUpdateCommand implements ICommand {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;
         }
-        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.UPDATE_MOVIE_PAGE;
     }
 }

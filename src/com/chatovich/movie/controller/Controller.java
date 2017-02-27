@@ -5,6 +5,7 @@ import com.chatovich.movie.command.ICommand;
 import com.chatovich.movie.command.CommandType;
 import com.chatovich.movie.constant.PagePath;
 import com.chatovich.movie.constant.Parameters;
+import com.chatovich.movie.util.QueryUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,6 +54,7 @@ public class Controller extends HttpServlet {
             if (commandName.equalsIgnoreCase(Parameters.CHANGE_LANGUAGE) && request.getSession(true).getAttribute(Parameters.PREVIOUS_PAGE) != null) {
                 response.sendRedirect((String) request.getSession(true).getAttribute(Parameters.PREVIOUS_PAGE));
             } else {
+                request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
                 request.getRequestDispatcher(pageName).forward(request, response);
             }
         } else {

@@ -1,7 +1,6 @@
 package com.chatovich.movie.service.impl;
 
 import com.chatovich.movie.dao.*;
-import com.chatovich.movie.dao.impl.*;
 import com.chatovich.movie.entity.Country;
 import com.chatovich.movie.entity.Genre;
 import com.chatovich.movie.entity.Movie;
@@ -113,10 +112,10 @@ public class MovieServiceImpl implements IMovieService {
 
             if (movie.getId()==0){
                 movie.setPoster(path);
-                movie.setAdding_date(LocalDate.now());
+                movie.setAddingDate(LocalDate.now());
             } else {
                 Movie oldMovie = movieDAO.findEntityById(movie.getId());
-                movie.setAdding_date(oldMovie.getAdding_date());
+                movie.setAddingDate(oldMovie.getAddingDate());
                 if (path==null){
                     movie.setPoster(oldMovie.getPoster());
                 } else {
@@ -194,13 +193,13 @@ public class MovieServiceImpl implements IMovieService {
 
     /**
      * deletes movie from the db
-     * @param id_movie movie id
+     * @param idMovie movie id
      * @throws ServiceException if DAOFailedException is thrown
      */
-    public void deleteMovie(long id_movie) throws ServiceException {
+    public void deleteMovie(long idMovie) throws ServiceException {
         IMovieDAO movieDAO = DAOFactory.getInstance().getMovieDAO();
         try {
-            movieDAO.deleteMovie(id_movie);
+            movieDAO.deleteMovie(idMovie);
         } catch (DAOFailedException | RollbackFailedException e) {
             throw new ServiceException(e);
         }

@@ -1,8 +1,6 @@
 package com.chatovich.movie.entity;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,7 +17,7 @@ public class Movie extends Entity{
     private String poster;
     private int duration;
     private int points;
-    private LocalDate adding_date;
+    private LocalDate addingDate;
     private List<Genre> movieGenres;
     private List<Country> movieCountries;
     private List <Participant> movieParticipants;
@@ -27,7 +25,7 @@ public class Movie extends Entity{
 
     public Movie(long id, String title, double rating, int year, String plot, String trailer, String poster,
                  int duration, int points, List<Genre> movieGenres, List<Country> movieCountries,
-                 List<Participant> movieParticipants, List<Feedback> movieFeedbacks, LocalDate adding_date) {
+                 List<Participant> movieParticipants, List<Feedback> movieFeedbacks, LocalDate addingDate) {
         super(id);
         this.title = title;
         this.rating = rating;
@@ -41,7 +39,7 @@ public class Movie extends Entity{
         this.movieCountries = movieCountries;
         this.movieParticipants = movieParticipants;
         this.movieFeedbacks = movieFeedbacks;
-        this.adding_date = adding_date;
+        this.addingDate = addingDate;
     }
 
     public Movie (){}
@@ -121,12 +119,12 @@ public class Movie extends Entity{
         this.points = points;
     }
 
-    public LocalDate getAdding_date() {
-        return adding_date;
+    public LocalDate getAddingDate() {
+        return addingDate;
     }
 
-    public void setAdding_date(LocalDate adding_date) {
-        this.adding_date = adding_date;
+    public void setAddingDate(LocalDate addingDate) {
+        this.addingDate = addingDate;
     }
 
     public List<Genre> getMovieGenres() {
@@ -173,7 +171,7 @@ public class Movie extends Entity{
                 ", poster='" + poster + '\'' +
                 ", duration=" + duration +
                 ", points=" + points +
-                ", adding_date=" + adding_date +
+                ", addingDate=" + addingDate +
                 ", movieGenres=" + movieGenres +
                 ", movieCountries=" + movieCountries +
                 ", movieParticipants=" + movieParticipants +
@@ -195,7 +193,7 @@ public class Movie extends Entity{
                 Objects.equals(plot, movie.plot) &&
                 Objects.equals(trailer, movie.trailer) &&
                 Objects.equals(poster, movie.poster) &&
-                Objects.equals(adding_date, movie.adding_date) &&
+                Objects.equals(addingDate, movie.addingDate) &&
                 Objects.equals(movieGenres, movie.movieGenres) &&
                 Objects.equals(movieCountries, movie.movieCountries) &&
                 Objects.equals(movieParticipants, movie.movieParticipants) &&
@@ -204,6 +202,6 @@ public class Movie extends Entity{
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.getId(), title, rating, year, plot, trailer, poster, duration, points, adding_date, movieGenres, movieCountries, movieParticipants, movieFeedbacks);
+        return Objects.hash(super.getId(), title, rating, year, plot, trailer, poster, duration, points, addingDate, movieGenres, movieCountries, movieParticipants, movieFeedbacks);
     }
 }

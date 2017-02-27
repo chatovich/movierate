@@ -26,16 +26,16 @@ public class FeedbackServiceImpl implements IFeedbackService {
     /**
      * creates new object 'feedback'
      * @param user user who left feedback
-     * @param id_movie movie id
+     * @param idMovie movie id
      * @param text text of the feedback
      * @param mark mark that user left to movie
      * @throws ServiceException if DAOFailedException is thrown
      */
-    public void createFeedback (User user, long id_movie, String text, int mark) throws ServiceException {
+    public void createFeedback (User user, long idMovie, String text, int mark) throws ServiceException {
 
         Feedback feedback = new Feedback();
         Movie movie = new Movie();
-        movie.setId(id_movie);
+        movie.setId(idMovie);
         feedback.setMovie(movie);
         feedback.setUser(user);
         feedback.setText(text);
@@ -113,20 +113,20 @@ public class FeedbackServiceImpl implements IFeedbackService {
 
     /**
      * adds like to feedback, first checking whether this user has already liked the feedback or this is his own feedback
-     * @param id_user id of the user who left like
-     * @param id_feedback feedback id
+     * @param idUser id of the user who left like
+     * @param idFeedback feedback id
      * @param likes likes quantity of this feedback
      * @return new likes' quantity
      * @throws ServiceException if DAOFailedException is thrown
      */
-    public int addLike(long id_user, long id_feedback, int likes) throws ServiceException {
+    public int addLike(long idUser, long idFeedback, int likes) throws ServiceException {
         IFeedbackDAO feedbackDAO = DAOFactory.getInstance().getFeedbackDAO();
         int likesCount = 0;
         try {
-            if ((!feedbackDAO.checkLikeExists(id_user,id_feedback))&&(id_user!=feedbackDAO.findFeedbackOwner(id_feedback))){
-                likesCount = feedbackDAO.updateLikes(id_user,id_feedback, likes);
+            if ((!feedbackDAO.checkLikeExists(idUser,idFeedback))&&(idUser!=feedbackDAO.findFeedbackOwner(idFeedback))){
+                likesCount = feedbackDAO.updateLikes(idUser,idFeedback, likes);
             } else {
-                likesCount = feedbackDAO.findFeedbackLikes(id_feedback);
+                likesCount = feedbackDAO.findFeedbackLikes(idFeedback);
             }
         } catch (DAOFailedException |RollbackFailedException e) {
             throw new ServiceException(e);

@@ -62,7 +62,6 @@ public class RegistrationCommand extends UploadPhoto implements ICommand {
             request.setAttribute(Parameters.LATEST_FEEDBACKS, latestFeedbacks);
             List<Movie> topMovies = movieServiceImpl.findTopMovies();
             request.setAttribute(Parameters.TOP_MOVIES, topMovies);
-            request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
             return PagePath.ERROR_PAGE;

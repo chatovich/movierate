@@ -40,7 +40,6 @@ public class UpdateMovieCommand extends UploadPhoto implements ICommand{
             return PagePath.ERROR_PAGE;
         }
         request.setAttribute(Parameters.MOVIE_UPDATED, true);
-        request.getSession(true).setAttribute(Parameters.PREVIOUS_PAGE, QueryUtil.createHttpQueryString(request));
         return PagePath.USER_PAGE;
     }
 }
